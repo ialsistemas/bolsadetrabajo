@@ -83,7 +83,7 @@
                 <div class="content_titulo_login">
                     <img src="{{ asset('app/img/logo_ial.png') }}" alt=""><br><br>
                     <span>BIENVENIDOS</span>
-                    <p class="title_">BOLSA DE TRABAJO IAL</p>
+                    <p class="title_">BOLSA DE TRABAJO IAL ELIAS</p>
                     <p>Más oportunidades laborales</p>
                     <div class="access_administrador">
                         <a href="{{ route('auth.login') }}"><i style="color: #0072bf; font-size:20px;" class="fa-solid fa-users-between-lines"></i></a>
