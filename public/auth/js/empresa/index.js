@@ -2,6 +2,9 @@ var $dataTableEmpresa, $dataTable;
 const $table = $("#tableEmpresa");
 const $actividad_eco_filter_id = $("#actividad_eco_filter_id");
 const $ruc_dni = $("#ruc_dni");
+const $fecha_desde = $("#fecha_desde");
+const $fecha_hasta = $("#fecha_hasta");
+console.log("arhivo cargado");
 
 function clickExcel(){
     $('.dt-buttons .buttons-excel').click()
@@ -28,8 +31,8 @@ $(function(){
         "ajax": {
             url: "/auth/empresa/list_all",
             data: function(s){
-                if($actividad_eco_filter_id.val() != ""){ s.actividad_eco_filter_id = $actividad_eco_filter_id.val(); }
-                if($ruc_dni.val() != ""){ s.ruc_dni = $ruc_dni.val(); }
+                if($actividad_eco_filter_id.val() != ""){ s.actividad_eco_filter_id = $actividad_eco_filter_id.val(); s.fecha_desde = $fecha_desde.val(); s.fecha_hasta = $fecha_hasta.val(); }
+                if($ruc_dni.val() != ""){ s.ruc_dni = $ruc_dni.val(); }else{}
                 if($('#btn_mostrar').attr('mostrar') != ''){s.mostrar = $('#btn_mostrar').attr('mostrar'); }
             }
         },
