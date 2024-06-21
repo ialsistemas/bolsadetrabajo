@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="https://www.ial.edu.pe/isotipo.png">
     <meta name="title" content="Instituto Arzobispo Loayza"/>
     <meta name="description" content=""/>
     <meta name="keywords" content="">
