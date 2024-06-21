@@ -42,13 +42,24 @@
         <div class="content-header">
             <div class="form-row">
                 <div class="form-group col-lg-5 col-md-6">
+                    <label for="ruc_dni" class="m-0 label-primary">Desde</label>
+                    <input type="date" class="form-control-m form-control-sm" max="<?php echo date('Y-m-d'); ?>" id="fecha_desde" name="fecha_desde" value="<?php echo date('Y-m-01'); ?>">
+                </div>
+                <div class="form-group col-lg-4 col-md-6">
+                    <label for="ruc_dni" class="m-0 label-primary">Hasta</label>
+                    <input type="date" class="form-control-m form-control-sm" max="<?php echo date('Y-m-d'); ?>" id="fecha_hasta" name="fecha_hasta" value="<?php echo date('Y-m-d'); ?>">
+                </div>
+                <div class="form-group col-lg-3 col-md-6">
+                    
+                  </div>
+                <div class="form-group col-lg-5 col-md-6">
                   <label for="ruc_dni" class="m-0 label-primary">RUC / DNI o Nombre Comercial</label>
                   <input type="text" class="form-control-m form-control-sm" id="ruc_dni">
                 </div>
                 <div class="form-group col-lg-4 col-md-6">
                   <label for="actividad_eco_filter_id" class="m-0 label-primary">Tipo de Persona</label>
                     <select name="actividad_eco_filter_id" id="actividad_eco_filter_id" class="form-control-m form-control-sm">
-                        <option value="" selected>-- TODOS --</option>
+                        <option value="" selected>-- Seleccione --</option>
                         @foreach($tipo_persona as $q)
                             <option value="{{ $q->id }}">{{ $q->tipo }}</option>
                         @endforeach

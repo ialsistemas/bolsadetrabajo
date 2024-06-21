@@ -33,6 +33,14 @@ class EmpresaController extends Controller
             ->orderBy('created_at', 'DESC')
             ->limit(80)
             ->get() ]);
+        }else if($request->ruc_dni == "" && $request->actividad_eco_filter_id != ""){
+            return response()->json(['data' => Empresa::with('provincias')
+            ->where('tipo_persona', 'like', '%'.$request->actividad_eco_filter_id.'%' )
+            ->whereBetween('created_at', [$request->fecha_desde , $request->fecha_hasta])
+            ->with('distritos')
+            ->with('actividad_economicas')
+            ->orderBy('created_at', 'DESC')
+            ->get() ]);
         }else{
             return response()->json(['data' => '' ]);
         }
