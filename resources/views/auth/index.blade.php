@@ -138,9 +138,14 @@ header{
         <nav class="navbar navbar-expand-lg">
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav">
+                    <li class="nav-item {{ Route::currentRouteName() == 'auth.inicio' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('auth.inicio') }}"><span class="active-item-here"></span>
+                            <i class="fa fa-home mr-5"></i> <span>Inicio</span>
+                        </a>
+                    </li>
                     <li class="nav-item {{ Route::currentRouteName() == 'auth.index' ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('auth.index') }}"><span class="active-item-here"></span>
-                            <i class="fa fa-home mr-5"></i> <span>Empleador</span>
+                            <i class="fa fa-male mr-5"></i> <span>Empleador</span>
                         </a>
                     </li>
                     <li class="nav-item {{ Route::currentRouteName() == 'auth.alumno' ? 'active' : '' }}">
