@@ -101,6 +101,14 @@ Route::get('/home/notification', 'Auth\EmpresaController@notification')->name('a
 Route::group(['prefix' => 'auth', 'middleware' => 'auth:web'], function () {
     Route::get('/home', 'Auth\HomeController@index')->name('auth.index');
 
+    Route::group(['prefix' => 'inicio'], function () {
+        Route::get('/', 'Auth\InicioController@index')->name('auth.inicio');
+        // Route::post('/store', 'Auth\InicioController@store')->name('auth.inicio.store');
+        // Route::get('/list_all', 'Auth\InicioController@list')->name('auth.inicio.list');
+        // Route::post('/delete', 'Auth\InicioController@delete')->name('auth.inicio.delete');
+        /* Route::get('/list_all', 'Auth\AvisoPostulacionController@list')->name('auth.avisoPostulacion.list'); */
+    });
+
     Route::group(['prefix' => 'alumno'], function () {
         Route::get('/', 'Auth\AlumnoController@index')->name('auth.alumno');
         Route::get('/list_all', 'Auth\AlumnoController@list')->name('auth.alumno.list');
