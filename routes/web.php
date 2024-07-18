@@ -62,6 +62,15 @@ Route::group(['middleware' => 'auth:empresasw'], function () {
         Route::get('/perfil', 'App\EmpresaController@index')->name('empresa.perfil');
         Route::post('/perfil', 'App\EmpresaController@store')->name('empresa.store');
         /* ACA SON LAS RUTAS DE CAMBIO LINK POR ID */
+
+        /* Este es para el nuevo requerimiento de republicar - Hecho por sebastian */
+        /* JALAR DATOS AL NUEVO REPUBLICAR */
+        Route::get('/avisos/partialView2/{id}', 'App\EmpresaController@partialView2')->name('empresa.partialView2');
+        /* GUARDAR */
+        Route::post('/avisos/republicar', 'App\EmpresaController@republicar')->name('empresa.republicar');
+        /* Route::get('/avisos/listarr_aviso2', 'App\EmpresaController@listarr_aviso2')->name('empresa.listarr_aviso2'); */
+
+
         Route::get('/avisos', 'App\EmpresaController@listar_aviso')->name('empresa.avisos');
         Route::get('/{empresa}/aviso/{slug}', 'App\AvisoController@informacion')->name('empresa.informacion');
         Route::get('/{empresa}/aviso/{slug}/postulantes', 'App\AvisoController@postulantes')->name('empresa.postulantes');
@@ -77,6 +86,13 @@ Route::group(['middleware' => 'auth:empresasw'], function () {
         Route::post('/avisos/updateAviso', 'App\EmpresaController@update_aviso')->name('empresa.update_aviso');
         Route::post('/avisos/alumno/clasificar', 'App\AvisoController@clasificar_aviso')->name('empresa.clasificar_aviso');
         Route::post('/avisos/delete', 'Auth\AvisoController@delete')->name('empresa.aviso.delete');
+        Route::get('/app/listar_aviso_json', 'App\EmpresaController@listar_aviso_json')->name('app.listar_aviso_json');
+        
+        
+        
+        
+
+
     });
 });
 
@@ -103,6 +119,8 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:web'], function () {
 
     Route::group(['prefix' => 'inicio'], function () {
         Route::get('/', 'Auth\InicioController@index')->name('auth.inicio');
+        
+
         // Route::post('/store', 'Auth\InicioController@store')->name('auth.inicio.store');
         // Route::get('/list_all', 'Auth\InicioController@list')->name('auth.inicio.list');
         // Route::post('/delete', 'Auth\InicioController@delete')->name('auth.inicio.delete');
@@ -162,6 +180,32 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:web'], function () {
         Route::get('/list_all', 'Auth\AnuncioController@list')->name('auth.anuncio.list');
         Route::post('/delete', 'Auth\AnuncioController@delete')->name('auth.anuncio.delete');
         /* Route::get('/list_all', 'Auth\AvisoPostulacionController@list')->name('auth.avisoPostulacion.list'); */
+    });
+
+    Route::group(['prefix' => 'anuncioempresa'], function () {
+         Route::get('/', 'Auth\AnuncioEmpresaController@index')->name('auth.anuncioempresa');
+        Route::post('/store', 'Auth\AnuncioEmpresaController@store')->name('auth.anuncioempresa.store');
+        Route::get('/list_all', 'Auth\AnuncioEmpresaController@list')->name('auth.anuncioempresa.list');
+        Route::post('/delete', 'Auth\AnuncioEmpresaController@delete')->name('auth.anuncioempresa.delete'); 
+        /* Route::get('/list_all', 'Auth\AvisoPostulacionController@list')->name('auth.avisoPostulacion.list'); */
+    });
+
+    /* Programa Controladores */
+    Route::group(['prefix' => 'programa'], function () {
+        
+        Route::get('/', 'Auth\ProgramaController@index')->name('auth.programa');
+        Route::post('/store', 'Auth\ProgramaController@store')->name('auth.programa.store');
+         Route::get('/list_all', 'Auth\ProgramaController@listAll')->name('auth.programas.listAll');
+         Route::post('/updateData', 'Auth\ProgramaController@updateData')->name('auth.programa.updateData');
+         Route::get('/partialView/{id}', 'Auth\ProgramaController@partialView')->name('auth.programa.create');
+         Route::post('/delete', 'Auth\ProgramaController@delete')->name('auth.programas.delete');
+        
+
+
+
+         
+
+
     });
 
     Route::post('store_estudiante_aviso', 'Auth\AvisoController@store_estudiante_aviso')->name('auth.aviso.store_estudiante_aviso');

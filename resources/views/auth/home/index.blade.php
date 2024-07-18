@@ -57,14 +57,15 @@
                   <input type="text" class="form-control-m form-control-sm" id="ruc_dni">
                 </div>
                 <div class="form-group col-lg-4 col-md-6">
-                  <label for="actividad_eco_filter_id" class="m-0 label-primary">Tipo de Persona</label>
-                    <select name="actividad_eco_filter_id" id="actividad_eco_filter_id" class="form-control-m form-control-sm">
+                    <label for="actividad_eco_filter_id" class="m-0 label-primary">Tipo de Persona</label>
+                    <select name="actividad_eco_filter_id" id="actividad_eco_filter_id" class="form-control-m form-control-sm" required>
                         <option value="" selected>-- Seleccione --</option>
                         @foreach($tipo_persona as $q)
                             <option value="{{ $q->id }}">{{ $q->tipo }}</option>
                         @endforeach
                     </select>
                 </div>
+                
                 <div class="form-group col-lg-3 col-md-12 d-flex flex-column">
                     <label for="" class="m-0 w-100">.</label>
                     <a href="javascript:void(0)" class="btn-m btn-primary-m" onclick="consultarEmpleador()">Consultar</a>

@@ -161,9 +161,24 @@ header{
                             <li class="nav-item"><a class="nav-link" href="{{ route('auth.avisoPostulacion') }}">Avisos por Alumno Postulado</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item {{ Route::currentRouteName() == 'auth.anuncio' ? 'active' : '' }}">
+                    <li class="nav-item dropdown {{ Route::currentRouteName() == 'auth.anuncio' || Route::currentRouteName() == 'auth.avisoPostulacion'  ? 'active' : '' }}">
+                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="active-item-here"></span><i class="fa fa-photo mr-5"></i> <span>Anuncios</span></a>
+                        <ul class="dropdown-menu multilevel scale-up-left">
+                            <li class="nav-item"><a class="nav-link" href="{{ route('auth.anuncio') }}">Anuncios Alumnos</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('auth.anuncioempresa') }}">Anuncios Empresas</a></li>
+                        </ul>
+                    </li>
+
+
+                    {{-- <li class="nav-item {{ Route::currentRouteName() == 'auth.anuncio' ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('auth.anuncio') }}"><span class="active-item-here"></span>
                             <i class="fa fa-photo mr-5"></i> <span>Anuncios</span>
+                        </a>
+                    </li> --}}
+                    <li class="nav-item {{ Route::currentRouteName() == 'auth.programa' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('auth.programa') }}"><span class="active-item-here"></span>
+                            <i class="fa fa-bolt mr-5"></i> <span>Programas de Inserción rápida</span>
                         </a>
                     </li>
 {{--                     <li class="nav-item dropdown">
@@ -185,9 +200,7 @@ header{
 
     @yield('contenido')
 
-    <footer class="main-footer">
-        &copy; <?php echo date('Y') ?> Powered by <a href="#" target="_blank">AgencyDesing</a>. Actualizado por Marco Antonio.
-    </footer>
+    
 
 </div>
 <script type="text/javascript" src="{{ asset('auth/plugins/popper.min.js') }}"></script>

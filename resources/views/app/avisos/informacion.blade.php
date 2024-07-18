@@ -12,7 +12,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-6">
-                        <h3>Listado de postulantes</h3>
+                        <h3>Información</h3>
                     </div>
                     @if(Auth::guard('empresasw')->user())
                         <div class="col-md-6">
@@ -25,17 +25,16 @@
 
         <div class="container-fluid mt-3">
             <div class="row">
-                <div class="col-md-3 filter-cont">
+                {{-- <div class="col-md-3 filter-cont">
                     <div class="filter">
                         @if(Auth::guard('empresasw')->check())
                             <div class="info-group">
                                 <p> Postulantes <br> <span>{{ count($alumnosAvisos->where('estado_id', \BolsaTrabajo\App::$ESTADO_POSTULANTES)->pluck('aviso_id')->toArray()) }}</span> </p>
                                 <p> Evaluandos <br> <span>{{ count($alumnosAvisos->where('estado_id', \BolsaTrabajo\App::$ESTADO_EVALUANDO)->pluck('aviso_id')->toArray()) }}</span> </p>
-                                {{-- <p> Seleccionados <br> <span>{{ count($alumnosAvisos->where('estado_id', \BolsaTrabajo\App::$ESTADO_SELECCIONADOS)->pluck('aviso_id')->toArray()) }}</span> </p> --}}
                                 <p> Aceptados <br> <span>{{ count($alumnosAvisos->where('estado_id', \BolsaTrabajo\App::$ESTADO_ACEPTADOS)->pluck('aviso_id')->toArray()) }}</span> </p>
                                 <p> Descartados <br> <span>{{ count($alumnosAvisos->where('estado_id', \BolsaTrabajo\App::$ESTADO_DESCARTADOS)->pluck('aviso_id')->toArray()) }}</span> </p>
                                 <div class="mt-5">
-                                    {{-- <a href="{{ route('empresa.postulantes', ['empresa' => $aviso->empresas->link, 'slug' => $aviso->link ])  }}" class="text-uppercase"> --}}
+                                  
                                     <a href="{{ route('empresa.postulantes', ['empresa' => $aviso->empresas->id, 'slug' => $aviso->id ])  }}" class="text-uppercase">
                                         Ver Postulantes
                                     </a>
@@ -64,8 +63,8 @@
                             </div>
                         @endif
                     </div>
-                </div>
-                <div class="col-md-5">
+                </div> --}}
+                <div class="col-md-8">
                     <div class="card aviso">
                         <h5>{{ $aviso->titulo }}</h5>
                         <p><?php echo $aviso->descripcion  ?></p>

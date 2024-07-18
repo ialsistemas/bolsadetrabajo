@@ -6,6 +6,7 @@ use BolsaTrabajo\AlumnoAviso;
 use BolsaTrabajo\Area;
 use BolsaTrabajo\Actividad_economica;
 use BolsaTrabajo\Aviso;
+use BolsaTrabajo\AnuncioEmpresa;
 use BolsaTrabajo\Cargo;
 use BolsaTrabajo\Condicion;
 use BolsaTrabajo\Distrito;
@@ -24,8 +25,7 @@ class EmpresaController extends Controller
 {
     protected $avisos_per_page = 40;
 
-    public function avisos(Request $request)
-    {
+    public function avisos(Request $request){
         if($request->ajax()) {
 
             $Avisos = Aviso::where('empresa_id', Auth::guard('empresasw')->user()->id)
@@ -36,12 +36,12 @@ class EmpresaController extends Controller
                 'next_page' => $Avisos->nextPageUrl()
             ];
         }
+        $Anuncio = Anuncio::where('vigencia', '>=', date('Y-m-d'))->where('mostrar', '<=', date('Y-m-d'))->orderby('created_at', 'desc')->get();  
 
         return view('app.avisos.index');
     }
 
-    public function index()
-    {
+    public function index(){
         $Empresa = Auth::guard('empresasw')->user();
         $ActividadEconomica = Actividad_economica::all();
         $Areas = Area::all();
@@ -51,7 +51,6 @@ class EmpresaController extends Controller
 
         return view('app.empresas.index', ['Areas' => $Areas, 'Provincias' => $Provincias, 'Distritos' => $Distritos, 'Cargos' => $Cargos, 'Empresa' => $Empresa, 'ActividadEconomica' => $ActividadEconomica]);
     }
-
 
     public function store(Request $request){
 
@@ -123,7 +122,6 @@ class EmpresaController extends Controller
 
         return response()->json(['Success' => $status, 'Errors' => $validator->errors() ]);
     }
-
     public function registrar_aviso()
     {
         $Empresa = Auth::guard('empresasw')->user();
@@ -142,9 +140,8 @@ class EmpresaController extends Controller
         return view('app.avisos.registrar', ['Areas' => $Areas, 'Modalidades' => $Modalidades,
             'Condiciones' => $Condiciones, 'Horarios' => $Horarios, 'Distritos' => $Distritos, 'Grado' => $Grado, 'TipoPersona' => $TipoPersona, 'Provincias' => $Provincias]);
     }
-
-    public function store_aviso(Request $request)
-    {
+    
+    public function store_aviso(Request $request){
         $status = false;
 
         $request->merge([
@@ -185,9 +182,10 @@ class EmpresaController extends Controller
         return $status ? redirect(route('empresa.avisos')) : redirect(route('empresa.registrar_aviso'))->withErrors($validator)->withInput();
     }
 
+   
 
-    public function update_aviso(Request $request)
-    {
+
+    public function update_aviso(Request $request){
         $status = false;
 
         $request->merge([
@@ -228,15 +226,39 @@ class EmpresaController extends Controller
         return response()->json(['Success' => $status, 'Errors' => $validator->errors()]);
     }
 
-    public function listar_aviso()
-    {
-        return view('app.avisos.listar');
+    public function listar_aviso() {
+        /* Nuevo Codigo Sebastian */
+        $anuncios = AnuncioEmpresa::where('vigencia', '>=', date('Y-m-d'))
+                       ->where('mostrar', '<=', date('Y-m-d'))
+                       ->orderBy('created_at', 'desc')
+                       ->get();
+    
+        // Utiliza dd($anuncios); para depurar y asegurarte de que los datos se recuperan correctamente
+        // dd($anuncios);
+    
+        return view('app.avisos.listar', ['anuncios' => $anuncios]);
     }
+    
 
-    public function listar_aviso_json()
-    {
-        return response()->json(['data' => Aviso::where('empresa_id', Auth::guard('empresasw')->user()->id)
-            ->with('areas')->with('empresas')->with('modalidades')->with('horarios')->with('provincias')->with('distritos')->get()]);
+    /* Codigo Sebastian */
+    public function listar_aviso_json(Request $request){
+        // Validar y obtener las fechas desde la solicitud
+        $fechaDesde = $request->input('fecha_desde', '2000-01-01');
+        $fechaHasta = $request->input('fecha_hasta', date('Y-m-d'));
+
+        // Obtener los avisos filtrados por empresa y rango de fechas
+        $avisos = Aviso::where('empresa_id', Auth::guard('empresasw')->user()->id)
+            ->whereBetween('created_at', [$fechaDesde, $fechaHasta])
+            ->with('areas')
+            ->with('empresas')
+            ->with('modalidades')
+            ->with('horarios')
+            ->with('provincias')
+            ->with('distritos')
+            ->get();
+
+        // Retornar los datos en formato JSON
+        return response()->json(['data' => $avisos]);
     }
 
     public function partialView_aviso($id)
@@ -257,8 +279,7 @@ class EmpresaController extends Controller
             'Condiciones' => $Condiciones, 'Horarios' => $Horarios, 'Provincias' => $Provincias, 'Distritos' => $Distritos, "Grado" => $Grado]);
     }
 
-    public function partialViewAvisoPostulantes($id)
-    {
+    public function partialViewAvisoPostulantes($id){
         $Aviso = Aviso::find($id);
 
         if($Aviso != null && $Aviso->empresa_id == Auth::guard('empresasw')->user()->id)
@@ -267,9 +288,78 @@ class EmpresaController extends Controller
         return  null;
     }
 
-    public function list_avisoPostulantes(Request $request)
-    {
+    public function list_avisoPostulantes(Request $request){
         return response()->json(['data' => AlumnoAviso::with('alumnos')->with('estados')->where('aviso_id', $request->id)->get() ]);
     }
 
+    /* Para Guardar o mejor dicho Republicar nuevo requerimiento*/
+    /* Hecho por Sebastian */
+   
+    /* Listar Nuevamente */
+    /* Hecho por Sebastian */
+    public function partialView2($id)
+    {
+        $entity = null;
+
+        if($id != 0) $entity = Aviso::find($id);
+
+        $Areas = Area::all();
+        /* $Modalidades = Modalidad::all(); */
+        /* $Condiciones = Condicion::all(); */
+        /* $Horarios = Horario::all(); */
+       /*  $Provincias = Provincia::all(); */
+        $Distritos = $entity != null && $entity->provincia_id != null ? Distrito::where('provincia_id', $entity->provincia_id)->get() : Distrito::all();
+        $Grado = Grado_academico::all();
+
+        return view('app.avisos.actualizarw', ['Aviso' => $entity, 'Areas' => $Areas, /* 'Modalidades' => $Modalidades, */
+            /* 'Condiciones' => $Condiciones, */ /* 'Horarios' => $Horarios, */ /* 'Provincias' => $Provincias, */ 'Distritos' => $Distritos, "Grado" => $Grado]);
+    }
+
+    public function republicar(Request $request)
+    {
+        // Validación de los datos
+        $validator = Validator::make($request->all(), [
+            'titulo' => 'required|string|max:255',
+            'distrito_id' => 'required|exists:distritos,id',
+            'vacantes' => 'required|integer|min:1',
+            'solicita_carrera' => 'required|string|max:255',
+            'solicita_grado_a' => 'required|string|max:255',
+            'periodo_vigencia' => 'required|date',
+            'ciclo_cursa' => 'required|string|max:10',
+            'descripcion' => 'required|string',
+            'salario' => 'required|numeric|min:0',
+        ]);
+    
+        // Verifica si la validación ha fallado
+        if ($validator->fails()) {
+            return response()->json(['success' => false, 'errors' => $validator->errors()], 422);
+        }
+    
+        // Si la validación es exitosa, prepara los datos para la creación del aviso
+        $data = [
+            'empresa_id' => Auth::guard('empresasw')->user()->id,
+            'titulo' => strtoupper($request->titulo),
+            'link' => Str::slug($request->titulo),
+            /* 'area_id' => 1, */ // Puedes ajustar según tu lógica de negocio
+            'distrito_id' => $request->distrito_id,
+            'vacantes' => $request->vacantes,
+            'solicita_carrera' => $request->solicita_carrera,
+            'solicita_grado_a' => $request->solicita_grado_a,
+            'periodo_vigencia' => $request->periodo_vigencia,
+            'ciclo_cursa' => $request->ciclo_cursa,
+            'descripcion' => $request->descripcion,
+            'salario' => $request->salario,
+        ];
+    
+        // Intenta crear el aviso en la base de datos
+        try {
+            Aviso::create($data);
+            // Si se crea correctamente, retorna una respuesta JSON con éxito
+            return response()->json(['Success' => true, 'message' => 'Aviso creado correctamente'], 200);
+        } catch (\Exception $e) {
+            // Si ocurre un error, retorna una respuesta JSON con el error
+            return response()->json(['Success' => false, 'error' => 'Error al crear el aviso: ' . $e->getMessage()], 500);
+        }
+    }
+    
 }

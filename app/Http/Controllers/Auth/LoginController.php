@@ -14,7 +14,7 @@ class LoginController extends Controller
 {
     use AuthenticatesUsers;
 
-    protected $redirectTo = '/auth/home';
+    protected $redirectTo = '/auth/inicio';
     protected $redirectAfterLogout = '/auth/login';
     protected $loginView = 'auth.login.index';
 

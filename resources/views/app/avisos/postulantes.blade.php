@@ -77,7 +77,7 @@
                     </div>
 
                     <div class="card aviso mt-2">
-                        <a href="{{ route('empresa.avisos') }}" class="text-uppercase">Regresara</a>
+                        <a href="{{ route('empresa.avisos') }}" class="text-uppercase">Regresar</a>
                     </div>
                 </div>
                 <div class="col-md-2">

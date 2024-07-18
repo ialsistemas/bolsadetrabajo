@@ -32,7 +32,7 @@
 
         <section class="content-header">
             <h1>
-                Publicar Anuncios para los Alumnos
+                Publicar Anuncios paras las Empresas
                 <small>Mantenimiento</small>
             </h1>
         </section>
@@ -40,7 +40,7 @@
         <br>
         <div class="content-header">
             <div class="row">
-                <form class="col-lg-4 col-md-4" action="{{ route('auth.anuncio.store') }}" method="post" enctype="multipart/form-data">
+                <form class="col-lg-4 col-md-4" action="{{ route('auth.anuncioempresa.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group col-lg-12">
                         <label for="titulo" class="m-0 label-primary">Titulo del Anuncio</label>
@@ -79,18 +79,18 @@
                     </div>
                 </form>
                 <div class="col-lg-8 col-md-8">
-                    <table id="tableAnuncio" width="100%" class='display responsive no-wrap table table-bordered table-hover table-condensed'></table>
+                    <table id="tableAnuncioEmpresa" width="100%" class='display responsive no-wrap table table-bordered table-hover table-condensed'></table>
                 </div>
             </div>
         </div>
-        <section class="content">
+       <!--  <section class="content">
             {{-- @csrf
             <div class="row">
                 <div class="col-md-12">
                     <table id="tableAvisoPostulantes" width="100%" class='display responsive no-wrap table table-bordered table-hover table-condensed'></table>
                 </div>
             </div> --}}
-        </section>
+        </section> -->
 
     </div>
 
@@ -101,5 +101,5 @@
 @section('scripts')
     <script type="text/javascript" src="{{ asset('auth/plugins/datatable/datatables.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('auth/plugins/datatable/dataTables.config.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('auth/js/anuncio/index.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('auth/js/anuncioempresa/index.js') }}"></script>
 @endsection

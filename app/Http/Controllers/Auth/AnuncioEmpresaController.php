@@ -2,7 +2,7 @@
 
 namespace BolsaTrabajo\Http\Controllers\Auth;
 
-use BolsaTrabajo\Anuncio;
+use BolsaTrabajo\AnuncioEmpresa;
 use BolsaTrabajo\Cargo;
 use BolsaTrabajo\Condicion;
 use Illuminate\Http\Request;
@@ -11,16 +11,16 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
-class AnuncioController extends Controller
+class AnuncioEmpresaController extends Controller
 {
     public function index()
     {
-        return view('auth.anuncio.index');
+        return view('auth.anuncioempresa.index');
     }
 
     public function list()
     {
-        return response()->json(['data' => Anuncio::orderby('created_at', 'desc')->get()]); 
+        return response()->json(['data' => AnuncioEmpresa::orderby('created_at', 'desc')->get()]); 
     }
 
     public function store(Request $request)
@@ -43,23 +43,25 @@ class AnuncioController extends Controller
                 'mostrar' => $request->fecha_desde,
                 'vigencia' => $request->vigencia,
                 'banner' => 'uploads/anuncios/'.$foto
-            ];  
-            Anuncio::create($data);
+            ];
+            AnuncioEmpresa::create($data);
 
             if ($request->file('banner') != null)
                 $request->file('banner')->move('uploads/anuncios', $foto);
 
             $status = true;
         }
-        return $status ? redirect(route('auth.anuncio')) : redirect(route('auth.anuncio'))->withErrors($validator)->withInput();
+        return $status ? redirect(route('auth.anuncioempresa')) : redirect(route('auth.anuncioempresa'))->withErrors($validator)->withInput();
     }
   
     public function delete(Request $request)
     {
         $status = false;
-        $entity = Anuncio::find($request->id);
+        $entity = AnuncioEmpresa::find($request->id);
         if($entity->delete()) $status = true;
 
         return response()->json(['Success' => $status]);
     }
+
+    /* Todo hecho por Sebastian */
 }

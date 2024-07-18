@@ -1,9 +1,9 @@
-@font-face {
+/* @font-face {
   font-family: 'flexo';
   src: url("../../fonts/Flexo-Bold.otf") format("opentype");
   font-weight: bold;
 }
-
+ */
 @font-face {
   font-family: 'flexo';
   src: url("../../fonts/Flexo-Bold-Italic.otf") format("opentype");
@@ -17,11 +17,11 @@
   font-weight: heavy;
 }
 
-@font-face {
+/* @font-face {
   font-family: 'flexo';
   src: url("../../fonts/Flexo-Regular.ttf") format("opentype");
   font-weight: 100;
-}
+} */
 
 *, *::before, *::after {
   box-sizing: border-box;
