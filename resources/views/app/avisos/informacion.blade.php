@@ -96,9 +96,9 @@
                 </div>
                 <div class="col-md-2 text-center">
                     @if (Auth::guard('empresasw')->check())
-                        <a href="https://wa.link/wyggli" target="_blank">
-                            <img src="{{ asset('app/img/banner_empresa.jpeg') }}" alt="">
-                        </a>
+                    <a href="https://wa.me/923001874?text=Hola,vengo%20de%20la%20bolsa%20de%20trabajo%20y%20deseo%20conocer%20más%20de%20los%20servicios%20gratuitos%20para%20las%20empresas%20aliadas." target="_blank">
+                        <img src="{{ asset('app/img/nuevaimagen.png') }}" alt="Logo de WhatsApp">
+                    </a>                    
                     @else
                         <a href="https://wa.me/922611913?text=Hola, Vengo de la Bolsa de trabajo y quiero conocer más sobre los programas de empleabilidad. Información por favor 😊" target="_blank">
                             <img src="{{ asset('app/img/banner2_janet.png') }}" alt="">

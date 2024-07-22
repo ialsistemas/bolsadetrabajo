@@ -50,7 +50,7 @@ button, a {
 }
 
 .modal.modal-fill {
-  background: rgba(11, 189, 86, 0.7);
+  background: rgb(51 51 51 / 61%);
 }
 
 .modal.modal-fill.show {
@@ -212,7 +212,7 @@ span[data-valmsg-for] {
 
 #main .head-section {
   padding: 20px 0;
-  background-color: #00528F;
+  background: radial-gradient(circle, rgba(0, 114, 191, 1) 37%, rgba(0, 195, 244, 1) 100%);
   background-size: cover;
   background-repeat: no-repeat;
 }
@@ -264,7 +264,8 @@ span[data-valmsg-for] {
 #main .head-section a {
   width: auto;
   height: auto;
-  background-color: #0087CC;
+  border-radius: 10px !important;
+  background-color: #003550a6;
   padding: 15px;
   text-decoration: none;
   color: #fff;
