@@ -9,11 +9,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Programa extends Model
 {
 
+    protected $table = 'programas';
+    protected $primaryKey = 'id';
+    public $timestamps = false; // Si no tienes timestamps en tu tabla programas
     /* SoftDeletes, esto sirve para dar un mantenimiento a la base de datos saber cuando sea editado o eliminado */
     use SoftDeletes;
-
-   /*  protected $guard = 'alumnos'; */
-   /*  public $timestamps = false; */
         protected $fillable = [
             'registro',
             'tipo_programa',
@@ -31,19 +31,11 @@ class Programa extends Model
             'contratados',
             'descartado',
 
-
-
-            /* 'dni',
-            'nombres',
-            'apellidos',
-            'tel',
-            'email',
-            'sede',
-            'tipo',
-            'estado', */
-            // Otros campos
         ];
-    
-        // Resto del código del modelo
+    public function participantes()
+    {
+        return $this->hasMany(Participante::class, 'id_programa', 'id');
+    }
+      
     
 }

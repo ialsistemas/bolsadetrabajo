@@ -47,45 +47,10 @@ $(function () {
             { title: "Puesto 3", data: "puestotres", class: "text-left" },
             { title: "Puesto 4", data: "puestocuatro", class: "text-left" },
             { title: "Responsable", data: "responsable", class: "text-left" },
-            { title: "Cantidad Postulantes", data: "postulantes", class: "text-left" },
-            { title: "Cantidad Evaluando", data: "evaluando", class: "text-left" },
-            { title: "Cantidad Contratado", data: "contratados", class: "text-left" },
-            { title: "Cantidad Descartado", data: "descartado", class: "text-left" },
-
-            /* { title: "DNI", data: "dni", class: "text-left" },
-            { title: "Nombres", data: "nombres", class: "text-left" },
-            { title: "Apellidos", data: "apellidos", class: "text-left" },
-            { title: "Teléfono", data: "tel", class: "text-left" },
-            { title: "Email", data: "email", class: "text-left" },
-            { title: "Sede", data: "sede", class: "text-left" },
-            { title: "Tipo", data: "tipo", class: "text-left" },
-            { title: "Estado", data: "estado", class: "text-left" }, */
-
-
-            /* { title: "Puesto 4", data: "puestocuatro", class: "text-left" }, */
-
-            /* {
-                title: "Banner",
-                data: null,
-                render: function (data) {
-                    return (
-                        '<img width="60%" src="../../../' +
-                        data.banner +
-                        '" alt="">'
-                    );
-                },
-            }, */
-            /* {
-                data: null,
-                render: function (data) {
-                    return (
-                        '<a href="javascript:(0)" class="btn-delete btn btn-danger" idDato="' +
-                        data.id +
-                        '"><i class="fa fa-trash"></i></a>'
-                        
-                    );
-                },
-            }, */
+            { title: "Cantidad Postulantes", data: "cantidad_postulantes", class: "text-left" },
+            { title: "Cantidad Evaluando", data: "cantidad_evaluando", class: "text-left" },
+            { title: "Cantidad Contratado", data: "cantidad_contratados", class: "text-left" },
+            { title: "Cantidad Descartado", data: "cantidad_descartados", class: "text-left" },
             {
                 data: null,
                 render: function (data) {
@@ -101,6 +66,20 @@ $(function () {
                     );
                 },
             },
+            {
+                title: "Participantes",
+                data: null,
+                render: function (data) {
+                    return (
+                        '<div class="btn-group">' +
+                        '<a href="javascript:void(0)" class="btn-verpar btn btn-info" idDato="' + // Cambiar color a btn-info
+                        data.id +
+                        '"><i class="fa fa-users"></i> Añadir Participantes</a>' + // Cambiar el ícono aquí
+                        '</div>'
+                    );
+                },
+            }
+            
         ],
         rowCallback: function (row, data, index) {
             if (data.vigencia < fecha_actual) {
@@ -111,10 +90,18 @@ $(function () {
             }
         },
     });
+    /* Para abrir modal y editar */
     $table.on("click", ".btn-update", function () {
         const id = $dataTablePrograma.row($(this).parents("tr")).data().id;
         invocarModalView(id);
     });
+
+    /* Para abrir modal y ver participantes */
+    $table.on("click", ".btn-verpar", function () {
+        const id = $dataTablePrograma.row($(this).parents("tr")).data().id;
+        invocarModalViewParticipantes(id);
+    });
+    
 
 
     function invocarModalView(id) {
@@ -124,6 +111,18 @@ $(function () {
             }
         );
     }
+
+    function invocarModalViewParticipantes(id) {
+        invocarModal(
+            `/auth/programa/partialViewParticipantes/${id ? id : 0}`, function ($modal) {
+                if ($modal.attr("data-reload") === "true") $dataTablePrograma.ajax.reload(null, false);
+            }
+        );
+    }
+
+
+
+
 
     $table.on("click", ".btn-delete", function () {
         const id = $(this).attr("idDato");

@@ -93,12 +93,13 @@
                     <div class="form-group row">
                         <div class="col-md-6"></div>
                         <div class="col-md-6">
-                            <input type="text" name="salario" id="salario"
+                            <input type="number" name="salario" id="salario"
                                 value="{{ $Aviso != null ? $Aviso->salario : '' }}" class="form-input"
-                                placeholder="Salario" required>
+                                placeholder="Salario" required min="1025">
                             <span data-valmsg-for="salario"></span>
                         </div>
                     </div>
+                    
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Republicar Oportunidad</button>

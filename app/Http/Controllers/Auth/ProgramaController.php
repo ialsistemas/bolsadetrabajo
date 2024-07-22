@@ -3,6 +3,7 @@
 namespace BolsaTrabajo\Http\Controllers\Auth;
 
 use BolsaTrabajo\Programa;
+use BolsaTrabajo\Participantes;
 use BolsaTrabajo\Cargo;
 use BolsaTrabajo\Condicion;
 use Illuminate\Http\Request;
@@ -10,6 +11,7 @@ use BolsaTrabajo\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class ProgramaController extends Controller
 {
@@ -18,15 +20,58 @@ class ProgramaController extends Controller
         return view('auth.programa.index');
     }
 
+
+    /* Actualmente se tiene este */
+        /* public function listAll()
+    {
+        $programas = Programa::orderBy('id', 'desc')->get();
+
+        // Devolver los datos en formato JSON
+        return response()->json(['data' => $programas]);
+    } */
     public function listAll()
 {
-    // Obtener todos los programas ordenados por 'registro' en orden descendente
-    $programas = Programa::orderBy('id', 'desc')->get();
+    $programas = Programa::select(
+            'programas.id',
+            'programas.registro',
+            'programas.tipo_programa',
+            'programas.empresa',
+            'programas.puestouno',
+            'programas.puestodos',
+            'programas.puestotres',
+            'programas.puestocuatro',
+            'programas.responsable',
+            DB::raw('COUNT(CASE WHEN participantes.estado = "Postulante" AND participantes.deleted_at IS NULL THEN 1 END) AS cantidad_postulantes'),
+            DB::raw('COUNT(CASE WHEN participantes.estado = "Evaluando" AND participantes.deleted_at IS NULL THEN 1 END) AS cantidad_evaluando'),
+            DB::raw('COUNT(CASE WHEN participantes.estado = "Contratado" AND participantes.deleted_at IS NULL THEN 1 END) AS cantidad_contratados'),
+            DB::raw('COUNT(CASE WHEN participantes.estado = "Descartado" AND participantes.deleted_at IS NULL THEN 1 END) AS cantidad_descartados')
+        )
+        ->leftJoin('participantes', function ($join) {
+            $join->on('programas.id', '=', 'participantes.id_programa')
+                 ->whereNull('participantes.deleted_at'); /* Para no contar los participantes eliminados */
+        })
+        ->whereNull('programas.deleted_at') // Filtrar programas eliminados si usas soft delete
+        ->groupBy(
+            'programas.id',
+            'programas.registro',
+            'programas.tipo_programa',
+            'programas.empresa',
+            'programas.puestouno',
+            'programas.puestodos',
+            'programas.puestotres',
+            'programas.puestocuatro',
+            'programas.responsable'
+        )
+        ->orderBy('programas.id', 'desc')
+        ->get();
 
-    // Devolver los datos en formato JSON
     return response()->json(['data' => $programas]);
 }
-public function delete(Request $request)
+
+
+
+
+    public function delete(Request $request)
     {
         $status = false;
 
@@ -49,9 +94,6 @@ public function delete(Request $request)
             'tipo_programa' => 'required',
             'empresa' => 'required',
             'puestouno' => 'required',
-            /* 'puestodos' => 'required',
-            'puestotres' => 'required',
-            'puestocuatro' => 'required', */
             'responsable' => 'required',
         ]);
         
@@ -70,12 +112,10 @@ public function delete(Request $request)
                 'puestocuatro' => $request->puestocuatro,
                 'responsable' => $request->responsable,
                 /* datos adicionales */
-                'postulantes' => $request->postulantes,
+                /* 'postulantes' => $request->postulantes,
                 'evaluando' => $request->evaluando,
                 'contratados' => $request->contratados,
-                'descartado' => $request->descartado,
-
-                 
+                'descartado' => $request->descartado, */               
             ];
             // Crea el programa en la base de datos
             Programa::create($data);
@@ -110,10 +150,10 @@ public function delete(Request $request)
             $entity->responsable = $request->responsable;
 
             /* Otros datos cantidad */
-            $entity->postulantes = $request->postulantes;
+            /* $entity->postulantes = $request->postulantes;
             $entity->evaluando = $request->evaluando;
             $entity->contratados = $request->contratados;
-            $entity->descartado = $request->descartado;
+            $entity->descartado = $request->descartado; */
 
 
             /* datos del estudiante  */
@@ -132,5 +172,89 @@ public function delete(Request $request)
         return response()->json(['Success' => $status, 'Errors' => $validator->errors()]);
     }
 
+    /* Para que se muestre los datos  en Participantes*/
+    /* Hay posibilidad para listar en participantes */
+    public function partialViewParticipantes($id)
+    {
+        return view('auth.programa.Participantes', ['Entity' => Programa::find($id)]);
+    }
+
+
+    public function storeParticipantes(Request $request)
+    {
+        // Validación de los datos enviados
+        $validator = Validator::make($request->all(), [
+            'dni' => 'required',
+            'nombres' => 'required',
+            'apellidos' => 'required',
+            'tipo' => 'required',
+            'estado' => 'required',
+            'sede' => 'required',
+        ]);
+    
+        // Verifica si la validación ha fallado
+        if ($validator->fails()) {
+            return response()->json(['Success' => false, 'error' => $validator->errors()], 400);
+        }
+    
+        // Verificar si ya existe un participante con el mismo DNI en el mismo programa y que no esté eliminado
+            $existingParticipant = Participantes::where('id_programa', $request->id_programa)
+            ->where('dni', $request->dni)
+            ->whereNull('deleted_at') // Asumiendo que usas soft deletes y 'deleted_at' es la columna de eliminación
+            ->first();
+    
+        if ($existingParticipant) {
+            return response()->json(['Success' => false, 'error' => 'Ya existe un participante con DNI ' . $request->dni . ' en este programa'], 400);
+        }
+    
+        // Si no existe, procede a crear el participante
+        try {
+            $data = [
+                'id_programa' => $request->id_programa,
+                'dni' => $request->dni,
+                'nombres' => $request->nombres,
+                'apellidos' => $request->apellidos,
+                'tel' => $request->tel,
+                'email' => $request->email,
+                'estado' => $request->estado,
+                'tipo' => $request->tipo,
+                'sede' => $request->sede,
+            ];
+    
+            Participantes::create($data);
+    
+            return response()->json(['Success' => true, 'message' => 'Participante creado correctamente'], 200);
+            
+        } catch (\Exception $e) {
+            return response()->json(['Success' => false, 'error' => 'Error al crear el Participante: ' . $e->getMessage()], 500);
+        }
+    }
+
+    public function mostrarParticipantes(Request $request)
+    {
+        $id_programa = $request->input('id_programa');
+        $participantes = DB::table('participantes as p')
+                        ->join('programas as pr', 'p.id_programa', '=', 'pr.id')
+                        ->select('p.id_participante', 'pr.registro','p.sede', 'pr.tipo_programa', 'p.nombres', 'p.dni', 'p.apellidos','p.tel', 'p.tipo', 'p.estado')
+                        ->where('pr.id', $id_programa)
+                        ->whereNull('p.deleted_at')
+                        ->get();
+        /* dump($participantes); */
+        return response()->json(['data' => $participantes]);
+    }
+    
+    public function deletepar(Request $request)
+    {
+        $status = false;
+    
+        $entity = Participantes::find($request->id);
+    
+        if ($entity && $entity->delete()) {
+            $status = true;
+        }
+    
+        return response()->json(['Success' => $status]);
+    }
+    
 
 }

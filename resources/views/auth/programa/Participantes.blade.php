@@ -1,137 +1,34 @@
-@extends('auth.index')
 
-@section('titulo')
-    <title>BolsaTrabajo | Programas de Inserción rápida</title>
-@endsection
-
-@section('styles')
-    <link rel="stylesheet" href="{{ asset('auth/plugins/datatable/datatables.min.css') }}">
-@endsection
-{{-- <style type="text/css">
-    .txt_claro {
-        background: #79f57f63;
-        /* color: #fff; */
-    }
-
-    .label-as-badge {
-        border-radius: 1em;
-        font-size: 12px;
-        cursor: pointer;
-    }
-
-    table.dataTable th,
-    table.dataTable td {
-        white-space: nowrap;
-    }
-
-    .sorting_1 {
-        padding-left: 30px !important;
-    }
-</style> --}}
-
-@section('contenido')
-    <div class="content-wrapper">
-
-        <section class="content-header">
-            <h1>
-                Publicar Programas de Inserción rápida
-                <small>Mantenimiento</small>
-            </h1>
-        </section>
-
-        <br>
-        <div class="content-header">
-            <div class="row">
-                <form class="col-lg-4 col-md-4" action="{{ route('auth.programa.store') }}" method="post">
-
-                    @csrf
-                    <div class="form-group col-lg-12">
-                        <label for="registro" class="m-0 label-primary">Fecha</label>
-                        <input type="date" class="form-control form-control-sm" min="<?php echo date('Y-m-d'); ?>" id="registro"
-                            name="registro" value="{{ old('registro') }}" required>
-                    </div>
-                    <div class="form-group col-lg-12">
-                        <label for="tipo_programa" class="m-0 label-primary">Programa <b
-                                style="color:red;font-size:10px">(Obligatorio*)</b></label>
-                        <select name="tipo_programa" id="tipo_programa" class="form-control form-control-sm" required>
-                            <option value="">Seleccione</option>
-                            <option value="Bolsa de Trabajo"
-                                {{ old('tipo_programa') == 'Bolsa de Trabajo' ? 'selected' : '' }}>Bolsa de Trabajo</option>
-                            <option value="Talent Day" {{ old('tipo_programa') == 'Talent Day' ? 'selected' : '' }}>Talent
-                                Day</option>
-                            <option value="Nexo Laboral" {{ old('tipo_programa') == 'Nexo Laboral' ? 'selected' : '' }}>Nexo
-                                Laboral</option>
-                            <option value="Contrata Talento"
-                                {{ old('tipo_programa') == 'Contrata Talento' ? 'selected' : '' }}>Contrata Talento</option>
-                        </select>
-
-                    </div>
-                    <div class="form-group col-lg-12">
-                        <label for="empresa" class="m-0 label-primary">Empresa <b
-                                style="color:red;font-size:10px">(Obligatorio*)</b></label>
-                        <input autocomplete="off" type="text" class="form-control form-control-sm" id="empresa"
-                            name="empresa" value="{{ old('empresa') }}" required placeholder="Nombre Empresa">
-                    </div>
-                    <div class="form-group col-lg-12">
-                        <label for="puestouno" class="m-0 label-primary">Puesto 1 <b
-                                style="color:red;font-size:10px">(Obligatorio*)</b></label>
-                        <input autocomplete="off" type="text" class="form-control form-control-sm" id="puestouno"
-                            name="puestouno" value="{{ old('puestouno') }}" required placeholder="Ingresar puesto uno">
-                    </div>
-                    <div id="nuevosPuestos"></div>
-                    <button type="button" class="btn btn-link" onclick="agregarPuesto()"
-                        style="margin-bottom: 20px;margin-top: -20px;font-size:12px">
-                        <i class="fa fa-plus-circle mr-1"></i>Agregar otro puesto (Máximo 4)
+<div id="modalMantenimientoParticipantes" class="modal modal-fill fade" data-backdrop="false" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <form enctype="multipart/form-data" action="{{ route('auth.programa.storeParticipantes') }}"
+            id="registroParticipantes" method="POST" data-ajax="true" data-close-modal="true" data-ajax-loading="#loading"
+            data-ajax-success="OnSuccessRegistroParticipantes" data-ajax-failure="OnFailureRegistroParticipantes">
+            @csrf
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"> Añadir Participante </h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">×</span>
                     </button>
-                    <div class="form-group col-lg-12">
-                        <label for="responsable" class="m-0 label-primary">Responsable <b
-                                style="color:red;font-size:10px">(Obligatorio*)</b></label>
-                        <select name="responsable" id="responsable" class="form-control form-control-sm" required>
-                            <option value="">Seleccione</option>
-                            <option value="Bryan Julcamoro" {{ old('responsable') == 'Bryan Julcamoro' ? 'selected' : '' }}>
-                                Bryan Julcamoro
-                            </option>
-                            <option value="Joselyn Condori"
-                                {{ old('responsable') == 'Joselyn Condori' ? 'selected' : '' }}>Joselyn Condori
-                            </option>
-                            {{-- <option value="Setafani Carlos"
-                                {{ old('responsable') == 'Setafani Carlos' ? 'selected' : '' }}>Setafani Carlos
-                            </option> --}}
-                            <option value="Stefany Gutierrez"
-                                {{ old('responsable') == 'Stefany Gutierrez' ? 'selected' : '' }}>Stefany Gutierrez
-                            </option>
-                            {{-- <option value="Yessica Caceres"
-                                {{ old('responsable') == 'Yessica Caceres' ? 'selected' : '' }}>Yessica Cáceres
-                            </option> --}}
-                            <option value="Yamile Bazan" {{ old('responsable') == 'Yamile Bazan' ? 'selected' : '' }}>
-                                Yamilé Bazán</option>
-                        </select>
-                    </div>
-
-                    {{-- <div class="form-group col-lg-12">
-                        <label for="postulantes" class="m-0 label-primary">Cantidad Postulantes</label>
-                        <input autocomplete="off" type="number" class="form-control form-control-sm" id="postulantes"
-                            name="postulantes" value="{{ old('postulantes') }}" placeholder="Ingrese Cantidad">
-                    </div>
-                    <div class="form-group col-lg-12">
-                        <label for="evaluando" class="m-0 label-primary">Cantidad Evaluando</label>
-                        <input autocomplete="off" type="number" class="form-control form-control-sm" id="evaluando"
-                            name="evaluando" value="{{ old('evaluando') }}" placeholder="Ingrese Cantidad">
-                    </div>
-                    <div class="form-group col-lg-12">
-                        <label for="contratados" class="m-0 label-primary">Cantidad Contratado</label>
-                        <input autocomplete="off" type="number" class="form-control form-control-sm" id="contratados"
-                            name="contratados" value="{{ old('contratados') }}" placeholder="Ingrese Cantidad">
-                    </div>
-                    <div class="form-group col-lg-12">
-                        <label for="descartado" class="m-0 label-primary">Cantidad Descartado</label>
-                        <input autocomplete="off" type="number" class="form-control form-control-sm" id="descartado"
-                            name="descartado" value="{{ old('descartado') }}" placeholder="Ingrese Cantidad">
-                    </div> --}}
-
-                    
-                   {{--  <div>
-                        <h3 class="col-lg-12">Datos del <span style="color: #0072bf">Estudiante</span></h3>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <input type="hidden" name="id_programa" class="id_programa" value="{{ $Entity != null ? $Entity->id : '' }}"
+                            required>
+                        {{-- {{ $Entity != null ? $Entity->id : '' }}  --}}
+                        <div class="row justify-content-center mt-1">
+                            <div class="col-lg-12">
+                                <div class="alert alert-success" role="alert">
+                                    <span class="fa fa-check-circle"></span> <!-- Icono de check -->
+                                    {{-- Mensaje --}}
+                                    ¡Genial! Estás añadiendo participantes para el programa de la empresa
+                                    {{ $Entity != null ? $Entity->empresa : '' }} con el tipo de programa
+                                    {{ $Entity != null ? $Entity->tipo_programa : '' }}, registrado para el
+                                    {{ $Entity != null ? $Entity->registro : '' }}.
+                                </div>
+                            </div>
+                        </div>
                         <div style="display: flex; flex-wrap: wrap;">
                             <div class="form-group col-lg-6">
                                 <label for="dni" class="m-0 label-primary">DNI <b
@@ -266,7 +163,8 @@
                                         {{ old('sede') == 'MIGUEL IGLESIAS - SAN JUAN DE MIRAFLORES' ? 'selected' : '' }}>
                                         MIGUEL IGLESIAS - SAN JUAN DE MIRAFLORES
                                     </option>
-                                    <option value="PTE PIEDRA 2" {{ old('sede') == 'PTE PIEDRA 2' ? 'selected' : '' }}>
+                                    <option value="PTE PIEDRA 2"
+                                        {{ old('sede') == 'PTE PIEDRA 2' ? 'selected' : '' }}>
                                         PTE PIEDRA 2
                                     </option>
                                     <option value="SJL 10 - SAN JUAN DE LURIGANCHO"
@@ -293,103 +191,39 @@
                                         {{ old('sede') == 'VILLA EL SALVADOR' ? 'selected' : '' }}>
                                         VILLA EL SALVADOR
                                     </option>
-                                    <option value="VISTA ALEGRE" {{ old('sede') == 'VISTA ALEGRE' ? 'selected' : '' }}>
+                                    <option value="VISTA ALEGRE"
+                                        {{ old('sede') == 'VISTA ALEGRE' ? 'selected' : '' }}>
                                         VISTA ALEGRE
                                     </option>
                                 </select>
                             </div>
+                            <div class="form-group col-lg-12">
+                                <button type="submit" class="btn btn-primary"
+                                    style="border-color:#2ecc71 !important;">Registrar participante</button>
+                            </div>
 
                         </div>
-                    </div> --}}
-                    <div class="form-group col-lg-12">
-                        
-                        <button type="submit" class="btn btn-primary"
-                            style="border-color:#2ecc71 !important;">Guardar Programa</button>
                     </div>
-                </form>
-                <div class="col-lg-8 col-md-8">
-                    <div class="table-wrapper">
-                        <table id="tablePrograma" class="display table table-bordered table-hover table-condensed">
-                            <!-- Aquí se puede agregar un caption para la tabla si es necesario -->
-                        </table>
-                    </div>
-                    <div class="form-group col-lg-3 col-md-12 d-flex flex-column">
-                        <a href="javascript:void(0)" class="btn-m btn-success-m" onclick="clickExcelAlumno()">
-                            <i class="fa fa-file"></i> Exportar excel
-                        </a>
+
+                    <div>
+                        <div class="col-lg-12 col-md-12">
+                            <div class="table-wrapper">
+                                <table id="tableParticipantes" class="display table table-bordered table-hover table-condensed">
+                                    <thead>
+                                        {{-- Contenido de JS --}}
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-
-
-                <style>
-                    #tablePrograma {
-
-                        max-width: 100%;
-                        /* Asegura que la tabla ocupe todo el ancho del contenedor */
-                    }
-                </style>
             </div>
-        </div>
-
-        <script>
-            // Script para validar el campo DNI
-            document.addEventListener('DOMContentLoaded', function() {
-                var dniInput = document.getElementById('dni');
-
-                dniInput.addEventListener('input', function() {
-                    // Remover la clase de error si el valor es válido
-                    if (dniInput.validity.valid) {
-                        dniInput.classList.remove('is-invalid');
-                    } else {
-                        dniInput.classList.add('is-invalid');
-                    }
-                });
-            });
-        </script>
-
-        {{-- Script para poder agregar nuevo puesto opcional --}}
-        <script>
-            var numPuestosAgregados = 0;
-            var nombresPuestos = ['dos', 'tres', 'cuatro'];
-
-            function agregarPuesto() {
-                if (numPuestosAgregados < 3) {
-                    numPuestosAgregados++;
-
-                    var nuevosPuestosDiv = document.getElementById('nuevosPuestos');
-                    var nuevoPuestoHTML = `
-                <div class="form-group col-lg-12">
-                    <label for="puesto${nombresPuestos[numPuestosAgregados - 1]}" class="m-0 label-primary">Puesto ${nombresPuestos[numPuestosAgregados - 1].charAt(0).toUpperCase() + nombresPuestos[numPuestosAgregados - 1].slice(1)} <b style="color:green;font-size:10px">(Opcional)</b></label>
-                    <input autocomplete="off" type="text" class="form-control form-control-sm" id="puesto${nombresPuestos[numPuestosAgregados - 1]}" name="puesto${nombresPuestos[numPuestosAgregados - 1]}">
-                </div>
-            `;
-                    nuevosPuestosDiv.insertAdjacentHTML('beforeend', nuevoPuestoHTML);
-
-                    // Ocultar el botón después de agregar cuatro puestos
-                    if (numPuestosAgregados === 3) {
-                        var botonAgregar = document.querySelector('.btn-link');
-                        botonAgregar.style.display = 'none';
-                    }
-                }
-            }
-        </script>
-        {{-- Fin de Script --}}
-
-        <section class="content">
-            {{-- @csrf
-            <div class="row">
-                <div class="col-md-12">
-                    <table id="tableAvisoPostulantes" width="100%" class='display responsive no-wrap table table-bordered table-hover table-condensed'></table>
-                </div>
-            </div> --}}
-        </section>
-
+        </form>
     </div>
-@endsection
+</div>
 
-@section('scripts')
-    <script type="text/javascript" src="{{ asset('auth/plugins/datatable/datatables.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('auth/plugins/datatable/dataTables.config.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('auth/js/programa/index.js') }}"></script>
-@endsection
+
+<script type="text/javascript" src="{{ asset('auth/js/programa/_Participantes.js') }}"></script>

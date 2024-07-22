@@ -13,16 +13,21 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use BolsaTrabajo\Empresa;
 use BolsaTrabajo\Programa;
+use BolsaTrabajo\Participantes;
 use BolsaTrabajo\Alumno;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 
 class InicioController extends Controller
 {
     public function index(Request $request)
     {
-        // Obtener fechas desde la solicitud
         $fechaDesde = $request->input('fecha_desde', "2000-01-01");
-        $fechaHasta = $request->input('fecha_hasta', date('Y-m-d'));
+        // Obtener la fecha actual y sumar un día
+        /* Actualizado para que lo reportes sumen 1 dias mas */
+        $fechaHasta = $request->input('fecha_hasta', Carbon::now()->addDay()->format('Y-m-d'));
+        
+        
 
         // Obtener datos filtrados por fechas
         $empresas = $this->getEmpresasPorTipoPersona($fechaDesde, $fechaHasta);
@@ -43,35 +48,41 @@ class InicioController extends Controller
     }
     
     // Métodos privados con filtro por fecha
+    /* Primer Grafico */
     private function getEmpresasPorTipoPersona($fecha_desde, $fecha_hasta)
     {
         return DB::table('empresas as e')
             ->join('tipo_personas as tp', 'e.tipo_persona', '=', 'tp.id')
             ->whereBetween('e.created_at', [$fecha_desde, $fecha_hasta])
+            ->whereNull('e.deleted_at')
             ->selectRaw('tp.tipo as tipo_persona, COUNT(*) as cantidad')
             ->groupBy('e.tipo_persona', 'tp.tipo')
             ->get();
     }
 
-
-
+    /* Quinto Grafico */
     private function getProgramasContratados($fecha_desde, $fecha_hasta)
     {
-        // Utilizamos Query Builder para la consulta
-        $programasContratados = DB::table('programas')
-            ->select('tipo_programa', DB::raw('SUM(contratados) as cantidad'))
-            ->whereBetween('created_at', [$fecha_desde, $fecha_hasta])
-            ->groupBy('tipo_programa')
+        $programasContratados = DB::table('participantes as p')
+            ->join('programas as pr', 'p.id_programa', '=', 'pr.id')
+            ->select('pr.tipo_programa', DB::raw('COUNT(*) as cantidad_contratados'))
+            ->where('p.estado', 'Contratado')
+            ->whereBetween('pr.created_at', [$fecha_desde, $fecha_hasta])
+            ->whereNull('pr.deleted_at')
+            ->whereNull('p.deleted_at') // no contar con los eliminados participantes
+            ->groupBy('pr.tipo_programa')
             ->get();
 
         return $programasContratados;
     }
 
+    /* Indicadores */
     private function getTotalEmpresasAprobadas($fecha_desde, $fecha_hasta)
     {
         return DB::table('empresas')
-            ->where('aprobado', '1')
+            /* ->where('aprobado', '1') */ /* Quite porque quiere en general aprobadas y desaprobadas */
             ->whereBetween('created_at', [$fecha_desde, $fecha_hasta])
+            ->whereNull('deleted_at') // no contar con los eliminados
             ->count();
     }
 
@@ -79,6 +90,7 @@ class InicioController extends Controller
     {
         return DB::table('alumnos')
             ->whereBetween('created_at', [$fecha_desde, $fecha_hasta])
+            ->whereNull('deleted_at') // no contar con los eliminados
             ->count();
     }
 
@@ -86,33 +98,38 @@ class InicioController extends Controller
     {
         return DB::table('avisos')
             ->whereBetween('created_at', [$fecha_desde, $fecha_hasta])
+            ->whereNull('deleted_at') // no contar con los eliminados
             ->count();
     }
+    /* Fin Indicadores */
 
+    /* Tercer Grafico */
     public function getTotalAvisosporEmpleador($fecha_desde, $fecha_hasta)
- {
-    $results = DB::table('empresas as e')
-        ->join('tipo_personas as t', 't.id', '=', 'e.tipo_persona')
-        ->join('avisos as a', 'e.id', '=', 'a.empresa_id')
-        ->whereBetween('a.created_at', [$fecha_desde, $fecha_hasta])
-        ->select('t.tipo as tipo_persona', DB::raw('COUNT(*) as total'))
-        ->groupBy('t.tipo')
-        ->get();
+    {
+        $results = DB::table('empresas as e')
+            ->join('tipo_personas as t', 't.id', '=', 'e.tipo_persona')
+            ->join('avisos as a', 'e.id', '=', 'a.empresa_id')
+            ->whereBetween('a.created_at', [$fecha_desde, $fecha_hasta])
+            ->whereNull('e.deleted_at') // no contar con los eliminados
+            ->select('t.tipo as tipo_persona', DB::raw('COUNT(*) as total'))
+            ->groupBy('t.tipo')
+            ->get();
 
-    // Preparar los datos para Highcharts
-    $series = [];
-    foreach ($results as $dato) {
-        $serie = [
-            'name' => $dato->tipo_persona,
-            'y' => $dato->total,
-        ];
-        $series[] = $serie;
+        // Preparar los datos para Highcharts
+        $series = [];
+        foreach ($results as $dato) {
+            $serie = [
+                'name' => $dato->tipo_persona,
+                'y' => $dato->total,
+            ];
+            $series[] = $serie;
+        }
+
+        // Retornar los datos en formato JSON
+        return $series;
     }
 
-    // Retornar los datos en formato JSON
-    return $series;
-}
-
+    /* Cuarto Grafico */
 
     public function getTotalContratadosporCarrera($fecha_desde, $fecha_hasta)
     {
@@ -122,6 +139,7 @@ class InicioController extends Controller
             ->leftJoin('areas AS ar', 'a.area_id', '=', 'ar.id')
             ->where('e.nombre', '=', 'CONTRATADO')
             ->whereBetween('aa.created_at', [$fecha_desde, $fecha_hasta])
+            ->whereNull('a.deleted_at') // no contar con los eliminados
             ->groupBy('ar.nombre')
             ->select('ar.nombre AS nombre_area', DB::raw('COUNT(*) AS total_contratados'))
             ->get();
@@ -139,12 +157,15 @@ class InicioController extends Controller
         return $series;
     }
 
+    /* Segundo Grafico */
+
     public function getTotalUsuariosporCarrera($fecha_desde, $fecha_hasta)
     {
         $resultados = DB::table('alumnos')
             ->select('alumnos.area_id', 'areas.nombre AS nombre_area', DB::raw('COUNT(alumnos.id) AS cantidad_alumnos'))
             ->join('areas', 'alumnos.area_id', '=', 'areas.id')
             ->whereBetween('alumnos.created_at', [$fecha_desde, $fecha_hasta])
+            ->whereNull('alumnos.deleted_at') // no contar con los eliminados
             ->groupBy('alumnos.area_id', 'areas.nombre')
             ->orderBy('alumnos.area_id')
             ->get();

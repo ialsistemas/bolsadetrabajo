@@ -28,10 +28,23 @@ $(function () {
         buttons: [],
         ajax: {
             url: "/empresa/avisos/listar_json",
-            data: function (s) {
+            data: function (params) {
                 if ($fecha_desde.val() != "") {
-                    s.fecha_desde = $fecha_desde.val();
-                    s.fecha_hasta = $fecha_hasta.val();
+                    params.fecha_desde = $fecha_desde.val();
+                    /* Nueva Actualizacion */
+                    // Calculando fecha hasta un día después del día presente
+                    var fechaHasta = new Date();
+                    fechaHasta.setDate(fechaHasta.getDate() + 1); // Suma 1 día
+                    var dd = fechaHasta.getDate();
+                    var mm = fechaHasta.getMonth() + 1; // Enero es 0!
+                    var yyyy = fechaHasta.getFullYear();
+                    if (dd < 10) {
+                        dd = '0' + dd;
+                    }
+                    if (mm < 10) {
+                        mm = '0' + mm;
+                    }
+                    params.fecha_hasta = yyyy + '-' + mm + '-' + dd;
                 }
             },
         },
@@ -98,9 +111,8 @@ $(function () {
                 orderable: false, // No se puede ordenar por esta columna
                 searchable: false, // No se puede buscar en esta columna
                 width: "26px", // Ancho de la columna
-            },
-            
-            {
+            },         
+            /* {
                 title: "Editar", // Título de la columna (si estás usando DataTables con título de columna)
                 data: null, // No hay datos específicos para esta columna (puede estar vacío o no definido)
                 render: function (data) {
@@ -117,10 +129,9 @@ $(function () {
                 orderable: false, // No se puede ordenar por esta columna
                 searchable: false, // No se puede buscar en esta columna
                 width: "26px", // Ancho de la columna
-            },
-            
+            }, */           
             {
-                title: "Información", // Título de la columna (si estás usando DataTables con título de columna)
+                title: "Vacante Publicada", // Título de la columna (si estás usando DataTables con título de columna)
                 data: null, // No hay datos específicos para esta columna (puede estar vacío o no definido)
                 render: function (data) {
                     return (
@@ -134,8 +145,6 @@ $(function () {
                 searchable: false, // No se puede buscar en esta columna
                 width: "26px", // Ancho de la columna
             },
-            
-            
             {
                 title: "Republicar", // Título de la columna (si estás usando DataTables con título de columna)
                 data: null, // No hay datos específicos para esta columna (puede estar vacío o no definido)
@@ -146,8 +155,7 @@ $(function () {
                 orderable: false, // No se puede ordenar por esta columna
                 searchable: false, // No se puede buscar en esta columna
                 width: "26px", // Ancho de la columna
-            },
-            
+            },          
         ],
         rowCallback: function (row, data, index) {
             if (data.periodo_vigencia < fecha_actual) {

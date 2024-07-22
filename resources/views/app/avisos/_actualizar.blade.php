@@ -107,7 +107,7 @@
                     <div class="form-group row">
                         <div class="col-md-6"></div>
                         <div class="col-md-6">
-                            <input type="text" name="salario" id="salario" value="{{ $Aviso != null ? $Aviso->salario : "" }}" class="form-input" placeholder="Salario" required>
+                            <input type="text" name="salario" id="salario" value="{{ $Aviso != null ? $Aviso->salario : "" }}" class="form-input" placeholder="Salario" required min="1025">
                             <span data-valmsg-for="salario"></span>
                         </div>
                     </div>

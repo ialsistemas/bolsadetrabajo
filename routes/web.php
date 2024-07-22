@@ -87,13 +87,7 @@ Route::group(['middleware' => 'auth:empresasw'], function () {
         Route::post('/avisos/alumno/clasificar', 'App\AvisoController@clasificar_aviso')->name('empresa.clasificar_aviso');
         Route::post('/avisos/delete', 'Auth\AvisoController@delete')->name('empresa.aviso.delete');
         Route::get('/app/listar_aviso_json', 'App\EmpresaController@listar_aviso_json')->name('app.listar_aviso_json');
-        
-        
-        
-        
-
-
-    });
+        });
 });
 
 
@@ -191,20 +185,20 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:web'], function () {
     });
 
     /* Programa Controladores */
-    Route::group(['prefix' => 'programa'], function () {
-        
-        Route::get('/', 'Auth\ProgramaController@index')->name('auth.programa');
-        Route::post('/store', 'Auth\ProgramaController@store')->name('auth.programa.store');
+    Route::group(['prefix' => 'programa'], function () {      
+         Route::get('/', 'Auth\ProgramaController@index')->name('auth.programa');
+         Route::post('/store', 'Auth\ProgramaController@store')->name('auth.programa.store');
          Route::get('/list_all', 'Auth\ProgramaController@listAll')->name('auth.programas.listAll');
          Route::post('/updateData', 'Auth\ProgramaController@updateData')->name('auth.programa.updateData');
          Route::get('/partialView/{id}', 'Auth\ProgramaController@partialView')->name('auth.programa.create');
          Route::post('/delete', 'Auth\ProgramaController@delete')->name('auth.programas.delete');
-        
+         /* Participantes */
+         Route::get('/partialViewParticipantes/{id}', 'Auth\ProgramaController@partialViewParticipantes')->name('auth.programa.partialViewParticipantes');
+         Route::post('/storeParticipantes', 'Auth\ProgramaController@storeParticipantes')->name('auth.programa.storeParticipantes');
+         Route::get('/mostrarParticipantes', 'Auth\ProgramaController@mostrarParticipantes')->name('auth.programa.mostrarParticipantes');
+         Route::post('/deletepar', 'Auth\ProgramaController@deletepar')->name('auth.programas.deletepar');
 
-
-
-         
-
+               
 
     });
 

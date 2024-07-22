@@ -272,7 +272,7 @@
                     data: programasContratados.map(function(programa) {
                         return {
                             name: programa.tipo_programa,
-                            y: parseFloat(programa.cantidad)
+                            y: parseFloat(programa.cantidad_contratados)
                         };
                     })
                 }]
