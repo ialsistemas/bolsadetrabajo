@@ -376,14 +376,14 @@
         </script>
         {{-- Fin de Script --}}
 
-        <section class="content">
-            {{-- @csrf
+       {{--  <section class="content">
+            @csrf
             <div class="row">
                 <div class="col-md-12">
                     <table id="tableAvisoPostulantes" width="100%" class='display responsive no-wrap table table-bordered table-hover table-condensed'></table>
                 </div>
-            </div> --}}
-        </section>
+            </div>
+        </section> --}}
 
     </div>
 @endsection

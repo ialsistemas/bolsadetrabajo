@@ -53,6 +53,38 @@
                 <div class="col-md-3 filter-cont" style="height: 50% !important">
                     <div class="filter">
                         <form action="" method="GET">
+                            {{-- Codigo Sebastian, para que se ve mas llamativo --}}
+                            <style>
+                                @keyframes zoomButton {
+                                    0% {
+                                        transform: scale(1);
+                                    }
+                                    50% {
+                                        transform: scale(1.05);
+                                    }
+                                    100% {
+                                        transform: scale(1);
+                                    }
+                                }
+                            
+                                .button {
+                                    display: inline-block;
+                                    padding: 12px 24px;
+                                    border-radius: 10px;
+                                    background-color: #4CAF50;
+                                    color: white;
+                                    text-decoration: none;
+                                    font-size: 18px;
+                                    border: 2px solid #4CAF50;
+                                    transition: transform 0.2s ease;
+                                    animation: zoomButton 2s ease-in-out infinite;
+                                }
+                            
+                                .button:hover {
+                                    transform: scale(1.2);
+                                }
+                            </style>
+                            {{-- Fin Style --}}
                             @if (Auth::guard('empresasw')->check())
                                 @if (Auth::guard('empresasw')->user()->tipo_persona == 2)
                                     <div class="content_pNatural">
@@ -61,12 +93,18 @@
                                             Por favor, contáctanos para obtener asistencia personalizada en la publicación
                                             de tu aviso.
                                         </p>
-                                        <a href="https://wa.link/0q0eyc" target="_blank" class="btn btn-success w-100 p-3"
-                                            style="border-radius: 15px">Contactar a un Asesor</a>
+                                        <a href="https://wa.link/0q0eyc" target="_blank" class="btn btn-success w-100 p-3 button"
+                                            style="border-radius: 15px;background-color: #2ecc71 !important;
+                                            border-color: #28a745 !important;"><i class="fa fa-whatsapp"></i> Contactar a un Asesor</a>
                                     </div>
                                 @else
-                                    <a href="{{ route('empresa.registrar_aviso') }}" class="button"
-                                        style="border-radius: 15px">Nueva oportunidad</a>
+                                
+
+                                
+                                <a href="{{ route('empresa.registrar_aviso') }}" class="button">
+                                    <span class="icon"><i class="fa fa-plus-circle"></i></span> Nueva oportunidad
+                                </a>
+                                
                                 @endif
                             @endif
 
@@ -75,7 +113,7 @@
                                 <br>
                                 <hr>
                                 <input type="date" id="fecha_desde"
-                                    value="{{ request()->input('fecha_desde', date('Y-m-d')) }}" name="fecha_desde"
+                                    value="{{ request()->input('fecha_desde', date('2000-01-01')) }}" name="fecha_desde"
                                     class="form-control" style="padding: 10px 5px 5px 10px; background:#edfaff;">
                                 @error('fecha_desde')
                                     <span class="text-danger">{{ $message }}</span>
@@ -97,7 +135,8 @@
                             <button type="submit" id="filtro-submit" class="btn btn-primary btn-sm"
                                 onclick="consultarEmpleador()"
                                 style="border-color: #2ecc71; background: #2ecc71; border-radius: 5px;">Aplicar
-                                Filtro</button>
+                            Filtro</button>
+                           
 
                         </form>
 
@@ -105,6 +144,14 @@
                 </div>
 
                 <div class="col-md-7">
+                    <div class="row justify-content-center mt-4">
+                        <div class="col-lg-12">
+                            <div class="alert alert-success" role="alert">
+                                <span class="fa fa-check-circle"></span>
+                                Aplique filtros de fecha para ver sus avisos actualizados según lo que requiera.
+                            </div>
+                        </div>
+                    </div>
                     <table id="tableAviso"
                         class="table table-bordered table-striped display nowrap margin-top-10 dataTable no-footer"></table>
                 </div>

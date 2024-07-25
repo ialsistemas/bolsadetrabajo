@@ -2,7 +2,8 @@ $(function(){
 
     const $clasificacion_id = $("#clasificacion_id"), $count_postulantes = $("#count_postulantes"),
     $count_evaluados = $("#count_evaluados"), $count_seleccionados = $("#count_seleccionados"), $count_aceptados = $("#count_aceptados"), $count_descartados = $("#count_descartados");
-
+    $('#modalAdvertencia').modal('show');
+    
     $clasificacion_id.on("change", function(){
         const formData = new FormData();
         formData.append("_token", $("input[name=_token]").val());

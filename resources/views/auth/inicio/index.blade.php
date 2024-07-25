@@ -77,29 +77,97 @@
                         </form>
                     </div>
                 </div>
-                <div class="col-lg-3 mb-4">
-                    <div class="totales text-center">
+                {{-- Style hecho por sebastian --}}
+                <style>
+                    .zoom-container {
+                        transition: transform 0.2s ease;
+                        /* Transición suave */
+                    }
+
+                    .zoom-container:hover {
+                        transform: scale(1.05);
+                        /* Escala del 105% al hacer hover */
+                    }
+
+                    .range {
+                        width: 100%;
+                        height: 10px;
+                        /* Altura del barra de carga */
+                        background-color: rgba(255, 255, 255, 0.2);
+                        /* Color de fondo */
+                        border-radius: 5px;
+                        /* Bordes redondeados */
+                        overflow: hidden;
+                        /* Oculta el contenido que se desborda */
+                    }
+
+                    .fill {
+                        width: 0%;
+                        /* Ancho inicial de la barra de carga */
+                        height: 100%;
+                        /* Altura para llenar completamente el contenedor */
+                        background-color: #00e272;
+                        /* Color de la barra de carga */
+                        animation: fillAnimation 2s ease-out forwards;
+                        /* Animación de llenado */
+                    }
+
+                    @keyframes fillAnimation {
+                        0% {
+                            width: 0%;
+                        }
+
+                        100% {
+                            width: 100%;
+                        }
+                    }
+
+                    .icon-up {
+                        margin-left: 5px;
+                        /* Espacio entre el texto y el icono */
+                        color: rgb(255, 255, 255);
+                        /* Color del icono */
+                        font-size: 13px;
+                        /* Tamaño del icono */
+                    }
+                </style>
+                {{-- Fin estilo --}}
+                <div class="col-lg-3 mb-4 zoom-container">
+                    <div class="totales text-center"
+                        style="background: linear-gradient(to bottom right, #007bc5, #00b2e9);">
                         <div class="title">
-                            <p class="title-text" style="color:rgb(255, 187, 0)">
+                            <p class="title-text" style="color:rgb(255, 255, 255)">
                                 <i class="fa fa-building"></i> Total de Empresas
+                                <span class="icon-up"><i class="fa fa-arrow-up"></i></span>
                             </p>
                         </div>
                         <div class="data">
-                            <p id="totalEmpresasAprobadas">
+                            <p id="totalEmpresasAprobadas" style="color: white">
                                 {{ $totalEmpresasAprobadas }}
                             </p>
                             <div class="range">
-                                <div class="fill"></div>
+                                <div class="fill" style="background-color: #00e272 !important;"></div>
                             </div>
+                        </div>
+                        <div style="margin-top: 10px;"> <!-- Espacio entre contenido principal y enlace -->
+                            <a href="{{ route('auth.index') }}" class="ver-mas"
+                                style="color: white; text-decoration: none; margin-top: 10px;">
+                                Ver más <i class="fa fa-chevron-right"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-lg-3 mb-4">
+
+
+
+
+                <div class="col-lg-3 mb-4 zoom-container">
                     <div class="totales text-center">
                         <div class="title">
                             <p class="title-text" style="color:rgb(0, 175, 102)">
                                 <i class="fa fa-users"></i> Total de Usuarios
+                                <span class="icon-up"><i class="fa fa-arrow-up"></i></span>
                             </p>
                         </div>
                         <div class="data">
@@ -107,25 +175,39 @@
                                 {{ $totalUsuarios }}
                             </p>
                             <div class="range">
-                                <div class="fill"></div>
+                                <div class="fill" style="background-color: #00e272 !important;"></div>
                             </div>
+                        </div>
+                        <div style="margin-top: 10px;"> <!-- Espacio entre contenido principal y enlace -->
+                            <a href="{{ route('auth.alumno') }}" class="ver-mas"
+                                style="color: #00e272; text-decoration: none; margin-top: 10px;">
+                                Ver más <i class="fa fa-chevron-right"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-lg-3 mb-4">
-                    <div class="totales text-center">
+                <div class="col-lg-3 mb-4 zoom-container">
+                    <div class="totales text-center"
+                        style="background: linear-gradient(to bottom right, #007bc5, #00b2e9);">
                         <div class="title">
-                            <p class="title-text" style="color:rgb(111, 0, 255)">
+                            <p class="title-text" style="color:rgb(255, 255, 255)">
                                 <i class="fa fa-bullhorn"></i> Total de Avisos
+                                <span class="icon-up"><i class="fa fa-arrow-up"></i></span>
                             </p>
                         </div>
                         <div class="data">
-                            <p id="totalAvisos">
+                            <p id="totalAvisos" style="color: white">
                                 {{ $totalAvisos }}
                             </p>
                             <div class="range">
-                                <div class="fill"></div>
+                                <div class="fill" style="background-color: #00e272 !important;"></div>
+                            </div>
+                            <div style="margin-top: 10px;"> <!-- Espacio entre contenido principal y enlace -->
+                                <a href="{{ route('auth.aviso') }}" class="ver-mas"
+                                    style="color: white; text-decoration: none; margin-top: 10px;">
+                                    Ver más <i class="fa fa-chevron-right"></i>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -242,7 +324,7 @@
 
             /*  */
 
-            var programasContratados =  @json($programasContratados);
+            var programasContratados = @json($programasContratados);
             console.log(programasContratados);
 
             Highcharts.chart('otro', {

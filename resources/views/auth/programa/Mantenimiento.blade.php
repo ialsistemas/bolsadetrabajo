@@ -74,15 +74,15 @@
                                     <option value="Joselyn Condori"
                                         {{ old('responsable', isset($Entity) ? $Entity->responsable : '') == 'Joselyn Condori' ? 'selected' : '' }}>
                                         Joselyn Condori</option>
-                                    <option value="Setafani Carlos"
+                                    {{-- <option value="Setafani Carlos"
                                         {{ old('responsable', isset($Entity) ? $Entity->responsable : '') == 'Setafani Carlos' ? 'selected' : '' }}>
-                                        Setafani Carlos</option>
+                                        Setafani Carlos</option> --}}
                                     <option value="Stefany Gutierrez"
                                         {{ old('responsable', isset($Entity) ? $Entity->responsable : '') == 'Stefany Gutierrez' ? 'selected' : '' }}>
                                         Stefany Gutierrez</option>
-                                    <option value="Yessica Caceres"
+                                    {{-- <option value="Yessica Caceres"
                                         {{ old('responsable', isset($Entity) ? $Entity->responsable : '') == 'Yessica Caceres' ? 'selected' : '' }}>
-                                        Yessica Caceres</option>
+                                        Yessica Caceres</option> --}}
                                     <option value="Yamile Bazan"
                                         {{ old('responsable', isset($Entity) ? $Entity->responsable : '') == 'Yamile Bazan"' ? 'selected' : '' }}>
                                         Yamile Bazan"</option>

@@ -15,7 +15,7 @@ $(function () {
     var mes = ("0" + (hoy.getMonth() + 1)).slice(-2);
     var dia = ("0" + hoy.getDate()).slice(-2);
     var fecha_actual = año + "-" + mes + "-" + dia;
-    const $fecha_desde = $('2000-01-01');
+    const $fecha_desde = $("#fecha_desde");
     const $fecha_hasta = $("#fecha_hasta");
     $dataTableAviso = $table.DataTable({
         stripeClasses: ["odd-row", "even-row"],
@@ -31,6 +31,7 @@ $(function () {
             data: function (params) {
                 if ($fecha_desde.val() != "") {
                     params.fecha_desde = $fecha_desde.val();
+                    params.fecha_hasta = $fecha_hasta.val();
                     /* Nueva Actualizacion */
                     // Calculando fecha hasta un día después del día presente
                     var fechaHasta = new Date();
