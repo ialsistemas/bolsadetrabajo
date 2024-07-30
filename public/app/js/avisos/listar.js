@@ -6,7 +6,7 @@ function consultarEmpleador() {
 
 $(function () {
     /* Para que se active el modal */
-    $('.btn_evento_bolsa').click();
+    $(".btn_evento_bolsa").click();
     /* Fin */
     /* console.log("cambiado"); */
     const $table = $("#tableAviso");
@@ -15,8 +15,14 @@ $(function () {
     var mes = ("0" + (hoy.getMonth() + 1)).slice(-2);
     var dia = ("0" + hoy.getDate()).slice(-2);
     var fecha_actual = año + "-" + mes + "-" + dia;
+    // Asignar fecha inicial deseada
+  
+
+    // Luego, asignar ese valor a tu variable $fecha_desde (suponiendo que $fecha_desde es un input de tipo date o text)
     const $fecha_desde = $("#fecha_desde");
     const $fecha_hasta = $("#fecha_hasta");
+
+    // DataTable initialization con AJAX
     $dataTableAviso = $table.DataTable({
         stripeClasses: ["odd-row", "even-row"],
         lengthChange: true,
@@ -29,26 +35,22 @@ $(function () {
         ajax: {
             url: "/empresa/avisos/listar_json",
             data: function (params) {
-                if ($fecha_desde.val() != "") {
+                // Verificar si hay fecha desde seleccionada
+                if ($fecha_desde.val() !== "") {
                     params.fecha_desde = $fecha_desde.val();
+                } else {
+                    delete params.fecha_desde; // Borrar el parámetro si no hay fecha desde
+                }
+
+                // Verificar si hay fecha hasta seleccionada
+                if ($fecha_hasta.val() !== "") {
                     params.fecha_hasta = $fecha_hasta.val();
-                    /* Nueva Actualizacion */
-                    // Calculando fecha hasta un día después del día presente
-                    var fechaHasta = new Date();
-                    fechaHasta.setDate(fechaHasta.getDate() + 1); // Suma 1 día
-                    var dd = fechaHasta.getDate();
-                    var mm = fechaHasta.getMonth() + 1; // Enero es 0!
-                    var yyyy = fechaHasta.getFullYear();
-                    if (dd < 10) {
-                        dd = '0' + dd;
-                    }
-                    if (mm < 10) {
-                        mm = '0' + mm;
-                    }
-                    params.fecha_hasta = yyyy + '-' + mm + '-' + dd;
+                } else {
+                    delete params.fecha_hasta; // Borrar el parámetro si no hay fecha hasta
                 }
             },
         },
+
         columns: [
             { title: "Fecha de Registro", data: "created_at" },
             { title: "Titulo", data: "titulo" },
@@ -96,7 +98,7 @@ $(function () {
                     ) {
                         return ""; // Retornar cadena vacía si los datos no son válidos
                     }
-            
+
                     // Construir el HTML del botón para ver postulantes
                     return `
                         <div class='text-center'>
@@ -112,7 +114,7 @@ $(function () {
                 orderable: false, // No se puede ordenar por esta columna
                 searchable: false, // No se puede buscar en esta columna
                 width: "26px", // Ancho de la columna
-            },         
+            },
             /* {
                 title: "Editar", // Título de la columna (si estás usando DataTables con título de columna)
                 data: null, // No hay datos específicos para esta columna (puede estar vacío o no definido)
@@ -130,14 +132,17 @@ $(function () {
                 orderable: false, // No se puede ordenar por esta columna
                 searchable: false, // No se puede buscar en esta columna
                 width: "26px", // Ancho de la columna
-            }, */           
+            }, */
             {
                 title: "Vacante Publicada", // Título de la columna (si estás usando DataTables con título de columna)
                 data: null, // No hay datos específicos para esta columna (puede estar vacío o no definido)
                 render: function (data) {
                     return (
                         "<div class='text-center'>" + // Div para centrar contenido
-                        "<a href='/empresa/" + data.empresas.id + "/aviso/" + data.id +
+                        "<a href='/empresa/" +
+                        data.empresas.id +
+                        "/aviso/" +
+                        data.id +
                         "' style='padding: 5px; font-size: 12px;' class='btn btn-secondary btn-xs' data-toggle='tooltip' title='Ver mas'><i class='fa fa-info-circle'></i> Ver</a>" +
                         "</div>"
                     );
@@ -156,7 +161,7 @@ $(function () {
                 orderable: false, // No se puede ordenar por esta columna
                 searchable: false, // No se puede buscar en esta columna
                 width: "26px", // Ancho de la columna
-            },          
+            },
         ],
         rowCallback: function (row, data, index) {
             if (data.periodo_vigencia < fecha_actual) {

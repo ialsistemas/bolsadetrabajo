@@ -148,7 +148,8 @@
                     <div class="col-md-12">
                         <div class="form">
                             <input type="text" id="name" name="name" class="form-input" placeholder="Puesto o palabra clave">
-                            <button type="button" class="filterSearch">Buscar</button>
+                            <button type="button" class="filterSearch" style="background-color: #00000052;">
+                                <i class="fa fa-search"></i> Buscar</button>
                         </div>
                     </div>
                 </div>

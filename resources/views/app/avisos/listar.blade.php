@@ -112,8 +112,9 @@
                                 <label for="fecha_desde">Desde:</label>
                                 <br>
                                 <hr>
+                                {{-- Se cambio la fecha --}}
                                 <input type="date" id="fecha_desde"
-                                    value="{{ request()->input('fecha_desde', date('2000-01-01')) }}" name="fecha_desde"
+                                    value="{{ request()->input('fecha_desde', date('2024-01-01')) }}" name="fecha_desde"
                                     class="form-control" style="padding: 10px 5px 5px 10px; background:#edfaff;">
                                 @error('fecha_desde')
                                     <span class="text-danger">{{ $message }}</span>
@@ -148,7 +149,7 @@
                         <div class="col-lg-12">
                             <div class="alert alert-success" role="alert">
                                 <span class="fa fa-check-circle"></span>
-                                Aplique filtros de fecha para ver sus avisos actualizados según lo que requiera.
+                                Aplique filtros de fecha para ver sus avisos actualizados o anteriores según lo que requiera.
                             </div>
                         </div>
                     </div>

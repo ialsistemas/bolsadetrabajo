@@ -202,9 +202,10 @@ $(function(){
 
     $form.on('submit', function (e) {
         e.preventDefault();
-        for(var instanceName in CKEDITOR.instances) {
+        /* Se comento esto para que pueda guardar */
+        /* for(var instanceName in CKEDITOR.instances) {
             CKEDITOR.instances[instanceName].updateElement();
-        }
+        } */
         const formData = new FormData($(this)[0]);
         actionAjax("/alumno/perfil", formData, "POST", function(data){
             onSuccessForm(data, $form, null, true, function(){

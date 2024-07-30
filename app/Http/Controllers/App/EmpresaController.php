@@ -183,8 +183,6 @@ class EmpresaController extends Controller
     }
 
    
-
-
     public function update_aviso(Request $request){
         $status = false;
 
@@ -325,7 +323,7 @@ class EmpresaController extends Controller
             'solicita_carrera' => 'required|string|max:255',
             'solicita_grado_a' => 'required|string|max:255',
             'periodo_vigencia' => 'required|date',
-            'ciclo_cursa' => 'required|string|max:10',
+            /* 'ciclo_cursa' => 'required|string|max:10', */
             'descripcion' => 'required|string',
             'salario' => 'required|numeric|min:0',
         ]);
