@@ -54,7 +54,7 @@
                   </div>
                 <div class="form-group col-lg-5 col-md-6">
                   <label for="ruc_dni" class="m-0 label-primary">RUC / DNI o Nombre Comercial</label>
-                  <input type="text" class="form-control-m form-control-sm" id="ruc_dni">
+                  <input type="text" class="form-control-m form-control-sm" id="ruc_dni" placeholder="Buscar...">
                 </div>
                 <div class="form-group col-lg-4 col-md-6">
                     <label for="actividad_eco_filter_id" class="m-0 label-primary">Tipo de Persona</label>
@@ -68,14 +68,15 @@
                 
                 <div class="form-group col-lg-3 col-md-12 d-flex flex-column">
                     <label for="" class="m-0 w-100">.</label>
-                    <a href="javascript:void(0)" class="btn-m btn-primary-m" onclick="consultarEmpleador()">Consultar</a>
+                    <a href="javascript:void(0)" class="btn-m btn-primary-m" onclick="consultarEmpleador()">
+                        <i class="fa fa-search"></i> Consultar</a>
                 </div>
-                <div class="form-group col-lg-3 col-md-12 d-flex flex-column">
+                {{-- <div class="form-group col-lg-3 col-md-12 d-flex flex-column">
                     <a href="javascript:void(0)" id="btn_mostrar" class="btn-m btn-primary-m" mostrar="" onclick="mostrarTodo()">Mostrar toda la Data</a>
-                </div>
-                <div class="form-group col-lg-3 col-md-12 d-flex flex-column">
+                </div> --}}
+                {{-- <div class="form-group col-lg-3 col-md-12 d-flex flex-column">
                     <a href="javascript:void(0)" class="btn-m btn-success-m" onclick="clickExcel()">Exportar excel</a>
-                </div>
+                </div> --}}
               </div>
         </div>
         <hr>
@@ -83,10 +84,27 @@
             @csrf
             <div class="row">
                 <div class="col-md-12">
+                    <div class="row align-items-center">
+                        <div class="col-lg-8">
+                            <div class="alert alert-success" role="alert">
+                                <span class="fa fa-check-circle"></span> <!-- Icono de check -->
+                                <strong>¡Atención!</strong> Para ver toda la información en la tabla, haz clic en el botón.
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-3 col-md-12 d-flex flex-column">
+                            <a href="javascript:void(0)" id="btn_mostrar" class="btn-m btn-primary-m" mostrar="" onclick="mostrarTodo()"
+                            style="padding: 7.5px; background: #464646;">
+                            <i class="fa fa-eye"></i> Mostrar toda la Data</a>
+                        </div>
+                    </div>
                     <table id="tableEmpresa" width="100%" class='table dataTables_wrapper no-wrap container-fluid dt-bootstrap4 no-footer'></table>
                     {{-- <table id="tableEmpresa" width="100%" class='table responsive dataTables_wrapper no-wrap'></table> --}}
                     {{-- <table id="tableEmpresa" width="100%" class='display responsive no-wrap table table-bordered table-hover table-condensed'></table> --}}
                 </div>
+            </div>
+            <div class="form-group col-lg-3 col-md-12 d-flex flex-column">
+                <a href="javascript:void(0)" class="btn-m btn-success-m" onclick="clickExcel()">
+                    <i class="fa fa-file"></i> Exportar excel</a>
             </div>
         </section>
 

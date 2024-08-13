@@ -76,24 +76,40 @@
                     </select>
                 </div>
                 <div class="form-group col-lg-3 col-md-12 d-flex flex-column">
-                    <a href="javascript:void(0)" class="btn-m btn-primary-m" onclick="consultarAvisosPostulantes()">Consultar</a>
+                    <a href="javascript:void(0)" class="btn-m btn-primary-m" onclick="consultarAvisosPostulantes()">
+                        <i class="fa fa-search"></i> Consultar</a>
                 </div>
-                <div class="form-group col-lg-3 col-md-12 d-flex flex-column">
+               {{--  <div class="form-group col-lg-3 col-md-12 d-flex flex-column">
                     <a href="javascript:void(0)" id="btn_mostrar" class="btn-m btn-primary-m" mostrar="" onclick="mostrarTodo()">Mostrar toda la Data</a>
-                </div>
-                <div class="form-group col-lg-3 col-md-12 d-flex flex-column">
-                    <a href="javascript:void(0)" class="btn-m btn-success-m" onclick="clickExcelAvisosPostulantes()">Exportar excel</a>
-                </div>
+                </div> --}}
+                
             </div>
         </div>
         <hr>
 
-        <section class="content">
+        <section class="content-header">
             @csrf
             <div class="row">
+                
                 <div class="col-md-12">
+                    <div class="row align-items-center">
+                        <div class="col-lg-8">
+                            <div class="alert alert-success" role="alert">
+                                <span class="fa fa-check-circle"></span> <!-- Icono de check -->
+                                <strong>¡Atención!</strong> Para ver toda la información en la tabla, haz clic en el botón.
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-3 col-md-16 d-flex flex-column">
+                            <a href="javascript:void(0)" id="btn_mostrar" class="btn-m btn-primary-m" mostrar="" onclick="mostrarTodo()"
+                            style="padding: 7.5px; background: #464646;"><i class="fa fa-eye"></i> Mostrar toda la Data</a>
+                        </div>
+                    </div>
                     <table id="tableAvisoPostulantes" width="100%" class='display responsive no-wrap table table-bordered table-hover table-condensed'></table>
                 </div>
+            </div>
+            <div class="form-group col-lg-3 col-md-12 d-flex flex-column">
+                <a href="javascript:void(0)" class="btn-m btn-success-m" onclick="clickExcelAvisosPostulantes()">
+                    <i class="fa fa-file"></i> Exportar excel</a>
             </div>
         </section>
 
