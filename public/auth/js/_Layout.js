@@ -168,7 +168,7 @@ $(function () {
     $.ajaxSetup({ cache: false });
 
 });
-notification()
+/* notification()
 setInterval(notification, 60000);
 function notification(){
     $.ajax({
@@ -187,7 +187,44 @@ function notification(){
             }
         }
     });
+} */
+notification();
+setInterval(notification, 60000);
+
+function notification() {
+    $.ajax({
+        url: '/home/notification',
+        type: "GET",
+        cache: false,
+        processData: false,
+        contentType: false,
+        beforeSend: function () {
+            $('#list_notification li').remove();
+        },
+        success: function (data) {
+            $("#number_notify").html(data.countaviso);
+            
+            // Limpiar la lista de notificaciones antes de agregar nuevas
+            $('#list_notification').empty();
+
+            if (data.detailsaviso.length === 0) {
+                // Si no hay notificaciones, mostrar un mensaje indicando que no hay notificaciones
+                $('#list_notification').append('<li class="li_notifi">No tienes notificaciones por ahora</li>');
+            } else {
+                // Si hay notificaciones, agregar cada una a la lista
+                for (let i = 0; i < data.detailsaviso.length; i++) {
+                    $('#list_notification').append('<li class="li_notifi" onclick="redirectFunction()"><b style="font-weight:900">' + data.detailsaviso[i].titulo + '</b> aviso por activar de la empresa ' + data.detailsaviso[i].empresas.ruc + '</li>');
+                }
+            }
+        },
+        error: function () {
+            // Manejo de errores si la solicitud AJAX falla
+            $('#list_notification').empty();
+            $('#list_notification').append('<li class="li_notifi">Error al cargar las notificaciones</li>');
+        }
+    });
 }
+
 
 function redirectFunction(){
     window.location.href = 'aviso';

@@ -7,6 +7,7 @@
 @section('styles')
     <link rel="stylesheet" href="{{ asset('auth/plugins/datatable/datatables.min.css') }}">
     <link rel="stylesheet" href="{{ asset('auth/css/inicio/core.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.6.0/css/bootstrap.min.css">
 @endsection
 <style type="text/css">
     .txt_claro {

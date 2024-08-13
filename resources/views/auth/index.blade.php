@@ -91,14 +91,14 @@
 
         <header class="main-header">
             <div class="inside-header">
-                <a href="/" class="logo">
+                <a href="{{ route('auth.inicio') }}" class="logo">
                     <span class="logo-lg">
                         <img src="{{ asset('app/img/logo.png') }}" alt="logo" class="light-logo">
                         <img src="{{ asset('app/img/logo.png') }}" alt="logo" class="dark-logo">
                     </span>
                 </a>
                 <nav class="navbar navbar-static-top">
-                    <a href="#" class="sidebar-toggle d-block d-lg-none" data-toggle="push-menu" role="button">
+                    <a href="#" class="sidebar-toggle d-block d-lg-none" data-toggle="push-menu" role="button" style="color: #363d4a">
                         <span class="sr-only">Toggle navigation</span>
                     </a>
                     <div class="navbar-custom-menu">
@@ -190,7 +190,7 @@
                             </ul>
                         </li>
                         <li
-                            class="nav-item dropdown {{ Route::currentRouteName() == 'auth.anuncio' || Route::currentRouteName() == 'auth.avisoPostulacion' ? 'active' : '' }}">
+                            class="nav-item dropdown {{ Route::currentRouteName() == 'auth.anuncio' || Route::currentRouteName() == 'auth.anuncioempresa' ? 'active' : '' }}">
                             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
                                 <span class="active-item-here"></span><i class="fa fa-photo mr-5"></i>
