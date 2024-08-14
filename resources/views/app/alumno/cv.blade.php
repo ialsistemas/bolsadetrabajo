@@ -219,7 +219,7 @@
     @endforeach
 
     
-    <div class="titulo_cursos" style="display:{{count($referenciaLaboral) > 0 ? 'block' : 'none'}}"><b>CURSOS</b></div>
+    <div class="titulo_cursos" style="display:{{count($referenciaLaboral) > 0 ? 'block' : 'none'}}"><b>FORMACIÓN COMPLEMENTARIA</b></div>
     @foreach ($referenciaLaboral as $q)
     <div class="caja_item_esperiencia">
         <div class="data_experiencia1 caja_curso_x"><b class="punto_negro_experiencia">.</b> 
