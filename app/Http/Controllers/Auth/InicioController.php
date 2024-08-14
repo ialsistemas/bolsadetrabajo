@@ -130,12 +130,13 @@ class InicioController extends Controller
     }
 
     /* Cuarto Grafico */
-
-    public function getTotalContratadosporCarrera($fecha_desde, $fecha_hasta)
+    /* Cambie porque no deb contarse los avisos eliminados */
+    /* public function getTotalContratadosporCarrera($fecha_desde, $fecha_hasta)
     {
         $datos = DB::table('alumno_avisos AS aa')
             ->join('alumnos AS a', 'aa.alumno_id', '=', 'a.id')
             ->join('estados AS e', 'aa.estado_id', '=', 'e.id')
+            ->join('avisos AS av', 'aa.aviso.id', '=', 'av.id')
             ->leftJoin('areas AS ar', 'a.area_id', '=', 'ar.id')
             ->where('e.nombre', '=', 'CONTRATADO')
             ->whereBetween('aa.created_at', [$fecha_desde, $fecha_hasta])
@@ -155,7 +156,36 @@ class InicioController extends Controller
         }
 
         return $series;
+    } */
+
+    public function getTotalContratadosporCarrera($fecha_desde, $fecha_hasta)
+    {
+        $datos = DB::table('alumno_avisos AS aa')
+            ->join('alumnos AS a', 'aa.alumno_id', '=', 'a.id')
+            ->join('estados AS e', 'aa.estado_id', '=', 'e.id')
+            ->join('avisos AS av', 'aa.aviso_id', '=', 'av.id') // Corrección aquí
+            ->leftJoin('areas AS ar', 'a.area_id', '=', 'ar.id')
+            ->where('e.nombre', '=', 'CONTRATADO')
+            ->whereBetween('aa.created_at', [$fecha_desde, $fecha_hasta])
+            ->whereNull('a.deleted_at') // no contar con los alumnos eliminados
+            ->whereNull('av.deleted_at') // Asegurarse que los avisos no estén eliminados
+            ->groupBy('ar.nombre')
+            ->select('ar.nombre AS nombre_area', DB::raw('COUNT(*) AS total_contratados'))
+            ->get();
+
+        $series = [];
+        foreach ($datos as $dato) {
+            $serie = [
+                'name' => $dato->nombre_area,
+                'y' => $dato->total_contratados,
+                'drilldown' => $dato->nombre_area, // Puedes ajustar esto según tu necesidad
+            ];
+            $series[] = $serie;
+        }
+
+        return $series;
     }
+
 
     /* Segundo Grafico */
 
