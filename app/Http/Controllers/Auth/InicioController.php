@@ -111,6 +111,7 @@ class InicioController extends Controller
             ->join('avisos as a', 'e.id', '=', 'a.empresa_id')
             ->whereBetween('a.created_at', [$fecha_desde, $fecha_hasta])
             ->whereNull('e.deleted_at') // no contar con los eliminados
+            ->whereNull('a.deleted_at')
             ->select('t.tipo as tipo_persona', DB::raw('COUNT(*) as total'))
             ->groupBy('t.tipo')
             ->get();
