@@ -100,13 +100,54 @@ class EmpresaController extends Controller
         return response()->json(['Success' => $status, 'Errors' => $validator->errors()]);
     }
 
-    public function delete(Request $request)
+    /* public function delete(Request $request)
     {
         $status = false;
         $entity = Empresa::find($request->id);
         if($entity->delete()) $status = true;
 
         return response()->json(['Success' => $status]);
+    } */
+
+    public function delete(Request $request)
+    {
+        $status = false;
+    
+        // Encuentra la entidad Empresa por ID, incluyendo los registros eliminados
+        $entity = Empresa::withTrashed()->find($request->id);
+    
+        // Verifica si la entidad existe
+        if ($entity) {
+            // Si la empresa ya está eliminada lógicamente (soft deleted)
+            if ($entity->deleted_at !== null) {
+                // Permite eliminarla de manera definitiva
+                if ($entity->forceDelete()) {
+                    $status = true;
+                }
+            } else {
+                // Verifica si hay registros en la tabla 'avisos' con el 'empresa_id' correspondiente
+                $hasAvisos = Aviso::where('empresa_id', $request->id)->exists();
+    
+                // Si no hay avisos asociados, elimina la empresa lógicamente
+                if (!$hasAvisos) {
+                    if ($entity->delete()) {
+                        $status = true;
+                    }
+                } else {
+                    // Si hay avisos asociados, devuelve un mensaje de error
+                    return response()->json(['Success' => $status, 'Message' => 'No se puede eliminar la empresa porque tiene avisos asociados.']);
+                }
+            }
+        } else {
+            // Si la entidad no existe, devuelve un mensaje de error
+            return response()->json(['Success' => $status, 'Message' => 'La empresa no existe.']);
+        }
+    
+        // Devuelve la respuesta en formato JSON
+        return response()->json(['Success' => $status]);
     }
+    
+    
+
 
 }
