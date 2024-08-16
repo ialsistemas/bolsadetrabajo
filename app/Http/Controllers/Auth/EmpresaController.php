@@ -55,7 +55,13 @@ class EmpresaController extends Controller
                         ->orderBy('created_at', 'DESC');
 
         // Filtros por fechas
-        if ($request->filled('fecha_desde') && $request->filled('fecha_hasta')) {
+        if($request->mostrar == 'mostrar'){
+            return response()->json(['data' => Empresa::with('provincias')
+            ->with('distritos')
+            ->with('actividad_economicas')
+            ->orderBy('created_at', 'DESC')
+            ->get() ]);
+        } else if ($request->filled('fecha_desde') && $request->filled('fecha_hasta')) {
             $query->whereBetween('created_at', [$request->fecha_desde, $request->fecha_hasta]);
         } elseif ($request->filled('fecha_desde')) {
             $query->where('created_at', '>=', $request->fecha_desde);
@@ -74,15 +80,6 @@ class EmpresaController extends Controller
                 $q->where('ruc', 'like', '%' . $request->ruc_dni . '%')
                 ->orWhere('nombre_comercial', 'like', '%' . $request->ruc_dni . '%');
             });
-        }
-
-        // Filtrar por mostrar
-        if ($request->filled('mostrar') && $request->mostrar == 'mostrar') {
-            // No aplicamos filtros adicionales para el caso "mostrar"
-            $data = $query->get();
-        } else {
-            // Aplicar límite si no estamos en modo "mostrar"
-            $data = $query->limit(80)->get();
         }
 
     // Retornar los datos como JSON
