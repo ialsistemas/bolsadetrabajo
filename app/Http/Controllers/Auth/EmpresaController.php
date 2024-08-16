@@ -15,6 +15,7 @@ class EmpresaController extends Controller
         return view('auth.empresa.index');
     }
 
+    /* OLD */
     public function list(Request $request)
     {
         if($request->mostrar == 'mostrar'){
@@ -41,10 +42,19 @@ class EmpresaController extends Controller
             ->with('actividad_economicas')
             ->orderBy('created_at', 'DESC')
             ->get() ]);
+        }else if ($request->filled('fecha_desde') && $request->filled('fecha_hasta')) {
+            return response()->json(['data' => Empresa::with('provincias')
+            ->where('tipo_persona', 'like', '%'.$request->actividad_eco_filter_id.'%' )
+            ->whereBetween('created_at', [$request->fecha_desde , $request->fecha_hasta])
+            ->with('distritos')
+            ->with('actividad_economicas')
+            ->orderBy('created_at', 'DESC')
+            ->get() ]);
         }else{
             return response()->json(['data' => '' ]);
         }
     }
+
 
     public function notification()
     {
