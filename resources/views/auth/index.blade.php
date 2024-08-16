@@ -208,14 +208,23 @@
                         <a class="nav-link" href="{{ route('auth.anuncio') }}"><span class="active-item-here"></span>
                             <i class="fa fa-photo mr-5"></i> <span>Anuncios</span>
                         </a>
-                    </li> --}}
+                        </li> --}}
                         <li class="nav-item {{ Route::currentRouteName() == 'auth.programa' ? 'active' : '' }}">
                             <a class="nav-link" href="{{ route('auth.programa') }}"><span
                                     class="active-item-here"></span>
                                 <i class="fa fa-bolt mr-5"></i> <span>Programas de Inserción rápida</span>
                             </a>
                         </li>
-                        {{--                     <li class="nav-item dropdown">
+                        {{-- Añadí para probar nuevos Usuarios--}}
+                       {{--  <li class="nav-item {{ Route::currentRouteName() == 'auth.programa' ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('auth.programa') }}"><span
+                                    class="active-item-here"></span>
+                                <i class="fa fa-user mr-5"></i> <span>Gestión de Usuarios</span>
+                            </a>
+                        </li> --}}
+                        
+                        {{-- Fin --}}
+                                           {{--  <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="active-item-here"></span> <i class="fa fa-cog mr-5"></i> <span>Ajustes</span></a>
                         <ul class="dropdown-menu multilevel scale-up-left">

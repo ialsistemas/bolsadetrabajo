@@ -33,15 +33,25 @@ $(function () {
         ajax: {
             url: "/auth/empresa/list_all",
             data: function (s) {
-                if ($actividad_eco_filter_id.val() != "") {
-                    s.actividad_eco_filter_id = $actividad_eco_filter_id.val();
+                // Filtros de fecha
+                if ($fecha_desde.val() != "") {
                     s.fecha_desde = $fecha_desde.val();
+                }
+                if ($fecha_hasta.val() != "") {
                     s.fecha_hasta = $fecha_hasta.val();
                 }
+
+                // Filtro por actividad económica
+                if ($actividad_eco_filter_id.val() != "") {
+                    s.actividad_eco_filter_id = $actividad_eco_filter_id.val();
+                }
+
+                // Filtro por RUC/DNI
                 if ($ruc_dni.val() != "") {
                     s.ruc_dni = $ruc_dni.val();
-                } else {
                 }
+
+                // Filtro por mostrar
                 if ($("#btn_mostrar").attr("mostrar") != "") {
                     s.mostrar = $("#btn_mostrar").attr("mostrar");
                 }
