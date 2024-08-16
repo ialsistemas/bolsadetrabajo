@@ -41,7 +41,7 @@ $(function () {
                     s.fecha_hasta = $fecha_hasta.val();
                 }
 
-                // Filtro por actividad económica
+                // Filtro por actividad económic
                 if ($actividad_eco_filter_id.val() != "") {
                     s.actividad_eco_filter_id = $actividad_eco_filter_id.val();
                 }

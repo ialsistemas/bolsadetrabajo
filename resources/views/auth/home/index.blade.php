@@ -42,11 +42,11 @@
         <div class="content-header">
             <div class="form-row">
                 <div class="form-group col-lg-5 col-md-6">
-                    <label for="ruc_dni" class="m-0 label-primary">Desde</label>
+                    <label for="ruc_dni" class="m-0 label-primary">Fecha Desde</label>
                     <input type="date" class="form-control-m form-control-sm" max="<?php echo date('Y-m-d'); ?>" id="fecha_desde" name="fecha_desde" value="<?php echo date('Y-m-01'); ?>">
                 </div>
                 <div class="form-group col-lg-4 col-md-6">
-                    <label for="ruc_dni" class="m-0 label-primary">Hasta</label>
+                    <label for="ruc_dni" class="m-0 label-primary"> Fecha Hasta</label>
                     <input type="date" class="form-control-m form-control-sm" max="<?php echo date('Y-m-d'); ?>" id="fecha_hasta" name="fecha_hasta" value="<?php echo date('Y-m-d'); ?>">
                 </div>
                 <div class="form-group col-lg-3 col-md-6">
