@@ -25,7 +25,7 @@ class AvisoController extends Controller
         return view('auth.aviso.index', ['Empresas' => Empresa::all()]);
     }
 
-    /* public function list_old(Request $request)
+    public function list(Request $request)
     {
         if($request->mostrar == 'mostrarTodo'){
             return response()->json(['data' => Aviso::whereHas('empresas', function ($q) { $q->where('deleted_at',  null);})
@@ -46,8 +46,8 @@ class AvisoController extends Controller
             ]);
         }else if(isset($request->ruc_dni)){
             return response()->json(['data' => Aviso::whereHas('empresas', function ($q) { $q->where('deleted_at',  null);})
-
-
+            /* ->whereHas('empresas', function ($q) use ($request) { if($request->empresa_filter_id != null && $request->empresa_filter_id != ""){ $q->where('id', $request->empresa_filter_id ); }})
+            ->where('titulo', 'like', '%'.$request->titulo_aviso.'%') */
             ->whereHas('empresas', function ($q) use ($request) { $q->where('ruc', 'like', '%'.$request->ruc_dni.'%' ); })
             ->with('empresas')->with('provincias')->with('areas')
             ->with('modalidades')->with('horarios')->with('provincias')
@@ -59,60 +59,7 @@ class AvisoController extends Controller
         }else{
             return response()->json(['data' => '' ]);
         }
-    } */
-
-
-
-    public function list(Request $request)
-    {
-        // Define la consulta base para Aviso
-        $query = Aviso::whereHas('empresas', function ($q) {
-            $q->whereNull('deleted_at');
-        });
-
-        // Filtra según el tipo de solicitud
-        if ($request->mostrar === 'mostrarTodo') {
-            // Consulta para mostrar todos los registros
-            $avisos = $query
-                ->with(['empresas', 'provincias', 'areas', 'modalidades', 'horarios', 'distritos'])
-                ->orderBy('created_at', 'DESC')
-                ->get();
-        } elseif ($request->mostrar === 'mostrarPendientes') {
-            // Consulta para mostrar solo los avisos pendientes
-            $avisos = $query
-                ->where('estado_aviso', false)
-                ->with(['empresas', 'provincias', 'areas', 'modalidades', 'horarios', 'distritos'])
-                ->orderBy('created_at', 'DESC')
-                ->get();
-        } elseif (isset($request->ruc_dni)) {
-            // Consulta para filtrar por RUC/DNI
-            $avisos = $query
-                ->whereHas('empresas', function ($q) use ($request) {
-                    $q->where('ruc', 'like', '%' . $request->ruc_dni . '%');
-                })
-                ->with(['empresas', 'provincias', 'areas', 'modalidades', 'horarios', 'distritos'])
-                ->orderBy('created_at', 'DESC')
-                ->limit(80)
-                ->get();
-        }elseif (isset($request->fechasemestre) && !empty($request->fechasemestre)) {
-            // Extrae el año del select fechasemestre
-            $year = $request->fechasemestre;
-        
-            // Consulta para filtrar por año
-            $avisos = $query
-                ->whereYear('created_at', $year)
-                ->with(['empresas', 'provincias', 'areas', 'modalidades', 'horarios', 'distritos'])
-                ->orderBy('created_at', 'DESC')
-                ->get();
-        }else {
-            // Caso por defecto si no se cumple ninguna de las condiciones anteriores
-            $avisos = collect(); // Retorna una colección vacía en lugar de una cadena vacía
-        }
-
-        // Devuelve la respuesta JSON con los datos obtenidos
-        return response()->json(['data' => $avisos]);
     }
-
 
     public function partialViewPostulantes($id)
     {
