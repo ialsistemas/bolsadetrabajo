@@ -107,7 +107,7 @@ $(function () {
                 },
                 className: "d-none",
             },
-            { title: "Razón Social", data: "empresas.razon_social" },
+            { title: "RazónSocial", data: "empresas.razon_social" },
             {
                 title: "Nombre comercial de la empresa",
                 data: "empresas.nombre_comercial",
