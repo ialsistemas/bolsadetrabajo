@@ -49,8 +49,7 @@
             <div class="form-row">
                 <div class="form-group col-lg-6 col-md-6">
                     <label for="ruc_dni" class="m-0 label-primary">Ruc/DNI del Empleador</label>
-                    <input type="text" class="form-control-m form-control-sm" id="ruc_dni"
-                        placeholder="Buscar...">
+                    <input type="text" class="form-control-m form-control-sm" id="ruc_dni" placeholder="Buscar...">
                 </div>
                 <div class="form-group col-lg-3 col-md-12 d-flex flex-column">
                     <label for="" class="m-0 w-100">.</label>
@@ -65,6 +64,57 @@
 
             </div>
         </div>
+        <hr>
+        <div class="content-header" style="background-color:#00b98b12 !important;">
+            <div class="form-row">
+                <div class="form-group col-lg-4 col-md-4">
+                    <label for="fechasemestre" class="m-0 label-primary" style="color:#004130 !important;">
+                        Filtro por Año
+                    </label>
+                    <select name="fechasemestre" id="fechasemestre" class="form-control-m form-control-sm" required>
+                        <option value="" selected="true">-- Seleccione... --</option>
+                        <option value="2020">2020</option>
+                        <option value="2021">2021</option>
+                        <option value="2022">2022</option>
+                        <option value="2023">2023</option>
+                        <option value="2024">2024</option>
+                    </select>
+                </div>
+                <div class="form-group col-lg-3 col-md-12 d-flex flex-column">
+                    <label for="" class="m-0 w-100">.</label>
+                    <a href="javascript:void(0)" id="filterButton" class="btn-m btn-primary-m"
+                        style="padding: 7.5px; background: #00b98b;">
+                        <i class="fa fa-search"></i> Filtrar por Año
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+        <script>
+            document.getElementById('filterButton').addEventListener('click', function() {
+                var selectElement = document.getElementById('fechasemestre');
+                var selectedValue = selectElement.value;
+
+                if (selectedValue === "") {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: '¡Atención!',
+                        text: 'Por favor, seleccione un año.',
+                        confirmButtonText: 'Aceptar'
+                    });
+                } else {
+                    mostrarTodoxAño();
+                }
+            });
+
+            function mostrarTodoxAño() {
+                // Aquí va la lógica de la función mostrarTodoxAño
+                console.log('Filtrar por año:', document.getElementById('fechasemestre').value);
+            }
+        </script>
+
+
         <hr>
 
         <section class="content-header">
@@ -105,4 +155,8 @@
     <script type="text/javascript" src="{{ asset('auth/plugins/datatable/datatables.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('auth/plugins/datatable/dataTables.config.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('auth/js/aviso/index.js') }}"></script>
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 @endsection
