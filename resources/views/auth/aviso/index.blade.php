@@ -55,7 +55,7 @@
                 <div class="form-group col-lg-3 col-md-12 d-flex flex-column">
                     <label for="" class="m-0 w-100">.</label>
                     <a href="javascript:void(0)" class="btn-m btn-primary-m" onclick="consultarAvisos()">
-                        <i class="fa fa-search"></i> Consultar</a>
+                        <i class="fa fa-search"></i> Consultar por Ruc/DNI</a>
                 </div>
                 <div class="form-group col-lg-3 col-md-12 d-flex flex-column">
                     <label for="" class="m-0 w-100">.</label>
@@ -63,6 +63,30 @@
                         onclick="mostrarPendientes()"><i class="fa fa-exclamation-triangle"></i> Pendientes por Activar</a>
                 </div>
 
+            </div>
+        </div>
+        <hr>
+        <div class="content-header" style="background-color:#00b98b12 !important;">
+            <div class="form-row">
+                <div class="form-group col-lg-4 col-md-4">
+
+                    <label for="actividad_eco_filter_id" class="m-0 label-primary" style="color:#004130 !important;">Filtro
+                        por Año</label>
+                        <select name="fechasemestre" id="fechasemestre" class="form-control-m form-control-sm" required>
+                            <option value="" selected="true">-- Seleccione... --</option>
+                            <option value="2020">2020</option>
+                            <option value="2021">2021</option>
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                        </select>                      
+                </div>
+                <div class="form-group col-lg-3 col-md-12 d-flex flex-column">
+                    <label for="" class="m-0 w-100">.</label>
+                    <a href="javascript:void(0)" class="btn-m btn-primary-m" onclick="mostrarTodoxAño()"
+                        style="padding: 7.5px; background: #00b98b;">
+                        <i class="fa fa-search"></i> Filtrar por Año</a>
+                </div>
             </div>
         </div>
         <hr>
