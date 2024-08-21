@@ -36,12 +36,19 @@
 @section('contenido')
     <div class="content-wrapper">
 
-        <section class="content-header">
-            <h1>
-                Listado Avisos
-                <small>Mantenimiento</small>
-            </h1>
+        <section class="content-header d-flex justify-content-between align-items-center">          
+                <h2>
+                    Listado Avisos
+                    <small>| Mantenimiento</small>
+                </h2>           
+            <!-- Botón de refresco alineado a la derecha -->
+            <div>
+                <a href="javascript:void(0)" class="btn-m btn-secondary-m" onclick="window.location.reload();">
+                    <i class="fa fa-refresh"></i> Refrescar | Listado de Avisos
+                </a>
+            </div>
         </section>
+        
 
 
         <br>
@@ -86,7 +93,9 @@
                     <a href="javascript:void(0)" class="btn-m btn-primary-m" onclick="mostrarTodoxAño()"
                         style="padding: 7.5px; background: #00b98b;">
                         <i class="fa fa-search"></i> Filtrar por Año</a>
+                        
                 </div>
+               
             </div>
         </div>
         <hr>
@@ -116,9 +125,14 @@
                     {{-- <table id="tableAviso" width="100%" class='display responsive no-wrap table table-bordered table-hover table-condensed'></table> --}}
                 </div>
                 <div class="form-group col-lg-3 col-md-12 d-flex flex-column">
-                    <a href="javascript:void(0)" class="btn-m btn-success-m" onclick="clickExcelAvisos()">
-                        <i class="fa fa-file"></i> Exportar en Excel</a>
+                    <!-- Botón para exportar en Excel -->
+                    <a href="javascript:void(0)" class="btn-m btn-success-m mb-2" onclick="clickExcelAvisos()">
+                        <i class="fa fa-file"></i> Exportar en Excel
+                    </a>
+                    
                 </div>
+                
+                
             </div>
         </section>
 

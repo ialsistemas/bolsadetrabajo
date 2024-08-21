@@ -43,7 +43,7 @@
                 data-ajax-failure="OnFailureActualizoPerfil">
                 <div class="row">
                     <div class="col-md-3 filter-cont">
-                        <div class="filter">
+                        <div class="filter" style="background-color: #f5f9fb !important;">
                             <div class="content-perfil">
                                 <div class="imagen-perfil">
                                     <img src="{{ $alumno != null && $alumno->foto != null
@@ -79,7 +79,7 @@
                     </div>
                     <div class="col-md-7">
                         @csrf
-                        <div class="card aviso">
+                        <div class="card aviso" style="background-color:#f5f9fb !important;">
 
                             @if ($errors != null && count($errors) > 0)
                                 <div class="form-group row">
@@ -98,10 +98,46 @@
                                     </div>
                                 </div>
                             @endif
+                            <style>
+                                #main .formulario input,
+                                #main .formulario select,
+                                #main .formulario textarea {
+                                    background: #ffffff;
+                                    border-color: #dadada;
+                                    font-family: Arial, Helvetica, sans-serif;
+                                   /*  font-weight: 400; */
+                                    box-shadow: -6px 5px 20px 0rem rgba(230, 230, 230, 0.397);
+                                    border-radius: 10px;
+                                }
 
+                                .form-input:focus {
+                                    border-color: #80bdff;
+                                    outline: none;
+                                    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+                                }
+
+                                /* Estilo cuando el elemento está enfocado (es decir, cuando está seleccionado) */
+                                #main .formulario input:focus,
+                                #main .formulario select:focus,
+                                #main .formulario textarea:focus {
+                                    border-color: #80bdff;
+                                    outline: none;
+                                    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+                                }
+
+                                /* Añadido para mejorar la experiencia al estar enfocado y también para el hover */
+                                #main .formulario input:focus:hover,
+                                #main .formulario select:focus:hover,
+                                #main .formulario textarea:focus:hover {
+                                    border-color: #66aaff;
+                                    /* Color del borde al pasar el cursor cuando está enfocado */
+                                    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.35);
+                                    /* Cambia la sombra cuando está enfocado y se pasa el cursor */
+                                }
+                            </style>
                             <div class="form-group row">
                                 <div class="col-md-6 mt-3">
-                                    <label for="dni">DNI/CE/PASAPORTE</label>
+                                    <label for="dni" t>DNI/CE/PASAPORTE</label>
                                     <input type="text" class="form-input" name="dni" id="dni" minlength="8"
                                         maxlength="15" placeholder="DNI" onkeypress="return isNumberKey(event)"
                                         value="{{ $alumno->dni }}" required>
@@ -381,13 +417,14 @@
                                 resize: auto !important;
                             }
                         </style>
-                        <div class="card aviso mt-2">
+                        <div class="card aviso mt-2" style="background-color:#f5f9fb;">
 
                             {{-- @if ($alumno->hoja_de_vida != null && $alumno->hoja_de_vida != '')
                                     <a href="/uploads/alumnos/archivos/{{ $alumno->hoja_de_vida }}" class="btn_cv" target="_blank"> Descargar mi CV </a>
                                 @endif --}}
                             <button type="submit"><i class="fa fa-save"></i> Guardar</button>
-                            <a href="pdf" class="btn_cv" target="_blank"> <i class="fa fa-download"></i> Descargar mi CV </a>
+                            <a href="pdf" class="btn_cv" target="_blank"> <i class="fa fa-download"></i> Descargar
+                                mi CV </a>
 
                             <a href="{{ route('index') }}" class="text-uppercase">Ver Avisos</a>
                         </div>

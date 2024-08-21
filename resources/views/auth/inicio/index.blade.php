@@ -34,12 +34,18 @@
 @section('contenido')
     <div class="content-wrapper">
 
-        <section class="content-header">
-            <h1>
+        <section class="content-header d-flex justify-content-between align-items-center">          
+            <h2>
                 Dashboard
                 <small>| Inicio</small>
-            </h1>
-        </section>
+            </h2>           
+        <!-- Botón de refresco alineado a la derecha -->
+        <div>
+            <a href="javascript:void(0)" class="btn-m btn-secondary-m" onclick="window.location.reload();">
+                <i class="fa fa-refresh"></i> Refrescar | Dashboard
+            </a>
+        </div>
+    </section>
 
         <br>
         {{-- Cargando --}}
