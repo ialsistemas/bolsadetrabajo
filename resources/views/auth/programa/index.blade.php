@@ -47,7 +47,7 @@
                     @csrf
                     <div class="form-group col-lg-12">
                         <label for="registro" class="m-0 label-primary">Fecha</label>
-                        <input type="date" class="form-control form-control-sm" min="<?php echo date('Y-m-d'); ?>" id="registro"
+                        <input type="date" class="form-control form-control-sm" {{-- min="<?php echo date('Y-m-d'); ?>" --}} id="registro"
                             name="registro" value="{{ old('registro') }}" required>
                     </div>
                     <div class="form-group col-lg-12">

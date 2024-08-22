@@ -180,6 +180,7 @@ class InicioController extends Controller
             ->whereBetween('aa.created_at', [$fecha_desde, $fecha_hasta])
             ->whereNull('a.deleted_at') // no contar con los alumnos eliminados
             ->whereNull('av.deleted_at') // Asegurarse que los avisos no estén eliminados
+            ->distinct() // Asegura resultados únicos antes de agrupar
             ->groupBy('ar.nombre')
             ->select('ar.nombre AS nombre_area', DB::raw('COUNT(*) AS total_contratados'))
             ->get();
