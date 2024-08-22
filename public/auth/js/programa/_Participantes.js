@@ -100,10 +100,10 @@ $("#buscardni").click(function () {
     }
 
     // Verificar si el dni tiene exactamente 8 dígitos
-    if ($(dni).val().length !== 8) {
+   /*  if ($(dni).val().length !== 8) {
         swal("", "El DNI debe tener exactamente 8 dígitos.", "error");
-        return; // Salir de la función si el dni no tiene 8 dígitos
-    }
+        return; 
+    } */
 
     // Si el dni tiene exactamente 8 dígitos, continuar con la búsqueda
     $.ajax({

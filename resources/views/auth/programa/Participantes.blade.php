@@ -35,8 +35,7 @@
                                         style="color:red;font-size:10px">(Obligatorio*)</b></label>
                                 <div class="input-group">
                                     <input autocomplete="off" type="text" class="form-control form-control-sm"
-                                        id="dni" name="dni" placeholder="Ingresar DNI" minlength="1"
-                                        maxlength="8" required>
+                                        id="dni" name="dni" placeholder="Ingresar DNI" minlength="1" required>
                                     <div class="input-group-append">
                                         <button class="btn btn-outline-secondary" id="buscardni" type="button"
                                             style="background-color: #0072bf; color: white;">
