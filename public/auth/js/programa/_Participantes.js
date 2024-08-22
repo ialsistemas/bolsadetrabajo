@@ -95,15 +95,9 @@ $("#buscardni").click(function () {
 
     // Verificar si el campo dni está vacío
     if ($(dni).val().trim() === "") {
-        swal("", "Ingrese su DNI para buscar la información.", "warning");
+        swal("", "Ingrese el documento para buscar la información.", "warning");
         return; // Salir de la función si el dni está vacío
     }
-
-    // Verificar si el dni tiene exactamente 8 dígitos
-   /*  if ($(dni).val().length !== 8) {
-        swal("", "El DNI debe tener exactamente 8 dígitos.", "error");
-        return; 
-    } */
 
     // Si el dni tiene exactamente 8 dígitos, continuar con la búsqueda
     $.ajax({
