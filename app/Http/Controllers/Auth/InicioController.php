@@ -67,7 +67,7 @@ class InicioController extends Controller
             ->join('programas as pr', 'p.id_programa', '=', 'pr.id')
             ->select('pr.tipo_programa', DB::raw('COUNT(*) as cantidad_contratados'))
             ->where('p.estado', 'Contratado')
-            ->whereBetween('pr.created_at', [$fecha_desde, $fecha_hasta])
+            ->whereBetween('pr.registro', [$fecha_desde, $fecha_hasta])
             ->whereNull('pr.deleted_at')
             ->whereNull('p.deleted_at') // no contar con los eliminados participantes
             ->groupBy('pr.tipo_programa')
