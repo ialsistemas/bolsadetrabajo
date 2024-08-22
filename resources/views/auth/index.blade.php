@@ -98,7 +98,8 @@
                     </span>
                 </a>
                 <nav class="navbar navbar-static-top">
-                    <a href="#" class="sidebar-toggle d-block d-lg-none" data-toggle="push-menu" role="button" style="color: #363d4a">
+                    <a href="#" class="sidebar-toggle d-block d-lg-none" data-toggle="push-menu" role="button"
+                        style="color: #363d4a">
                         <span class="sr-only">Toggle navigation</span>
                     </a>
                     <div class="navbar-custom-menu">
@@ -126,7 +127,7 @@
                                             {{ Auth::guard('web')->user()->nombres }}
                                             <small class="mb-5">{{ Auth::guard('web')->user()->email }}</small>
                                             <a href="#"
-                                                class="btn btn-danger btn-sm btn-rounded">Administrador</a>
+                                                class="btn btn-danger btn-sm btn-rounded"> <i class="fa fa-user"></i> {{ Auth::guard('web')->user()->profile->name }}</a>
                                         </p>
                                     </li>
                                     <li class="user-body">
@@ -215,26 +216,35 @@
                                 <i class="fa fa-bolt mr-5"></i> <span>Programas de Inserción rápida</span>
                             </a>
                         </li>
-                        {{-- Añadí para probar nuevos Usuarios--}}
-                       {{--  <li class="nav-item {{ Route::currentRouteName() == 'auth.programa' ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ route('auth.programa') }}"><span
+                        @if(Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_DESARROLLADOR)
+                        {{-- Añadí para probar nuevos Usuarios --}}
+                        <li class="nav-item {{ Route::currentRouteName() == 'auth.usuarios' ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('auth.usuarios') }}"><span
                                     class="active-item-here"></span>
                                 <i class="fa fa-user mr-5"></i> <span>Gestión de Usuarios</span>
                             </a>
-                        </li> --}}
-                        
+                        </li>
+                        @endif
                         {{-- Fin --}}
-                                           {{--  <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="active-item-here"></span> <i class="fa fa-cog mr-5"></i> <span>Ajustes</span></a>
-                        <ul class="dropdown-menu multilevel scale-up-left">
-                            <li class="nav-item"><a class="nav-link" href="{{ route('auth.area') }}">Áreas</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{{ route('auth.horario') }}">Horarios</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{{ route('auth.modalidad') }}">Modalidades</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{{ route('auth.habilidad') }}">Habilidades Personales</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{{ route('auth.habilidad_profesional') }}">Habilidades Profesionales</a></li>
-                        </ul>
-                    </li> --}}
+                        {{-- <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                <span class="active-item-here"></span> <i class="fa fa-cog mr-5"></i>
+                                <span>Ajustes</span></a>
+                            <ul class="dropdown-menu multilevel scale-up-left">
+                                <li class="nav-item"><a class="nav-link" href="{{ route('auth.area') }}">Áreas</a>
+                                </li>
+                                <li class="nav-item"><a class="nav-link"
+                                        href="{{ route('auth.horario') }}">Horarios</a></li>
+                                <li class="nav-item"><a class="nav-link"
+                                        href="{{ route('auth.modalidad') }}">Modalidades</a></li>
+                                <li class="nav-item"><a class="nav-link"
+                                        href="{{ route('auth.habilidad') }}">Habilidades Personales</a></li>
+                                <li class="nav-item"><a class="nav-link"
+                                        href="{{ route('auth.habilidad_profesional') }}">Habilidades Profesionales</a>
+                                </li>
+                            </ul>
+                        </li> --}}
 
                     </ul>
                 </div>
@@ -273,8 +283,9 @@
 
                 <!-- Copyright -->
                 <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-                    © 2024 Todos los derechos reservados para 
-                    <a class="text-white" href="https://www.ial.edu.pe/" target="_blank">Instituto Arzobispo Loayza</a>
+                    © 2024 Todos los derechos reservados para
+                    <a class="text-white" href="https://www.ial.edu.pe/" target="_blank">Instituto Arzobispo
+                        Loayza</a>
                 </div>
                 <!-- Copyright -->
             </footer>
@@ -296,9 +307,36 @@
     <script type="text/javascript" src="{{ asset('auth/plugins/moment/moment.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('auth/plugins/moment/es.js') }}"></script>
     <script type="text/javascript" src="{{ asset('auth/js/_Layout.js') }}"></script>
+    {{-- Para bloquear el F12 y otras funciones --}}
+    {{-- <script>
+        document.addEventListener("keydown", function(e) {
+            // Deshabilitar F12
+            if (e.keyCode === 123) {
+                e.preventDefault();
+                return false;
+            }
+
+            // Deshabilitar Ctrl+Shift+I (DevTools)
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
+                e.preventDefault();
+                return false;
+            }
+
+            // Deshabilitar Ctrl+U (Ver fuente)
+            if (e.ctrlKey && e.keyCode === 85) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        document.addEventListener("contextmenu", function(e) {
+            e.preventDefault();
+        });
+    </script> --}}
     <script type="text/javascript">
         const usuarioLoggin = {
             user_id: {{ \Illuminate\Support\Facades\Auth::guard('web')->user()->id }},
+            profile_id: {{ \Illuminate\Support\Facades\Auth::guard('web')->user()->profile_id  }}
         }
     </script>
 

@@ -217,10 +217,12 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:web'], function () {
 
     // SECTION USUARIO
 
-    Route::group(['prefix' => 'usuario'], function () {
-        Route::get('/', 'Auth\UsuarioController@index')->name('auth.usuario');
-        Route::get('/list_all', 'Auth\UsuarioController@list_all')->name('auth.usuario.list_all');
-        Route::post('/store', 'Auth\UsuarioController@store')->name('auth.usuario.store');
+    Route::group(['prefix' => 'usuarios'], function () {
+        Route::get('/', 'Auth\UsuariosController@index')->name('auth.usuarios');
+        Route::get('/list_all', 'Auth\UsuariosController@list_all')->name('auth.usuarios.list_all');
+        Route::post('/store', 'Auth\UsuariosController@store')->name('auth.usuarios.store');
+        Route::post('/delete', 'Auth\UsuariosController@delete')->name('auth.usuarios.delete');
+        Route::get('/partialView/{id}', 'Auth\UsuariosController@partialView')->name('auth.usuarios.create');
     });
 
     // END SECTION USUARIO

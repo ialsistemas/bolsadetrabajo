@@ -24,6 +24,10 @@ class App
     public static $ESTADO_ACEPTADOS = 4;
     public static $ESTADO_DESCARTADOS = 5;
 
+    public static $PERFIL_DESARROLLADOR= 1;
+    public static $PERFIL_ADMINISTRADOR = 2;
+    public static $PERFIL_SUPERVISOR = 3;
+
     public static function ObtenerNombreMes($mes)
     {
         $nombre = "";

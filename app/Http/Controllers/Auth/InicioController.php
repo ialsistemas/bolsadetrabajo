@@ -94,13 +94,23 @@ class InicioController extends Controller
             ->count();
     }
 
-    private function getTotalAvisos($fecha_desde, $fecha_hasta)
+    /* private function getTotalAvisos($fecha_desde, $fecha_hasta)
     {
         return DB::table('avisos')
             ->whereBetween('created_at', [$fecha_desde, $fecha_hasta])
             ->whereNull('deleted_at') // no contar con los eliminados
             ->count();
+    } */
+    private function getTotalAvisos($fecha_desde, $fecha_hasta)
+    {
+        return DB::table('avisos')
+            ->join('empresas', 'avisos.empresa_id', '=', 'empresas.id')
+            ->whereBetween('avisos.created_at', [$fecha_desde, $fecha_hasta])
+            ->whereNull('avisos.deleted_at') // no contar con los eliminados
+            ->whereNull('empresas.deleted_at') // empresas no eliminadas
+            ->count();
     }
+
     /* Fin Indicadores */
 
     /* Tercer Grafico */
