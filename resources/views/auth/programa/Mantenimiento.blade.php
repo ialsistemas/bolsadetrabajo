@@ -16,7 +16,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                     <label for="registro" class="m-0 label-primary">Fecha</label>
-                                    <input type="date" class="form-control form-control-sm" {{-- min="<?php echo date('Y-m-d'); ?>" --}} id="registro"
+                                    <input type="date" class="form-control form-control-sm" id="registro"
                                         name="registro" value="{{ $Entity != null ? $Entity->registro : '' }}" required>
                             </div>
                             <div class="col-md-4">

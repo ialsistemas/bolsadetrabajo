@@ -52,7 +52,7 @@ class AvisoPostulacionController extends Controller
             ->join('areas','areas.id','=','alumnos.area_id')
             ->where('alumnos.deleted_at', NULL)
             ->where('avisos.deleted_at', NULL)
-            ->distinct()
+            /* ->distinct() */
             ->orderBy('alumno_avisos.created_at', 'DESC')
             ->get();
         }else{
@@ -83,7 +83,7 @@ class AvisoPostulacionController extends Controller
             ->where('alumnos.egresado', 'like', '%'.$request->tipo_estudiante.'%')
             ->where('alumnos.deleted_at', NULL)
             ->where('avisos.deleted_at', NULL)
-            ->distinct()
+            /* ->distinct() */
             ->orderBy('alumno_avisos.created_at', 'DESC')
             ->get();
         }
