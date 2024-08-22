@@ -40,7 +40,7 @@ $(function () {
                     return meta.row + 1;
                 },
             },
-            { title: "ID Participante", data: "id_participante" },
+            /* { title: "ID Participante", data: "id_participante" }, */
             { title: "Fecha", data: "registro" },
             {
                 title: "Nombres y Apellidos",

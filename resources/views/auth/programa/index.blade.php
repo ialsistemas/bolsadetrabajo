@@ -332,7 +332,7 @@
             </div>
         </div>
 
-        <script>
+        {{-- <script>
             // Script para validar el campo DNI
             document.addEventListener('DOMContentLoaded', function() {
                 var dniInput = document.getElementById('dni');
@@ -346,7 +346,7 @@
                     }
                 });
             });
-        </script>
+        </script> --}}
 
         {{-- Script para poder agregar nuevo puesto opcional --}}
         <script>

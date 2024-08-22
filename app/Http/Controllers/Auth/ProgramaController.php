@@ -222,7 +222,7 @@ public function delete(Request $request)
             ->first();
     
         if ($existingParticipant) {
-            return response()->json(['Success' => false, 'error' => 'Ya existe un participante con DNI ' . $request->dni . ' en este programa'], 400);
+            return response()->json(['Success' => false, 'Message' => 'Ya existe un participante con DNI ' . $request->dni . ' en este programa']);
         }
     
         // Si no existe, procede a crear el participante
