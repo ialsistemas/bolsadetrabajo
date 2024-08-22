@@ -55,8 +55,8 @@
                                 style="color:red;font-size:10px">(Obligatorio*)</b></label>
                         <select name="tipo_programa" id="tipo_programa" class="form-control form-control-sm" required>
                             <option value="">Seleccione</option>
-                            <option value="Bolsa de Trabajo"
-                                {{ old('tipo_programa') == 'Bolsa de Trabajo' ? 'selected' : '' }}>Bolsa de Trabajo</option>
+                            <option value="Feria laboral" {{ old('tipo_programa') == 'Feria laboral' ? 'selected' : '' }}>
+                                Feria laboral</option>
                             <option value="Talent Day" {{ old('tipo_programa') == 'Talent Day' ? 'selected' : '' }}>Talent
                                 Day</option>
                             <option value="Nexo Laboral" {{ old('tipo_programa') == 'Nexo Laboral' ? 'selected' : '' }}>Nexo
@@ -129,8 +129,8 @@
                             name="descartado" value="{{ old('descartado') }}" placeholder="Ingrese Cantidad">
                     </div> --}}
 
-                    
-                   {{--  <div>
+
+                    {{--  <div>
                         <h3 class="col-lg-12">Datos del <span style="color: #0072bf">Estudiante</span></h3>
                         <div style="display: flex; flex-wrap: wrap;">
                             <div class="form-group col-lg-6">
@@ -302,9 +302,9 @@
                         </div>
                     </div> --}}
                     <div class="form-group col-lg-12">
-                        
-                        <button type="submit" class="btn btn-primary"
-                            style="border-color:#2ecc71 !important;">Guardar Programa</button>
+
+                        <button type="submit" class="btn btn-primary" style="border-color:#2ecc71 !important;">Guardar
+                            Programa</button>
                     </div>
                 </form>
                 <div class="col-lg-8 col-md-8">
@@ -376,7 +376,7 @@
         </script>
         {{-- Fin de Script --}}
 
-       {{--  <section class="content">
+        {{--  <section class="content">
             @csrf
             <div class="row">
                 <div class="col-md-12">

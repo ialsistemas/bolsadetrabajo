@@ -30,9 +30,9 @@
                                 <label for="">Programa</label>
                                 <select name="tipo_programa" id="tipo_programa" class="form-input" required>
                                     <option value="" hidden>-- Seleccione --</option>
-                                    <option value="Bolsa de Trabajo"
-                                        {{ old('tipo_programa', isset($Entity) ? $Entity->tipo_programa : '') == 'Bolsa de Trabajo' ? 'selected' : '' }}>
-                                        Bolsa de Trabajo</option>
+                                    <option value="Feria laboral"
+                                        {{ old('tipo_programa', isset($Entity) ? $Entity->tipo_programa : '') == 'Feria laboral' ? 'selected' : '' }}>
+                                        Feria laboral</option>
                                     <option value="Talent Day"
                                         {{ old('tipo_programa', isset($Entity) ? $Entity->tipo_programa : '') == 'Talent Day' ? 'selected' : '' }}>
                                         Talent Day</option>
