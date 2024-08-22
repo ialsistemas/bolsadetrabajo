@@ -34,7 +34,7 @@ class Programa extends Model
         ];
     public function participantes()
     {
-        return $this->hasMany(Participante::class, 'id_programa', 'id');
+        return $this->hasMany(Participantes::class, 'id_programa', 'id');
     }
       
     

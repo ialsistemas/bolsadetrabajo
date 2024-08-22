@@ -71,16 +71,34 @@ class ProgramaController extends Controller
 
 
 
-    public function delete(Request $request)
-    {
-        $status = false;
+public function delete(Request $request)
+{
+    $status = false;
+    
+    // Encuentra el programa con el id proporcionado
+    $entity = Programa::find($request->id);
 
-        $entity = Programa::find($request->id);
+    if ($entity) {
+        // Verifica si hay participantes asociados al programa
+        $hasParticipants = $entity->Participantes()->exists();
 
-        if($entity->delete()) $status = true;
-
-        return response()->json(['Success' => $status]);
+        if (!$hasParticipants) {
+            // Elimina el programa si no tiene participantes asociados
+            if ($entity->delete()) {
+                $status = true;
+            }
+        } else {
+            // Puedes devolver un mensaje de error si el programa tiene participantes
+            return response()->json(['Success' => $status, 'Message' => 'No se puede eliminar el programa porque tiene participantes asociados.']);
+        }
+    } else {
+        // Devuelve un mensaje de error si el programa no se encuentra
+        return response()->json(['Success' => $status, 'Message' => 'Programa no encontrado.']);
     }
+
+    return response()->json(['Success' => $status]);
+}
+
 
     
 
