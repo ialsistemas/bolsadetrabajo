@@ -42,7 +42,7 @@ $("#buscar_dni_alumno").click(function(){
                     $("#apellidos").val(data.Apellidos)
                     $("#telefono").val(data.celular.replace(/ /g, ""))                  
                     $("#email").val(data.email)
-                    $("#fecha_nacimiento").val( data.nacimiento.substring(8,10)+"/"+data.nacimiento.substring(5,7)+"/"+data.nacimiento.substring(0,4) )
+                    $("#fecha_nacimiento").val( data.nacimiento )
                     $("#validationDni").html("Dni correcto.").removeClass("text-muted").removeClass("text-danger").addClass("text-success")
                     $(dni).removeClass("border-danger border-dark").addClass("border-success")
                     $("#btn-registrar").prop("disabled",false)

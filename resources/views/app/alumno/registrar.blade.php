@@ -4,12 +4,13 @@
     <link rel="stylesheet" href="{{ asset('app/css/avisos/index.min.css') }}">
     <link rel="stylesheet" href="{{ asset('app/plugins/datepicker/datepicker3.css') }}">
     <style type="text/css">
-        .hidden{ display: none !important;}
+        .hidden {
+            display: none !important;
+        }
     </style>
 @endsection
 
 @section('content')
-
     {{-- <div id="main">
 
         <div id="loading-avisos">
@@ -96,7 +97,7 @@
                                 <div class="col-md-6">
                                     <select name="provincia_id" id="provincia_id" class="form-input {{ $errors->has('provincia_id') ? ' is-invalid' : '' }}" required>
                                         <option value="">Departamento</option>
-                                        @foreach($Provincias as $q)
+                                        @foreach ($Provincias as $q)
                                             <option value="{{ $q->id }}">{{ $q->nombre }}</option>
                                         @endforeach
                                     </select>
@@ -121,7 +122,7 @@
                                 <div class="col-md-6">
                                     <select name="area_id" id="area_id" class="form-input {{ $errors->has('area_id') ? ' is-invalid' : '' }}" required>
                                         <option value="">Programa de estudios</option>
-                                        @foreach($Areas as $q)
+                                        @foreach ($Areas as $q)
                                             <option value="{{ $q->id }}">{{ $q->nombre }}</option>
                                         @endforeach
                                     </select>
@@ -187,19 +188,35 @@
                     <div class="section_page_login">
                         <a href="{{ route('index') }}" class="active-line-bottom" style="padding:22px !important">Alumno</a>
                     </div>
-                    <form enctype="multipart/form-data" action="{{ route('alumno.registrar_alumno.post') }}" class="form-login" method="post">
+                    <form enctype="multipart/form-data" action="{{ route('alumno.registrar_alumno.post') }}"
+                        class="form-login" method="post">
                         @csrf
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <div class="input-group">
-                                    <input type="text" autocomplete="off" style="border:2px solid #0072bf !important;" maxlength="11" class="form-control {{ $errors->has('dni') ? ' is-invalid' : '' }}" value="{{ old('dni') }}" name="dni" id="dni" onkeypress="return isNumberKey(event)" placeholder="Ingrese su DNI" required>
+                                    <input type="text" autocomplete="off"
+                                        style="border:2px solid #0072bf !important;"
+                                        maxlength="11" class="form-control {{ $errors->has('dni') ? ' is-invalid' : '' }}"
+                                        value="{{ old('dni') }}" name="dni" id="dni"
+                                        onkeypress="return isNumberKey(event)" placeholder="Ingrese su DNI" required>
                                     <div class="input-group-append">
                                         <a href="javascript:void(0);" class="btn btn-success px-3" id="buscar_dni_alumno">Buscar</a>
                                     </div>
                                 </div>
+                                
+                                <!-- Mostrar el mensaje de error debajo del campo -->
+                                @if ($errors->has('dni'))
+                                    <div class="invalid-feedback">
+                                        <strong>{{ $errors->first('dni') }}</strong>
+                                    </div>
+                                @endif
+                                
+                                
                             </div>
                             <div class="col-md-6 mb-3">
-                                <input type="text" placeholder="Nombres" class="form-control-m {{ $errors->has('nombres') ? ' is-invalid' : '' }}" value="{{ old('nombres') }}" name="nombres" id="nombres" readonly>
+                                <input type="text" placeholder="Nombres"
+                                    class="form-control-m {{ $errors->has('nombres') ? ' is-invalid' : '' }}"
+                                    value="{{ old('nombres') }}" name="nombres" id="nombres" readonly>
                                 @if ($errors->has('nombres'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('nombres') }}</strong>
@@ -207,7 +224,9 @@
                                 @endif
                             </div>
                             <div class="col-md-6 mb-3">
-                                <input type="text" placeholder="Apellidos" class="form-control-m {{ $errors->has('apellidos') ? ' is-invalid' : '' }}" value="{{ old('apellidos') }}"  name="apellidos" id="apellidos" readonly>
+                                <input type="text" placeholder="Apellidos"
+                                    class="form-control-m {{ $errors->has('apellidos') ? ' is-invalid' : '' }}"
+                                    value="{{ old('apellidos') }}" name="apellidos" id="apellidos" readonly>
                                 @if ($errors->has('apellidos'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('apellidos') }}</strong>
@@ -215,7 +234,10 @@
                                 @endif
                             </div>
                             <div class="col-md-6 mb-3">
-                                <input type="text" placeholder="Teléfono" class="form-control-m {{ $errors->has('telefono') ? ' is-invalid' : '' }}"  value="{{ old('telefono') }}"   name="telefono" id="telefono" minlength="9" maxlength="9" onkeypress="return isNumberKey(event)" readonly>
+                                <input type="text" placeholder="Teléfono"
+                                    class="form-control-m {{ $errors->has('telefono') ? ' is-invalid' : '' }}"
+                                    value="{{ old('telefono') }}" name="telefono" id="telefono" minlength="9"
+                                    maxlength="9" onkeypress="return isNumberKey(event)" readonly>
                                 @if ($errors->has('telefono'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('telefono') }}</strong>
@@ -223,7 +245,9 @@
                                 @endif
                             </div>
                             <div class="col-md-6 mb-3">
-                                <input type="email" placeholder="Correo Electronico" autocomplete="off" class="form-control-m {{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}" name="email" id="email" required>
+                                <input type="email" placeholder="Correo Electronico" autocomplete="off"
+                                    class="form-control-m {{ $errors->has('email') ? ' is-invalid' : '' }}"
+                                    value="{{ old('email') }}" name="email" id="email" required>
                                 @if ($errors->has('email'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('email') }}</strong>
@@ -231,7 +255,10 @@
                                 @endif
                             </div>
                             <div class="col-md-6 mb-3">
-                                <input type="text" placeholder="Fecha de Nacimiento" class="form-control-m {{ $errors->has('fecha_nacimiento') ? ' is-invalid' : '' }}" name="fecha_nacimiento" id="fecha_nacimiento" value="{{ old('fecha_nacimiento')}}" autocomplete="off" readonly>
+                                <input type="text" placeholder="Fecha de Nacimiento"
+                                    class="form-control-m {{ $errors->has('fecha_nacimiento') ? ' is-invalid' : '' }}"
+                                    name="fecha_nacimiento" id="fecha_nacimiento" value="{{ old('fecha_nacimiento') }}"
+                                    autocomplete="off" readonly>
                                 @if ($errors->has('fecha_nacimiento'))
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $errors->first('fecha_nacimiento') }}</strong>
@@ -239,9 +266,11 @@
                                 @endif
                             </div>
                             <div class="col-md-6 mb-3">
-                                <select name="provincia_id" id="provincia_id" class="form-control-m {{ $errors->has('provincia_id') ? ' is-invalid' : '' }}" required>
+                                <select name="provincia_id" id="provincia_id"
+                                    class="form-control-m {{ $errors->has('provincia_id') ? ' is-invalid' : '' }}"
+                                    required>
                                     <option value="" hidden>-- Departamento --</option>
-                                    @foreach($Provincias as $q)
+                                    @foreach ($Provincias as $q)
                                         <option value="{{ $q->id }}">{{ $q->nombre }}</option>
                                     @endforeach
                                 </select>
@@ -252,7 +281,9 @@
                                 @endif
                             </div>
                             <div class="col-md-6 mb-3">
-                                <select name="distrito_id" id="distrito_id" class="form-control-m {{ $errors->has('distrito_id') ? ' is-invalid' : '' }}" required>
+                                <select name="distrito_id" id="distrito_id"
+                                    class="form-control-m {{ $errors->has('distrito_id') ? ' is-invalid' : '' }}"
+                                    required>
                                     <option value="" hidden>-- Distrito --</option>
                                 </select>
                                 @if ($errors->has('distrito_id'))
@@ -262,9 +293,10 @@
                                 @endif
                             </div>
                             <div class="col-md-6 mb-3">
-                                <select name="area_id" id="area_id" class="form-control-m {{ $errors->has('area_id') ? ' is-invalid' : '' }}" required>
+                                <select name="area_id" id="area_id"
+                                    class="form-control-m {{ $errors->has('area_id') ? ' is-invalid' : '' }}" required>
                                     <option value="" hidden>-- Programa de Estudio --</option>
-                                    @foreach($Areas as $q)
+                                    @foreach ($Areas as $q)
                                         <option value="{{ $q->id }}">{{ $q->nombre }}</option>
                                     @endforeach
                                 </select>
@@ -299,8 +331,6 @@
             </div>
         </div>
     </section>
-
-
 @endsection
 
 @section('scripts')
@@ -309,4 +339,3 @@
     <script type="text/javascript" src="{{ asset('app/plugins/datepicker/bootstrap-datepicker.config.js') }}"></script>
     <script type="text/javascript" src="{{ asset('app/js/alumno/registrar.js') }}"></script>
 @endsection
-

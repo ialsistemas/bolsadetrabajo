@@ -122,10 +122,10 @@ class HomeController extends Controller
     {
         $Areas = Area::all();
         $Provincias = Provincia::all();
-        $Anios = range(date('Y')-1, date('Y')-21);
+        /* $Anios = range(date('Y')-1, date('Y')-21); */
 
 
-        return view('app.alumno.registrar', ['Areas' => $Areas, 'Provincias' => $Provincias, 'anios' => $Anios]);
+        return view('app.alumno.registrar', ['Areas' => $Areas, 'Provincias' => $Provincias]);
     }
 
     public function registrar_alumno(Request $request)
@@ -136,7 +136,8 @@ class HomeController extends Controller
             'usuario_alumno' => $request->dni,
             'password' => Hash::make($request->dni),
             'aprobado' => $request->egresado != 0 ? 1 : 0,
-            'fecha_nacimiento' => Carbon::createFromFormat("d/m/Y", $request->fecha_nacimiento)->format('Y-m-d')
+            'fecha_nacimiento' => $request->fecha_nacimiento, 
+
         ]);
     
         $validator = Validator::make($request->all(), [
@@ -144,11 +145,11 @@ class HomeController extends Controller
             'apellidos' => 'required',
             'telefono' => 'required',
             'dni' => 'required|min:8|max:12|unique:alumnos',
-            'email' => 'required|email',
-            'fecha_nacimiento' => 'required|date',
-            'provincia_id' => 'required',
-            'distrito_id' => 'required',
-            'area_id' => 'required',
+             'email' => 'required|email',
+             'fecha_nacimiento' => 'required|date|min:10',
+             'provincia_id' => 'required',
+             'distrito_id' => 'required',
+           'area_id' => 'required',
             'usuario_alumno' => 'required',
             'password' => 'required'
         ]);
