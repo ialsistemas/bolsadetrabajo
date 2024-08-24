@@ -22,7 +22,7 @@ class AlumnoController extends Controller
         return view('auth.alumno.index');
     }
 
-    public function list(Request $request)
+    /* public function list(Request $request)
     {
         if($request->mostrar == 'mostrar'){
             return response()->json(['data' => Alumno::with(['provincias', 'distritos', 'areas', 'educaciones'])
@@ -38,7 +38,32 @@ class AlumnoController extends Controller
         }else{
             return response()->json(['data' => '']);
         }
+    } */
+
+    public function list(Request $request)
+{
+    $query = Alumno::with(['provincias', 'distritos', 'areas', 'educaciones'])
+                    ->orderBy('created_at', 'DESC');
+                    
+    if ($request->mostrar == 'mostrar') {
+        return response()->json(['data' => $query->get()]);
+    } elseif (isset($request->dni_apellido)) {
+        $query->where(function($q) use ($request) {
+            $q->where('dni', 'like', '%'.$request->dni_apellido.'%')
+              ->orWhere('apellidos', 'like', '%'.$request->dni_apellido.'%');
+        });
+        return response()->json(['data' => $query->limit(80)->get()]);
+    } elseif (isset($request->fechasemestre) && !empty($request->fechasemestre)) {
+        // Extrae el año del select fechasemestre
+        $year = $request->fechasemestre;
+
+        // Filtrar por año usando el campo `created_at`
+        $query->whereYear('created_at', $year);
+        return response()->json(['data' => $query->get()]);
+    } else {
+        return response()->json(['data' => []]);
     }
+}
 
     // codigo hecho por marco
     public function print_cv_pdf($id)
