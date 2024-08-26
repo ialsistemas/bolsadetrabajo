@@ -62,7 +62,7 @@ class ProgramaController extends Controller
             'programas.puestocuatro',
             'programas.responsable'
         )
-        ->orderBy('programas.id', 'desc')
+        ->orderBy('programas.registro', 'desc') // Ordenar por la fecha más reciente a la más antigua
         ->get();
 
     return response()->json(['data' => $programas]);
