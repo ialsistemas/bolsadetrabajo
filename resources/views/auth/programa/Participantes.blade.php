@@ -57,6 +57,11 @@
                                 <input autocomplete="off" type="text" class="form-control form-control-sm"
                                     id="apellidos" name="apellidos" placeholder="Apellidos" readonly required>
                             </div>
+                           {{--  <div class="form-group col-lg-6">
+                                <label for="apellidos" class="m-0 label-primary">Carrera</label>
+                                <input autocomplete="off" type="text" class="form-control form-control-sm"
+                                    id="carrera" name="carrera" placeholder="Carrera" readonly required>
+                            </div> --}}
                             <div class="form-group col-lg-6">
                                 <label for="telefono" class="m-0 label-primary">Teléfono</label>
                                 <input autocomplete="off" type="tel" class="form-control form-control-sm"

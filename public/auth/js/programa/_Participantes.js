@@ -110,6 +110,7 @@ $("#buscardni").click(function () {
             $("#apellidos").attr("placeholder", "Buscando ...");
             $("#tel").attr("placeholder", "Buscando ...");
             $("#email").attr("placeholder", "Buscando ...");
+            /* $("#carrera").attr("placeholder", "Buscando ..."); */
         },
         success: function (res) {
             $("#nombres").attr("placeholder", "Nombres");
@@ -122,6 +123,7 @@ $("#buscardni").click(function () {
                 $("#apellidos").val(data.Apellidos);
                 $("#tel").val(data.celular.replace(/ /g, ""));
                 $("#email").val(data.email);
+                /* $("#carrera").val(data.especialidad); */
                 $("#validationDni")
                     .html("DNI correcto.")
                     .removeClass("text-muted")

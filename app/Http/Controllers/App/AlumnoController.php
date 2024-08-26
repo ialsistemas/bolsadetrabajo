@@ -29,9 +29,9 @@ class AlumnoController extends Controller
         $Provincias = Provincia::all();
         $Distritos = Distrito::where('provincia_id', $Alumno->provincia_id)->get();
 
-        $Educaciones = Educacion::where('alumno_id', $Alumno->id)->get();
-        $ExperienciaLaboral = ExperienciaLaboral::where('alumno_id', $Alumno->id)->get();
-        $ReferenciaLaboral = ReferenciaLaboral::where('alumno_id', $Alumno->id)->get();
+        $Educaciones = Educacion::where('alumno_id', $Alumno->id) ->orderBy('estudio_inicio', 'DESC')->get(); //se añadió desc order by para que ordene segun la fecha de mayo a menor
+        $ExperienciaLaboral = ExperienciaLaboral::where('alumno_id', $Alumno->id)->orderBy('inicio_laburo', 'DESC')->get();
+        $ReferenciaLaboral = ReferenciaLaboral::where('alumno_id', $Alumno->id)->orderBy('inicio_curso', 'DESC')->get(); // se añadio tambien
         $Habilidades = AlumnoHabilidad::where('alumno_id', $Alumno->id)
             ->whereHas('habilidades', function ($query) { $query->whereNull('deleted_at'); })
             ->get();
@@ -52,9 +52,9 @@ class AlumnoController extends Controller
         $Provincias = Provincia::all();
         $Distritos = Distrito::where('provincia_id', $Alumno->provincia_id)->get();
 
-        $Educaciones = Educacion::where('alumno_id', $Alumno->id)->get();
-        $ExperienciaLaboral = ExperienciaLaboral::where('alumno_id', $Alumno->id)->get();
-        $ReferenciaLaboral = ReferenciaLaboral::where('alumno_id', $Alumno->id)->get();
+        $Educaciones = Educacion::where('alumno_id', $Alumno->id)->orderBy('estudio_inicio', 'DESC')->get(); // se añadio 
+        $ExperienciaLaboral = ExperienciaLaboral::where('alumno_id', $Alumno->id)->orderBy('inicio_laburo', 'DESC')->get();
+        $ReferenciaLaboral = ReferenciaLaboral::where('alumno_id', $Alumno->id)->orderBy('inicio_curso', 'DESC')->get(); //se añadio 
         $Habilidades = AlumnoHabilidad::where('alumno_id', $Alumno->id)
             ->whereHas('habilidades', function ($query) { $query->whereNull('deleted_at'); })
             ->get();
