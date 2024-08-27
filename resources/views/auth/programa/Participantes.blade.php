@@ -58,9 +58,9 @@
                                     id="apellidos" name="apellidos" placeholder="Apellidos" readonly required>
                             </div>
                             <div class="form-group col-lg-6">
-                                <label for="especialidad" class="m-0 label-primary">Especialidad</label>
+                                <label for="especialidad" class="m-0 label-primary">Programa de Estudio</label>
                                 <input autocomplete="off" type="text" class="form-control form-control-sm"
-                                    id="especialidad" name="especialidad" placeholder="Especialidad" readonly required>
+                                    id="especialidad" name="especialidad" placeholder="Programa de estudio" readonly required>
                             </div>
                             <div class="form-group col-lg-6">
                                 <label for="telefono" class="m-0 label-primary">Teléfono</label>
@@ -211,10 +211,10 @@
                                     <i class="fa fa-user-plus"></i> Registrar participante
                                 </button>
                                 <!-- Botón de Cancelar (opcional) -->
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                {{-- <button type="button" class="btn btn-secondary" data-dismiss="modal"
                                     style="background-color:#e74c3c; border-color:#e74c3c; color:#fff;">
                                     <i class="fa fa-times"></i> Cancelar
-                                </button>
+                                </button> --}}
                             </div>
 
 

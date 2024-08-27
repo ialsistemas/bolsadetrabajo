@@ -52,30 +52,30 @@ $(function () {
                 class: "text-left"
             },
             
-            { title: "Especialidad", data: "especialidad", class: "text-left" },
+            { title: "Programa de Estudio", data: "especialidad", class: "text-left" },
             { title: "Sede", data: "sede", class: "text-left" },
             { title: "Telefono", data: "tel", class: "text-left" },
             { title: "Tipo", data: "tipo", class: "text-left" },
             { title: "Estado", data: "estado", class: "text-left" },
-            {   
+            /* {   
                 data: null,
                 render: function (data) {
                     return (
                         '<div class="btn-group" style ="margin-left: 5px;">' +
                             '<a href="javascript:void(0)" class="btn-edit btn btn-warning" idDato="' +
-                            data.id_participante + /* Aquí cambiar el id cuando se desea editar */ 
+                            data.id_participante + 
                             '"><i class="fa fa-edit"></i></a>' +
                         '</div>'
                     );
                 },
-            },
+            }, */
             {   
                 data: null,
                 render: function (data) {
                     return (
                         '<div class="btn-group" style ="margin-left: 5px;">' +
                             '<a href="javascript:void(0)" class="btn-delete btn btn-danger" idDato="' +
-                            data.id_participante + /* Aquí cambiar el id cuando se desea eliminar */ 
+                            data.id_participante + /* Aquí cambiar el id cuando se desea editar */ 
                             '"><i class="fa fa-trash"></i></a>' +
                         '</div>'
                     );
