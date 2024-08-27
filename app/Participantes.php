@@ -25,6 +25,7 @@ class Participantes extends Model
         'estado',
         'tipo',
         'sede',
+        'especialidad',
         'id_programa', // Asegúrate de tener el campo id_programa en fillable si es necesario
     ];
 

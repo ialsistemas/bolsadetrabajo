@@ -197,6 +197,9 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:web'], function () {
          Route::post('/storeParticipantes', 'Auth\ProgramaController@storeParticipantes')->name('auth.programa.storeParticipantes');
          Route::get('/mostrarParticipantes', 'Auth\ProgramaController@mostrarParticipantes')->name('auth.programa.mostrarParticipantes');
          Route::post('/deletepar', 'Auth\ProgramaController@deletepar')->name('auth.programas.deletepar');
+         Route::get('/partialViewpar/{id}', 'Auth\ProgramaController@partialViewpar')->name('auth.programa.create');
+         Route::post('/updateParticipanteInscrito', 'Auth\ProgramaController@updateParticipanteInscrito')->name('auth.programa.updateParticipanteInscrito');
+
 
                
 

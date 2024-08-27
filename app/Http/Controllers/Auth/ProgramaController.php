@@ -205,6 +205,7 @@ public function delete(Request $request)
             'dni' => 'required',
             'nombres' => 'required',
             'apellidos' => 'required',
+            'especialidad' => 'required',
             'tipo' => 'required',
             'estado' => 'required',
             'sede' => 'required',
@@ -232,6 +233,7 @@ public function delete(Request $request)
                 'dni' => $request->dni,
                 'nombres' => $request->nombres,
                 'apellidos' => $request->apellidos,
+                'especialidad' => $request->especialidad,
                 'tel' => $request->tel,
                 'email' => $request->email,
                 'estado' => $request->estado,
@@ -253,9 +255,10 @@ public function delete(Request $request)
         $id_programa = $request->input('id_programa');
         $participantes = DB::table('participantes as p')
                         ->join('programas as pr', 'p.id_programa', '=', 'pr.id')
-                        ->select('p.id_participante', 'pr.registro','p.sede', 'pr.tipo_programa', 'p.nombres', 'p.dni', 'p.apellidos','p.tel', 'p.tipo', 'p.estado')
+                        ->select('p.id_participante','p.email', 'p.especialidad','pr.registro','p.sede', 'pr.tipo_programa', 'p.nombres', 'p.dni', 'p.apellidos','p.tel', 'p.tipo', 'p.estado')
                         ->where('pr.id', $id_programa)
                         ->whereNull('p.deleted_at')
+                        ->orderBy('p.created_at', 'DESC')
                         ->get();
         /* dump($participantes); */
         return response()->json(['data' => $participantes]);
@@ -273,6 +276,30 @@ public function delete(Request $request)
     
         return response()->json(['Success' => $status]);
     }
+
+
+
+    public function partialViewpar($id)
+    {
+        return view('auth.programa.ParticipantesEdit', ['Entity' => Participantes::find($id)]);
+
+    }
     
+    public function updateParticipanteInscrito(Request $request)
+    {
+        $status = false;
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+        ]);
+        if (!$validator->fails()){
+            $entity = Participantes::find($request->id);
+            $entity->especialidad = $request->especialidadEdit;
+            $entity->tel = $request->telefonoEdit;
+            $entity->email = $request->email;
+
+            if($entity->save()) $status = true;            
+        }
+        return response()->json(['Success' => $status, 'Errors' => $validator->errors()]);
+    }
 
 }

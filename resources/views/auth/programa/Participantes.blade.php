@@ -1,4 +1,3 @@
-
 <div id="modalMantenimientoParticipantes" class="modal modal-fill fade" data-backdrop="false" tabindex="-1">
     <div class="modal-dialog modal-md">
         <form enctype="multipart/form-data" action="{{ route('auth.programa.storeParticipantes') }}"
@@ -14,8 +13,8 @@
                 </div>
                 <div class="modal-body">
                     <div>
-                        <input type="hidden" name="id_programa" class="id_programa" value="{{ $Entity != null ? $Entity->id : '' }}"
-                            required>
+                        <input type="hidden" name="id_programa" class="id_programa"
+                            value="{{ $Entity != null ? $Entity->id : '' }}" required>
                         {{-- {{ $Entity != null ? $Entity->id : '' }}  --}}
                         <div class="row justify-content-center mt-1">
                             <div class="col-lg-12">
@@ -35,7 +34,8 @@
                                         style="color:red;font-size:10px">(Obligatorio*)</b></label>
                                 <div class="input-group">
                                     <input autocomplete="off" type="text" class="form-control form-control-sm"
-                                        id="dni" name="dni" placeholder="Ingresar DNI" minlength="1" required>
+                                        id="dni" name="dni" placeholder="Ingresar DNI" minlength="1"
+                                        required>
                                     <div class="input-group-append">
                                         <button class="btn btn-outline-secondary" id="buscardni" type="button"
                                             style="background-color: #0072bf; color: white;">
@@ -57,11 +57,11 @@
                                 <input autocomplete="off" type="text" class="form-control form-control-sm"
                                     id="apellidos" name="apellidos" placeholder="Apellidos" readonly required>
                             </div>
-                           {{--  <div class="form-group col-lg-6">
-                                <label for="apellidos" class="m-0 label-primary">Carrera</label>
+                            <div class="form-group col-lg-6">
+                                <label for="especialidad" class="m-0 label-primary">Especialidad</label>
                                 <input autocomplete="off" type="text" class="form-control form-control-sm"
-                                    id="carrera" name="carrera" placeholder="Carrera" readonly required>
-                            </div> --}}
+                                    id="especialidad" name="especialidad" placeholder="Especialidad" readonly required>
+                            </div>
                             <div class="form-group col-lg-6">
                                 <label for="telefono" class="m-0 label-primary">Teléfono</label>
                                 <input autocomplete="off" type="tel" class="form-control form-control-sm"
@@ -201,10 +201,22 @@
                                     </option>
                                 </select>
                             </div>
+                            <style>
+
+                            </style>
                             <div class="form-group col-lg-12">
-                                <button type="submit" class="btn btn-primary"
-                                    style="border-color:#2ecc71 !important;">Registrar participante</button>
+                                <!-- Botón de Envío -->
+                                <button type="submit" class="btn btn-primary "
+                                    style="background-color:#2ecc71; border-color:#2ecc71; color:#fff;">
+                                    <i class="fa fa-user-plus"></i> Registrar participante
+                                </button>
+                                <!-- Botón de Cancelar (opcional) -->
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                    style="background-color:#e74c3c; border-color:#e74c3c; color:#fff;">
+                                    <i class="fa fa-times"></i> Cancelar
+                                </button>
                             </div>
+
 
                         </div>
                     </div>
@@ -212,7 +224,8 @@
                     <div>
                         <div class="col-lg-12 col-md-12">
                             <div class="table-wrapper">
-                                <table id="tableParticipantes" class="display table table-bordered table-hover table-condensed">
+                                <table id="tableParticipantes"
+                                    class="display table table-bordered table-hover table-condensed">
                                     <thead>
                                         {{-- Contenido de JS --}}
                                     </thead>
@@ -228,6 +241,7 @@
         </form>
     </div>
 </div>
+
 
 
 <script type="text/javascript" src="{{ asset('auth/js/programa/_Participantes.js') }}"></script>

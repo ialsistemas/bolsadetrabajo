@@ -42,6 +42,7 @@ $(function () {
             },
             /* { title: "ID Participante", data: "id_participante" }, */
             { title: "Fecha", data: "registro" },
+            { title: "DNI", data: "dni", class: "text-left" },     
             {
                 title: "Nombres y Apellidos",
                 data: null,
@@ -50,8 +51,10 @@ $(function () {
                 },
                 class: "text-left"
             },
+            
+            { title: "Especialidad", data: "especialidad", class: "text-left" },
             { title: "Sede", data: "sede", class: "text-left" },
-            { title: "DNI", data: "dni", class: "text-left" },        
+            /* { title: "Email", data: "email", class: "text-left" },   */
             { title: "Telefono", data: "tel", class: "text-left" },
             { title: "Tipo", data: "tipo", class: "text-left" },
             { title: "Estado", data: "estado", class: "text-left" },
@@ -59,13 +62,28 @@ $(function () {
                 data: null,
                 render: function (data) {
                     return (
-                        '<a href="javascript:void(0)" class="btn-delete btn btn-danger" idDato="' +
-                        data.id_participante + /* Aqui cambiar el id cuando se desea eliminar*/
-                        '"><i class="fa fa-trash"></i></a>' +
-                        "</div>"
+                        '<div class="btn-group" style ="margin-left: 5px;">' +
+                            '<a href="javascript:void(0)" class="btn-edit btn btn-warning" idDato="' +
+                            data.id_participante + /* Aquí cambiar el id cuando se desea editar */ 
+                            '"><i class="fa fa-edit"></i></a>' +
+                        '</div>'
                     );
                 },
             },
+            {   
+                data: null,
+                render: function (data) {
+                    return (
+                        '<div class="btn-group" style ="margin-left: 5px;">' +
+                            '<a href="javascript:void(0)" class="btn-delete btn btn-danger" idDato="' +
+                            data.id_participante + /* Aquí cambiar el id cuando se desea eliminar */ 
+                            '"><i class="fa fa-trash"></i></a>' +
+                        '</div>'
+                    );
+                },
+            },
+            
+            
         ],
     });
     $table.on("click", ".btn-delete", function () {
@@ -86,6 +104,19 @@ $(function () {
             }
         );
     });
+
+    $table.on("click", ".btn-warning", function () {
+        const id = $dataTableParticipante.row($(this).parents("tr")).data().id_participante;
+        invocarModalViewParticipantes(id);
+    });
+
+    function invocarModalViewParticipantes(id) {
+        invocarModal(
+            `/auth/programa/partialViewpar/${id ? id : 0}`, function ($modal) {
+                if ($modal.attr("data-reload") === "true") $dataTableParticipante.ajax.reload(null, false);
+            }
+        );
+    }
 
 });
 
@@ -110,7 +141,7 @@ $("#buscardni").click(function () {
             $("#apellidos").attr("placeholder", "Buscando ...");
             $("#tel").attr("placeholder", "Buscando ...");
             $("#email").attr("placeholder", "Buscando ...");
-            /* $("#carrera").attr("placeholder", "Buscando ..."); */
+            $("#especialidad").attr("placeholder", "Buscando ...");
         },
         success: function (res) {
             $("#nombres").attr("placeholder", "Nombres");
@@ -123,7 +154,7 @@ $("#buscardni").click(function () {
                 $("#apellidos").val(data.Apellidos);
                 $("#tel").val(data.celular.replace(/ /g, ""));
                 $("#email").val(data.email);
-                /* $("#carrera").val(data.especialidad); */
+                $("#especialidad").val(data.especialidad);
                 $("#validationDni")
                     .html("DNI correcto.")
                     .removeClass("text-muted")
@@ -139,6 +170,7 @@ $("#buscardni").click(function () {
                 $("#apellidos").val("");
                 $("#tel").val("");
                 $("#email").val("");
+                $("#especialidad").val("");
                 $(dni)
                     .removeClass("border-success border-dark")
                     .addClass("border-danger");
@@ -158,3 +190,4 @@ $("#buscardni").click(function () {
         },
     });
 });
+
