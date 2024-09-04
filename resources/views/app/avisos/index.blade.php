@@ -254,7 +254,56 @@
                     </div> --}}
                     {{-- Fin --}}
                     {{-- Aqui añadi margin-top --}}
-                    <div id="cards-list" class="content avisos endless-pagination" data-next-page style="margin-top: 20px;"></div>
+                    <!-- Mensaje de bloqueo en una posición fija -->
+                    <hr>
+                    <div id="block-message" style="display: none; position: relative; top: 0; left: 0; right: 0; background-color: rgba(255, 0, 0, 0.8); color: white; text-align: center; padding: 10px; font-weight: bold; z-index: 1000;">
+                        <i class="fa fa-exclamation-triangle" style="font-size: 15px; margin-right: 5px;"></i>
+                        Usted se encuentra sancionado temporalmente. 
+                        <a href="#" id="view-reason" style="color: yellow; text-decoration: underline; font-size:12px;">Ver motivo</a>
+                    </div>
+                    
+                    <!-- Modal or popup to show the reason -->
+                   {{--  <div id="reason-popup" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; color: black; padding: 20px; border: 1px solid #ccc; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); z-index: 1001;">
+                        <h2>Motivo del Bloqueo</h2>
+                        <p>Aquí puede proporcionar detalles sobre el motivo del bloqueo. Por ejemplo, puede ser debido a múltiples intentos fallidos de inicio de sesión, violaciones de políticas, etc.</p>
+                        <button id="close-popup" style="padding: 5px 10px; background-color: #007bff; color: white; border: none; cursor: pointer;">Cerrar</button>
+                    </div>
+                    
+                    <script>
+                    document.getElementById('view-reason').addEventListener('click', function(event) {
+                        event.preventDefault();
+                        document.getElementById('reason-popup').style.display = 'block';
+                    });
+                    
+                    document.getElementById('close-popup').addEventListener('click', function() {
+                        document.getElementById('reason-popup').style.display = 'none';
+                    });
+                    </script> --}}
+                    
+                    <div id="cards-list" class="content avisos endless-pagination" data-next-page style="margin-top: 20px;">
+                        <!-- Contenido aquí -->
+                    </div>
+                    
+                    
+                    
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            // Obtener el valor de aprobado
+                            var aprobado = @json($alumno->aprobado);
+                    
+                            // Obtener los elementos div
+                            var cardsListDiv = document.getElementById('cards-list');
+                            var blockMessageDiv = document.getElementById('block-message');
+                    
+                            // Verificar el valor y aplicar estilos si es igual a 3
+                            if (aprobado === 3) {
+                                cardsListDiv.style.pointerEvents = 'none'; // Desactiva los eventos de ratón
+                                cardsListDiv.style.opacity = '0.5'; // Opcional: hacer que el div se vea desactivado
+                                blockMessageDiv.style.display = 'block'; // Muestra el mensaje de bloqueo
+                            }
+                        });
+                    </script>
+                    
                 </div>
 
                 <div id="aviso-informacion hidden"></div>

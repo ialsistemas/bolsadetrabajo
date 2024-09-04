@@ -119,7 +119,31 @@
             </div>
         </footer>        
     @endif
+    {{-- <script>
+        document.addEventListener("keydown", function(e) {
+            // Deshabilitar F12
+            if (e.keyCode === 123) {
+                e.preventDefault();
+                return false;
+            }
 
+            // Deshabilitar Ctrl+Shift+I (DevTools)
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
+                e.preventDefault();
+                return false;
+            }
+
+            // Deshabilitar Ctrl+U (Ver fuente)
+            if (e.ctrlKey && e.keyCode === 85) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        document.addEventListener("contextmenu", function(e) {
+            e.preventDefault();
+        });
+    </script> --}}
 
 
     <script type="text/javascript" src="{{ asset('app/plugins/jquery/3.5.1/jquery.min.js') }}"></script>

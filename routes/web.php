@@ -263,6 +263,16 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:web'], function () {
         Route::post('/delete', 'Auth\HabilidadController@delete')->name('auth.habilidad.delete');
     });
 
+    // SECTION ALUMNO SANCIONADO
+    Route::group(['prefix' => 'alumnosancionado'], function () {
+        Route::get('/', 'Auth\AlumnoSancionadoController@index')->name('auth.alumnosancionado');
+        Route::get('/list_all', 'Auth\AlumnoSancionadoController@list_all')->name('auth.usuarios.list_all');
+        Route::post('/store', 'Auth\AlumnoSancionadoController@store')->name('auth.alumnosancionado.store');
+        Route::post('/update', 'Auth\AlumnoSancionadoController@update')->name('auth.alumnosancionado.update');
+        Route::post('/delete', 'Auth\AlumnoSancionadoController@delete')->name('auth.alumnosancionado.delete');
+        Route::get('/partialViewSancionado/{id}', 'Auth\AlumnoSancionadoController@partialViewSancionado')->name('auth.alumnosancionado.create');
+    });
+
 });
 
 

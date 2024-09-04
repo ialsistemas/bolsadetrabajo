@@ -35,7 +35,9 @@ class LoginAlumnoController extends Controller
         $this->validateLogin($request);
 
         $credentials = $this->getCredentials($request);
-        $alumno = Alumno::where('aprobado', 1)->where('usuario_alumno', $credentials['usuario_alumno'])->first();
+        //Pueden ingresar los de usuarios 1 y 3 aprobado - whereIn para dos - where solo
+        $alumno = Alumno::whereIn('aprobado',  [1, 3])->where('usuario_alumno', $credentials['usuario_alumno'])->first();
+        
 
         if ($alumno && Hash::check($credentials['password'], $alumno->password)) {
             Alumno::where('usuario_alumno', $credentials['usuario_alumno'])->update(['online' => 1]);

@@ -1,6 +1,6 @@
 var $dataTableAlumno, $dataTable;
 const $dni_apellido = $("#dni_apellido");
-const $table = $("#tableAlumno");
+const $tableS = $("#tableAlumno");
 $fechasemestre = $("#fechasemestre");
 
 function consultarAlumno() {
@@ -25,7 +25,7 @@ function mostrarTodo() {
 }
 
 $(function () {
-    $dataTableAlumno = $table.DataTable({
+    $dataTableAlumno = $tableS.DataTable({
         stripeClasses: ["odd-row", "even-row"],
         lengthChange: !0,
         lengthMenu: [
@@ -174,6 +174,7 @@ $(function () {
                 title: "",
                 data: null,
                 render: function (data) {
+                    let estado = ''; // Inicializa estado con un valor por defecto
                     if (data.aprobado == ESTADOS.CANCELADO) {
                         estado =
                             '<a class="dropdown-item btn-approved" href="#"><i class="fa fa-check"></i> Activar</a>';
@@ -190,6 +191,7 @@ $(function () {
                     <div class="dropdown-menu p-0">
                     ${estado}
                     <a class="dropdown-item" target='_blank' href='/auth/alumno/print_cv_pdf/${data.id}'><i class='fa fa-address-card'></i> Ver CV</a>
+                    <!-- <a class="dropdown-item btn-sancionar" href="#"><i class='fa fa-exclamation-triangle'></i> Sancionar</a> -->
                     <a class="dropdown-item btn-delete" href="#"><i class='fa fa-trash'></i> Eliminar</a>
                     </div>
                 </div>`;
@@ -212,24 +214,24 @@ $(function () {
             }
         },
     });
-    $table.on("click", ".btn-cancel", function () {
-        const id = $dataTableAlumno.row($(this).parents("tr")).data().id,
-            formData = new FormData();
-        formData.append("_token", $("input[name=_token]").val()),
-            formData.append("id", id),
-            formData.append("update_id", ESTADOS.CANCELADO),
-            confirmAjax(
-                "/auth/alumno/update",
-                formData,
-                "POST",
-                null,
-                null,
-                function () {
-                    $dataTableAlumno.ajax.reload(null, !1);
-                }
-            );
-    }),
-        $table.on("click", ".btn-approved", function () {
+        $tableS.on("click", ".btn-cancel", function () {
+            const id = $dataTableAlumno.row($(this).parents("tr")).data().id,
+                formData = new FormData();
+            formData.append("_token", $("input[name=_token]").val()),
+                formData.append("id", id),
+                formData.append("update_id", ESTADOS.CANCELADO),
+                confirmAjax(
+                    "/auth/alumno/update",
+                    formData,
+                    "POST",
+                    null,
+                    null,
+                    function () {
+                        $dataTableAlumno.ajax.reload(null, !1);
+                    }
+                );
+        }),
+        $tableS.on("click", ".btn-approved", function () {
             const id = $dataTableAlumno.row($(this).parents("tr")).data().id,
                 formData = new FormData();
             formData.append("_token", $("input[name=_token]").val()),
@@ -246,7 +248,7 @@ $(function () {
                     }
                 );
         }),
-        $table.on("click", ".btn-delete", function () {
+        $tableS.on("click", ".btn-delete", function () {
             const id = $dataTableAlumno.row($(this).parents("tr")).data().id,
                 formData = new FormData();
             formData.append("_token", $("input[name=_token]").val()),
@@ -262,4 +264,16 @@ $(function () {
                     }
                 );
         });
+        $tableS.on("click", ".btn-sancionar", function () {
+            const id = $dataTableAlumno.row($(this).parents("tr")).data().id;
+            invocarModalView(id);
+        });
+    
+        function invocarModalView(id) {
+            invocarModal(
+                `/auth/alumnosancionado/partialViewSancionado/${id ? id : 0}`, function ($modal) {
+                    if ($modal.attr("data-reload") === "true") $dataTableAlumno.ajax.reload(null, false);
+                }
+            );
+        }
 });

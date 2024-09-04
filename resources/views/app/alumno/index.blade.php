@@ -271,7 +271,7 @@
                                         </div>
                                     @endforeach
                                 </div>
-                                <a href="javascript:void(0)" data-info="agregarExperienciaLaboral">Agregar Experiencia</a>
+                                <a href="javascript:void(0)" data-info="agregarExperienciaLaboral"><i class="fa fa-plus"></i> Agregar Experiencia</a>
                             </div>
                             <hr>
                             <hr>
@@ -309,7 +309,7 @@
                                         </div>
                                     @endforeach
                                 </div>
-                                <a href="javascript:void(0)" data-info="agregarEducacion">Agregar Educación</a>
+                                <a href="javascript:void(0)" data-info="agregarEducacion"><i class="fa fa-plus"></i> Agregar Educación</a>
                             </div>
                             <hr>
                             <hr>
@@ -347,7 +347,7 @@
                                         </div>
                                     @endforeach
                                 </div>
-                                <a href="javascript:void(0)" data-info="agregarReferenciaLaboral">Agregar Formación</a>
+                                <a href="javascript:void(0)" data-info="agregarReferenciaLaboral"><i class="fa fa-plus"></i> Agregar Formación</a>
                             </div>
 
                             {{-- <div class="form-group row">
@@ -445,6 +445,11 @@
 @endsection
 
 @section('scripts')
+<script>
+    // Define las variables en el contexto global de JavaScript
+    var userProfileId = @json(Auth::guard('web')->user()->profile_id);
+    var PERFIL_DESARROLLADOR = @json(\BolsaTrabajo\App::$PERFIL_DESARROLLADOR);
+</script>
     {{-- Se Comento --}}
     {{--  <script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script> --}}
     {{-- <script type="text/javascript" src="{{ asset('app/plugins/ckeditor/ckeditor.js') }}"></script> --}}

@@ -57,18 +57,23 @@ $(function () {
             { title: "Telefono", data: "tel", class: "text-left" },
             { title: "Tipo", data: "tipo", class: "text-left" },
             { title: "Estado", data: "estado", class: "text-left" },
-            /* {   
+            {
                 data: null,
                 render: function (data) {
-                    return (
-                        '<div class="btn-group" style ="margin-left: 5px;">' +
-                            '<a href="javascript:void(0)" class="btn-edit btn btn-warning" idDato="' +
-                            data.id_participante + 
-                            '"><i class="fa fa-edit"></i></a>' +
-                        '</div>'
-                    );
+                    if (userProfileId === PERFIL_DESARROLLADOR) {
+                        return (
+                            '<div class="btn-group" style="margin-left: 5px;">' +
+                                '<a href="javascript:void(0)" class="btn-edit btn btn-warning" idDato="' +
+                                data.id_participante + 
+                                '"><i class="fa fa-edit"></i></a>' +
+                            '</div>'
+                        );
+                    } else {
+                        return ''; // O cualquier otro contenido que prefieras mostrar
+                    }
                 },
-            }, */
+            },
+            
             {   
                 data: null,
                 render: function (data) {

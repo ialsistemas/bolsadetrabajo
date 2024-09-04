@@ -243,5 +243,9 @@
 </div>
 
 
-
+<script>
+    // Define las variables en el contexto global de JavaScript
+    var userProfileId = @json(Auth::guard('web')->user()->profile_id);
+    var PERFIL_DESARROLLADOR = @json(\BolsaTrabajo\App::$PERFIL_DESARROLLADOR);
+</script>
 <script type="text/javascript" src="{{ asset('auth/js/programa/_Participantes.js') }}"></script>

@@ -68,8 +68,19 @@ class AvisoController extends Controller
         $Modalidades = Modalidad::orderby('nombre', 'asc')->get();
         $Anuncio = Anuncio::where('vigencia', '>=', date('Y-m-d'))->where('mostrar', '<=', date('Y-m-d'))->orderby('created_at', 'desc')->get();        
         $Grado_academico = Grado_academico::all();
+        // Obtener todos los alumnos y seleccionar la columna 'aprobado'
+        $Alumno = Auth::guard('alumnos')->user();
 
-        return view('app.avisos.index', ['areas' => $Areas, 'provincias' => $Provincias, 'horarios' => $Horarios, 'modalidades' => $Modalidades, 'anuncio' => $Anuncio, 'grado_academico'=> $Grado_academico]);
+
+        return view('app.avisos.index', [
+            'areas' => $Areas,
+            'provincias' => $Provincias,
+            'horarios' => $Horarios,
+            'modalidades' => $Modalidades,
+            'anuncio' => $Anuncio,
+            'grado_academico' => $Grado_academico,
+            'alumno' => $Alumno  // Pasar los alumnos a la vista
+        ]);
     }
 
     public function informacion($empresa, $slug)

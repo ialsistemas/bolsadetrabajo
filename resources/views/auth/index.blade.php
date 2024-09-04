@@ -126,8 +126,9 @@
                                         <p>
                                             {{ Auth::guard('web')->user()->nombres }}
                                             <small class="mb-5">{{ Auth::guard('web')->user()->email }}</small>
-                                            <a href="#"
-                                                class="btn btn-danger btn-sm btn-rounded"> <i class="fa fa-user"></i> {{ Auth::guard('web')->user()->profile->name }}</a>
+                                            <a href="#" class="btn btn-danger btn-sm btn-rounded"> <i
+                                                    class="fa fa-user"></i>
+                                                {{ Auth::guard('web')->user()->profile->name }}</a>
                                         </p>
                                     </li>
                                     <li class="user-body">
@@ -216,14 +217,30 @@
                                 <i class="fa fa-bolt mr-5"></i> <span>Programas de Inserción rápida</span>
                             </a>
                         </li>
-                        @if(Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_DESARROLLADOR)
-                        {{-- Añadí para probar nuevos Usuarios --}}
-                        <li class="nav-item {{ Route::currentRouteName() == 'auth.usuarios' ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ route('auth.usuarios') }}"><span
-                                    class="active-item-here"></span>
-                                <i class="fa fa-user mr-5"></i> <span>Gestión de Usuarios</span>
-                            </a>
-                        </li>
+                        {{-- @if (Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_DESARROLLADOR)
+                            <li class="nav-item {{ Route::currentRouteName() == 'auth.usuarios' ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('auth.usuarios') }}"><span
+                                        class="active-item-here"></span>
+                                    <i class="fa fa-user mr-5"></i> <span>Gestión de Usuarios</span>
+                                </a>
+                            </li>
+                        @endif --}}
+                        @if (Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_DESARROLLADOR)
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    <span class="active-item-here"></span> {{-- <i class="fa fa-cog mr-5"></i> --}}
+                                    <span>Ver más</span></a>
+                                <ul class="dropdown-menu multilevel scale-up-left">
+                                    <li class="nav-item"><a class="nav-link"
+                                            href="{{ route('auth.usuarios') }}"><i class="fa fa-user mr-5"></i> Gestión de
+                                            Usuarios</a>
+                                    </li>
+                                    <li class="nav-item"><a class="nav-link" href="{{ route('auth.alumnosancionado') }}"><i class="fa fa-gavel mr-5"></i> Alumnos
+                                            Sancionados</a>
+                                    </li>
+                                </ul>
+                            </li>
                         @endif
                         {{-- Fin --}}
                         {{-- <li class="nav-item dropdown">
@@ -336,7 +353,7 @@
     <script type="text/javascript">
         const usuarioLoggin = {
             user_id: {{ \Illuminate\Support\Facades\Auth::guard('web')->user()->id }},
-            profile_id: {{ \Illuminate\Support\Facades\Auth::guard('web')->user()->profile_id  }}
+            profile_id: {{ \Illuminate\Support\Facades\Auth::guard('web')->user()->profile_id }}
         }
     </script>
 
