@@ -98,7 +98,13 @@
                                 Por favor ingresa un DNI válido (entre 1 y 8 dígitos).
                             </div>
                         </div>
-
+                        {{-- EL CURSOR DNI SIEMPRE ESTE ACTIVO --}}
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function() {
+                                document.getElementById("dni").focus();
+                            });
+                        </script>
+                        
                         <div class="form-group col-lg-6">
                             <label for="nombre" class="m-0 label-primary" style="font-size: 17px;">
                                 <i class="fa fa-user"></i> Nombres</label>
@@ -257,5 +263,5 @@
 @section('scripts')
     <script type="text/javascript" src="{{ asset('auth/plugins/datatable/datatables.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('auth/plugins/datatable/dataTables.config.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('auth/js/eventosasistencia/index.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('auth/js/eventos/index.js') }}"></script>
 @endsection
