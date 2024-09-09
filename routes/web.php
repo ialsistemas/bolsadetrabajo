@@ -273,6 +273,41 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:web'], function () {
         Route::get('/partialViewSancionado/{id}', 'Auth\AlumnoSancionadoController@partialViewSancionado')->name('auth.alumnosancionado.create');
     });
 
+    Route::group(['prefix' => 'principal'], function () {
+        Route::get('/', 'Auth\PrincipalController@index')->name('auth.principal');
+
+    });
+
+    Route::group(['prefix' => 'error'], function () {
+        Route::get('/', 'Auth\ErrorController@index')->name('auth.error');
+
+    });
+
+    Route::group(['prefix' => 'eventos'], function () {
+        Route::get('/', 'Auth\EventosController@index')->name('auth.eventos');
+        Route::get('/list_all', 'Auth\EventosController@list_all')->name('auth.eventos.list_all');
+        Route::get('/partialView/{id}', 'Auth\EventosController@partialView')->name('auth.eventos.create');
+        Route::post('/store', 'Auth\EventosController@store')->name('auth.eventos.store');
+        /* Falta update */
+        Route::post('/update', 'Auth\EventosController@update')->name('auth.eventos.update');
+        Route::post('/delete', 'Auth\EventosController@delete')->name('auth.eventos.delete');
+        /* Asistentes de Eventos */
+        Route::get('/partialViewAsistentes/{id}', 'Auth\EventosController@partialViewAsistentes')->name('auth.eventos.create');
+        Route::get('/mostrarParticipantesAsistentes', 'Auth\EventosController@mostrarParticipantesAsistentes')->name('auth.eventos.mostrarParticipantesAsistentes');
+        Route::get('/partialViewEditAsistente/{id}', 'Auth\EventosController@partialViewEditAsistente')->name('auth.eventos.create');
+        Route::post('/deleteAsistentes', 'Auth\EventosController@deleteAsistentes')->name('auth.eventos.deleteAsistentes');
+        Route::get('/listA', 'Auth\EventosController@listA')->name('auth.eventos.listA');
+
+    });
+
+    Route::group(['prefix' => 'eventosasistencia'], function () {
+        Route::get('/', 'Auth\EventosAsistenciaController@index')->name('auth.eventosasistencia');
+        Route::post('/store', 'Auth\EventosAsistenciaController@store')->name('auth.eventosasistencia.store');
+        Route::post('/update', 'Auth\EventosAsistenciaController@update')->name('auth.eventosasistencia.update');
+    });
+
+
+
 });
 
 

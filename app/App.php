@@ -27,6 +27,7 @@ class App
     public static $PERFIL_DESARROLLADOR= 1;
     public static $PERFIL_ADMINISTRADOR = 2;
     public static $PERFIL_SUPERVISOR = 3;
+    public static $PERFIL_REGISTRADOR = 4;
 
     public static function ObtenerNombreMes($mes)
     {

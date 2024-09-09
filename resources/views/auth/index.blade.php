@@ -104,25 +104,62 @@
                     </a>
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav mt-5">
-                            <li id="notifications" class="dropdown notifications-menu">
-                                <button type="button" class="mt-3 dropdown-toggle btn btn-light"
-                                    data-toggle="dropdown">
-                                    <i class="mdi mdi-bell faa-ring animated"></i>
-                                    <span class="badge badge-danger pt-3 pb-0" id="number_notify"></span>
-                                </button>
-                                <ul class="dropdown-menu scale-up" id="list_notification">
-                                    <li class="header">Tienes <span id="counNotificacion"></span> notificaciones</li>
-                                </ul>
-                            </li>
+                            @if (Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_DESARROLLADOR ||
+                                    Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_ADMINISTRADOR)
+                                <li id="notifications" class="dropdown notifications-menu">
+                                    <button type="button" class="mt-3 dropdown-toggle btn btn-light"
+                                        data-toggle="dropdown" style ="margin-top:10px !important;">
+                                        <i class="mdi mdi-bell faa-ring animated"></i>
+                                        <span class="badge badge-danger pt-3 pb-0" id="number_notify"></span>
+                                    </button>
+                                    <ul class="dropdown-menu scale-up" id="list_notification">
+                                        <li class="header">Tienes <span id="counNotificacion"></span> notificaciones
+                                        </li>
+                                    </ul>
+                                </li>
+                            @endif
+                            <style>
+                                .user-image-wrapper {
+                                    position: relative;
+                                }
+
+                                .user-image {
+                                    border-radius: 50%;
+                                }
+
+                                .status-indicator {
+                                    position: absolute;
+                                    bottom: 0;
+                                    right: 0;
+                                    width: 12px;
+                                    height: 12px;
+                                    border-radius: 50%;
+                                    background-color: #28a745;
+                                    /* Color verde para activo */
+                                    border: 2px solid #fff;
+                                    /* Borde blanco para destacarlo */
+                                }
+
+                                .status-indicator.active {
+                                    background-color: #28a745;
+                                    /* Color verde para activo */
+                                }
+                            </style>
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <img src="{{ asset('auth/image/icon/usuario.jpg') }}" class="user-image"
-                                        alt="User Image">
+                                    <div class="user-image-wrapper">
+                                        <img src="{{ asset('auth/image/icon/usuario.jpg') }}" class="user-image"
+                                            alt="User Image">
+                                        <span class="status-indicator active"></span>
+                                    </div>
                                 </a>
                                 <ul class="dropdown-menu scale-up">
                                     <li class="user-header">
-                                        <img src="{{ asset('auth/image/icon/usuario.jpg') }}" class="float-left"
-                                            alt="User Image">
+                                        <div class="user-image-wrapper">
+                                            <img src="{{ asset('auth/image/icon/usuario.jpg') }}" class="float-left"
+                                                alt="User Image">
+
+                                        </div>
                                         <p>
                                             {{ Auth::guard('web')->user()->nombres }}
                                             <small class="mb-5">{{ Auth::guard('web')->user()->email }}</small>
@@ -150,6 +187,7 @@
                                     </li>
                                 </ul>
                             </li>
+
                         </ul>
                     </div>
                 </nav>
@@ -160,71 +198,64 @@
             <nav class="navbar navbar-expand-lg">
                 <div class="collapse navbar-collapse" id="navbarNavDropdown">
                     <ul class="navbar-nav">
-                        <li class="nav-item {{ Route::currentRouteName() == 'auth.inicio' ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ route('auth.inicio') }}"><span
-                                    class="active-item-here"></span>
-                                <i class="fa fa-home mr-5"></i> <span>Inicio</span>
-                            </a>
-                        </li>
-                        <li class="nav-item {{ Route::currentRouteName() == 'auth.index' ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ route('auth.index') }}"><span class="active-item-here"></span>
-                                <i class="fa fa-male mr-5"></i> <span>Empleador</span>
-                            </a>
-                        </li>
-                        <li class="nav-item {{ Route::currentRouteName() == 'auth.alumno' ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ route('auth.alumno') }}"><span
-                                    class="active-item-here"></span>
-                                <i class="fa fa-users mr-5"></i> <span>Estudiantes</span>
-                            </a>
-                        </li>
-                        <li
-                            class="nav-item dropdown {{ Route::currentRouteName() == 'auth.aviso' || Route::currentRouteName() == 'auth.avisoPostulacion' ? 'active' : '' }}">
-                            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                                <span class="active-item-here"></span><i class="fa fa-archive mr-5"></i>
-                                <span>Avisos</span></a>
-                            <ul class="dropdown-menu multilevel scale-up-left">
-                                <li class="nav-item"><a class="nav-link" href="{{ route('auth.aviso') }}">Listado
-                                        Avisos</a></li>
-                                <li class="nav-item"><a class="nav-link"
-                                        href="{{ route('auth.avisoPostulacion') }}">Avisos por Alumno Postulado</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li
-                            class="nav-item dropdown {{ Route::currentRouteName() == 'auth.anuncio' || Route::currentRouteName() == 'auth.anuncioempresa' ? 'active' : '' }}">
-                            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                                <span class="active-item-here"></span><i class="fa fa-photo mr-5"></i>
-                                <span>Anuncios</span></a>
-                            <ul class="dropdown-menu multilevel scale-up-left">
-                                <li class="nav-item"><a class="nav-link" href="{{ route('auth.anuncio') }}">Anuncios
-                                        Alumnos</a></li>
-                                <li class="nav-item"><a class="nav-link"
-                                        href="{{ route('auth.anuncioempresa') }}">Anuncios Empresas</a></li>
-                            </ul>
-                        </li>
-
-
-                        {{-- <li class="nav-item {{ Route::currentRouteName() == 'auth.anuncio' ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('auth.anuncio') }}"><span class="active-item-here"></span>
-                            <i class="fa fa-photo mr-5"></i> <span>Anuncios</span>
-                        </a>
-                        </li> --}}
-                        <li class="nav-item {{ Route::currentRouteName() == 'auth.programa' ? 'active' : '' }}">
-                            <a class="nav-link" href="{{ route('auth.programa') }}"><span
-                                    class="active-item-here"></span>
-                                <i class="fa fa-bolt mr-5"></i> <span>Programas de Inserción rápida</span>
-                            </a>
-                        </li>
-                        {{-- @if (Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_DESARROLLADOR)
-                            <li class="nav-item {{ Route::currentRouteName() == 'auth.usuarios' ? 'active' : '' }}">
-                                <a class="nav-link" href="{{ route('auth.usuarios') }}"><span
+                        @if (Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_DESARROLLADOR ||
+                                Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_ADMINISTRADOR)
+                            <li class="nav-item {{ Route::currentRouteName() == 'auth.inicio' ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('auth.inicio') }}"><span
                                         class="active-item-here"></span>
-                                    <i class="fa fa-user mr-5"></i> <span>Gestión de Usuarios</span>
+                                    <i class="fa fa-home mr-5"></i> <span>Inicio</span>
                                 </a>
                             </li>
-                        @endif --}}
+                            <li class="nav-item {{ Route::currentRouteName() == 'auth.index' ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('auth.index') }}"><span
+                                        class="active-item-here"></span>
+                                    <i class="fa fa-male mr-5"></i> <span>Empleador</span>
+                                </a>
+                            </li>
+                            <li class="nav-item {{ Route::currentRouteName() == 'auth.alumno' ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('auth.alumno') }}"><span
+                                        class="active-item-here"></span>
+                                    <i class="fa fa-users mr-5"></i> <span>Estudiantes</span>
+                                </a>
+                            </li>
+                            <li
+                                class="nav-item dropdown {{ Route::currentRouteName() == 'auth.aviso' || Route::currentRouteName() == 'auth.avisoPostulacion' ? 'active' : '' }}">
+                                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    <span class="active-item-here"></span><i class="fa fa-archive mr-5"></i>
+                                    <span>Avisos</span></a>
+                                <ul class="dropdown-menu multilevel scale-up-left">
+                                    <li class="nav-item"><a class="nav-link"
+                                            href="{{ route('auth.aviso') }}">Listado
+                                            Avisos</a></li>
+                                    <li class="nav-item"><a class="nav-link"
+                                            href="{{ route('auth.avisoPostulacion') }}">Avisos por Alumno
+                                            Postulado</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li
+                                class="nav-item dropdown {{ Route::currentRouteName() == 'auth.anuncio' || Route::currentRouteName() == 'auth.anuncioempresa' ? 'active' : '' }}">
+                                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    <span class="active-item-here"></span><i class="fa fa-photo mr-5"></i>
+                                    <span>Anuncios</span></a>
+                                <ul class="dropdown-menu multilevel scale-up-left">
+                                    <li class="nav-item"><a class="nav-link"
+                                            href="{{ route('auth.anuncio') }}">Anuncios
+                                            Alumnos</a></li>
+                                    <li class="nav-item"><a class="nav-link"
+                                            href="{{ route('auth.anuncioempresa') }}">Anuncios Empresas</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="nav-item {{ Route::currentRouteName() == 'auth.programa' ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('auth.programa') }}"><span
+                                        class="active-item-here"></span>
+                                    <i class="fa fa-bolt mr-5"></i> <span>Programas de Inserción rápida</span>
+                                </a>
+                            </li>
+                        @endif
                         @if (Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_DESARROLLADOR)
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
@@ -232,11 +263,13 @@
                                     <span class="active-item-here"></span> {{-- <i class="fa fa-cog mr-5"></i> --}}
                                     <span>Ver más</span></a>
                                 <ul class="dropdown-menu multilevel scale-up-left">
-                                    <li class="nav-item"><a class="nav-link"
-                                            href="{{ route('auth.usuarios') }}"><i class="fa fa-user mr-5"></i> Gestión de
+                                    <li class="nav-item"><a class="nav-link" href="{{ route('auth.usuarios') }}"><i
+                                                class="fa fa-user mr-5"></i> Gestión de
                                             Usuarios</a>
                                     </li>
-                                    <li class="nav-item"><a class="nav-link" href="{{ route('auth.alumnosancionado') }}"><i class="fa fa-gavel mr-5"></i> Alumnos
+                                    <li class="nav-item"><a class="nav-link"
+                                            href="{{ route('auth.alumnosancionado') }}"><i
+                                                class="fa fa-gavel mr-5"></i> Estudiantes
                                             Sancionados</a>
                                     </li>
                                 </ul>
@@ -262,7 +295,33 @@
                                 </li>
                             </ul>
                         </li> --}}
-
+                        @if (Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_DESARROLLADOR)
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    <span class="active-item-here"> <i class="fa fa-calendar-alt mr-5"></i></span>
+                                    {{-- <i class="fa fa-cog mr-5"></i> --}}
+                                    <span>Gestión de Eventos</span>
+                                </a>
+                                <ul class="dropdown-menu multilevel scale-up-left">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('auth.eventos') }}">
+                                            <i class="fa fa-calendar mr-5"></i>
+                                            <!-- Ícono de calendario para "Listado de Eventos" -->
+                                            Listado de Eventos
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('auth.eventosasistencia') }}">
+                                            <i class="fa fa-check-circle mr-5"></i>
+                                            <!-- Ícono de verificación para "Asistencia" -->
+                                            Registrar Asistencia
+                                        </a>
+                                    </li>
+                           
+                                </ul>
+                            </li>
+                        @endif
                     </ul>
                 </div>
             </nav>

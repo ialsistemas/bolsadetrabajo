@@ -41,10 +41,14 @@ class InicioController extends Controller
 
 
         // Pasar los datos a la vista 'auth.inicio.index'
-        return view('auth.inicio.index', compact('TotalUsuariosporCarrera', 
-        'totalContratadosporCarrera', 'totalAvisosporEmpleador', 'totalAvisos', 
-        'totalUsuarios', 'totalEmpresasAprobadas', 'empresas', 'programasContratados', 
-        'fechaDesde', 'fechaHasta'));
+        if (Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_DESARROLLADOR ||
+        Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_ADMINISTRADOR){
+            return view('auth.inicio.index', compact('TotalUsuariosporCarrera', 
+            'totalContratadosporCarrera', 'totalAvisosporEmpleador', 'totalAvisos', 
+            'totalUsuarios', 'totalEmpresasAprobadas', 'empresas', 'programasContratados', 
+            'fechaDesde', 'fechaHasta'));
+        }
+        return redirect('/auth/principal'); // Redirige a una página predeterminada si la condición no se cumple
     }
     
     // Métodos privados con filtro por fecha
