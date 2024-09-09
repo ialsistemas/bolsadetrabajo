@@ -181,11 +181,11 @@ class AvisoController extends Controller
         $Areas = Area::all();
         $Provincias = Provincia::all();
         $Distritos = Distrito::where('id', $Alumno->distrito_id)->get();
-        $Educaciones = Educacion::where('alumno_id', $alumno)->get();
-        $ExperienciaLaboral = ExperienciaLaboral::where('alumno_id', $alumno)->get();
-        $Educaciones = Educacion::where('alumno_id', $alumno)->get();
+        $Educaciones = Educacion::where('alumno_id', $alumno)->orderBy('estudio_inicio', 'DESC')->get();
+        $ExperienciaLaboral = ExperienciaLaboral::where('alumno_id', $alumno)->orderBy('inicio_laburo', 'DESC')->get();
+        $Educaciones = Educacion::where('alumno_id', $alumno)->orderBy('estudio_inicio', 'DESC')->get();
 
-        $ReferenciaLaboral = ReferenciaLaboral::where('alumno_id', $Alumno->id)->get();
+        $ReferenciaLaboral = ReferenciaLaboral::where('alumno_id', $Alumno->id)->orderBy('inicio_curso', 'DESC')->get();
 
         $pdf = PDF::loadView('app.avisos.cv_postulado',  ['referenciaLaboral' => $ReferenciaLaboral,'provincias' => $Provincias, 'areas' => $Areas, 'alumno' => $Alumno, "experienciaLaboral" => $ExperienciaLaboral, "educaciones" => $Educaciones, 'distritos' => $Distritos]);
         return $pdf->stream();

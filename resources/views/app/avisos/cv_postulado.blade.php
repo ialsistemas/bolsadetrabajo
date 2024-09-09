@@ -137,15 +137,16 @@
     }
     .caja_curso_x{
         width: 64% !important;
-    }                                                                                                                                                                                                                                                                                    
+    }  
 </style>
 <body>
     <div class="head_cv">
-
+        
         <div class="sect_datos_personales" style="width: {{ $alumno->foto == null ? '100%' : '72%'}}">
             <h2 class="titulo_nombres">{{ $alumno->apellidos ." ". $alumno->nombres }}</h2>
                 <div class="tipo_letra">
-                    <b>DNI:</b>  {{ $alumno->dni }},
+                    <b>DNI:</b>  {{ $alumno->dni }}, 
+                    {{-- <b>Dirección:</b> {{ $alumno->direccion }}, --}}
                     @if(count($distritos) > 0)
                     @foreach($distritos as $q)
                         @php
@@ -173,6 +174,22 @@
         </div>
 
     </div>
+
+    {{-- <div class="title_datos_personales">Datos Personales</div>
+    <p>FECHA DE NACIMIENTO: {{ $alumno->fecha_nacimiento }}</p>
+    @if(count($distritos) > 0)
+    @foreach($distritos as $q)
+        @php
+            if($alumno->distrito_id == $q->id){
+
+                echo "<p>DISTRITO : ".$q->nombre."</p>";
+            }
+
+        @endphp
+    @endforeach
+    @endif
+    <p>CORREO : {{ $alumno->email }}</p>
+    <p>CELULAR : {{ $alumno->telefono }}</p> --}}
 
     <div class="titulo_exp_laboral" style="display:{{count($experienciaLaboral) > 0 ? 'block' : 'none'}}"><b>EXPERIENCIA LABORAL</b></div>
     @foreach($experienciaLaboral as $q)
@@ -218,7 +235,7 @@
     </div>
     @endforeach
 
-    <div class="titulo_cursos" style="display:{{count($referenciaLaboral) > 0 ? 'block' : 'none'}}"><b>CURSOS</b></div>
+    <div class="titulo_cursos" style="display:{{count($referenciaLaboral) > 0 ? 'block' : 'none'}}"><b>FORMACIÓN COMPLEMENTARIA</b></div>
     @foreach ($referenciaLaboral as $q)
     <div class="caja_item_esperiencia">
         <div class="data_experiencia1 caja_curso_x"><b class="punto_negro_experiencia">.</b> 

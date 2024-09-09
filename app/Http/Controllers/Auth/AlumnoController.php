@@ -75,14 +75,14 @@ class AlumnoController extends Controller
         if($alumno != null){
 
             $Distritos = Distrito::where('provincia_id', $alumno->provincia_id)->get();
-            $Educaciones = Educacion::where('alumno_id', $alumno->id)->get();
-            $ExperienciaLaboral = ExperienciaLaboral::where('alumno_id', $alumno->id)->get();
+            $Educaciones = Educacion::where('alumno_id', $alumno->id)->orderBy('estudio_inicio', 'DESC')->get();
+            $ExperienciaLaboral = ExperienciaLaboral::where('alumno_id', $alumno->id)->orderBy('inicio_laburo', 'DESC')->get();
 
             $Habilidades = AlumnoHabilidad::where('alumno_id', $alumno->id)
                 ->whereHas('habilidades', function ($query) { $query->whereNull('deleted_at'); })
                 ->get();
 
-            $ReferenciaLaboral = ReferenciaLaboral::where('alumno_id', $alumno->id)->get();
+            $ReferenciaLaboral = ReferenciaLaboral::where('alumno_id', $alumno->id)->orderBy('inicio_curso', 'DESC')->get();
 
             $data = array(
                 'areas' => $Areas,

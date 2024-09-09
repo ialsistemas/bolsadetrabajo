@@ -51,6 +51,7 @@
     .sect_datos_personales{
         margin-left: 0px;
         margin-bottom: 0px;
+        width: 72%;
     }
     .img_perfil{
         width: 20%;
@@ -70,7 +71,6 @@
         border-bottom: 2px solid rgba(129, 129, 129, 0.363);
     }
     .caja_item_esperiencia{
-        position: relative;
         margin-left: 20px;
         /* display: flex; */
         margin-bottom: 0px; 
@@ -130,27 +130,31 @@
         font-size: 14px;
         margin-left:26px;
     }
-/*     .fecha_educacion{
+    .fecha_educacion{
         position: absolute;
         margin-left: 470px;
         top: 0;
-    } */
+    }
     .caja_curso_x{
         width: 64% !important;
-    }
+    }  
 </style>
 <body>
     <div class="head_cv">
+        
         <div class="sect_datos_personales" style="width: {{ $alumno->foto == null ? '100%' : '72%'}}">
             <h2 class="titulo_nombres">{{ $alumno->apellidos ." ". $alumno->nombres }}</h2>
                 <div class="tipo_letra">
                     <b>DNI:</b>  {{ $alumno->dni }}, 
+                    {{-- <b>Dirección:</b> {{ $alumno->direccion }}, --}}
                     @if(count($distritos) > 0)
                     @foreach($distritos as $q)
                         @php
                             if($alumno->distrito_id == $q->id){
+                
                                 echo "<b>Distrito:</b> ".$q->nombre." ,";
                             }
+                
                         @endphp
                     @endforeach
                     @endif
@@ -171,7 +175,21 @@
 
     </div>
 
+    {{-- <div class="title_datos_personales">Datos Personales</div>
+    <p>FECHA DE NACIMIENTO: {{ $alumno->fecha_nacimiento }}</p>
+    @if(count($distritos) > 0)
+    @foreach($distritos as $q)
+        @php
+            if($alumno->distrito_id == $q->id){
 
+                echo "<p>DISTRITO : ".$q->nombre."</p>";
+            }
+
+        @endphp
+    @endforeach
+    @endif
+    <p>CORREO : {{ $alumno->email }}</p>
+    <p>CELULAR : {{ $alumno->telefono }}</p> --}}
 
     <div class="titulo_exp_laboral" style="display:{{count($experienciaLaboral) > 0 ? 'block' : 'none'}}"><b>EXPERIENCIA LABORAL</b></div>
     @foreach($experienciaLaboral as $q)
@@ -192,7 +210,6 @@
             </div>
         </div>
     @endforeach
-
 
     <div class="titulo_educacion" style="display:{{count($educaciones) > 0 ? 'block' : 'none'}}"><b>EDUCACIÓN Y FORMACIÓN</b> </div>
     @foreach($educaciones as $q)
@@ -218,7 +235,6 @@
     </div>
     @endforeach
 
-    
     <div class="titulo_cursos" style="display:{{count($referenciaLaboral) > 0 ? 'block' : 'none'}}"><b>FORMACIÓN COMPLEMENTARIA</b></div>
     @foreach ($referenciaLaboral as $q)
     <div class="caja_item_esperiencia">
@@ -230,13 +246,12 @@
                 @endphp
                 {{-- {{ strip_tags($q->descripcion) }} --}}
         </div>
-        <div class="datos_experiencia" style="margin-top:-12px; margin-bottom:20px;">
-            <p style="margin-top:-1px"> ( {{ date("m/Y", strtotime($q->inicio_curso)) }}  -  {{ $q->fin_curso == null || $q->fin_curso == "" ? $q->estado : date("m/Y", strtotime($q->fin_curso)) }} )</p>   
+        <div class="datos_experiencia">
+            <p> ( {{ date("m/Y", strtotime($q->inicio_curso)) }}  -  {{ $q->fin_curso == null || $q->fin_curso == "" ? $q->estado : date("m/Y", strtotime($q->fin_curso)) }} )</p>         
         </div>
     </div>
     @endforeach
-    
-{{--     {{ $alumno->referentes_carrera }} --}}
+
     <div class="titulo_habilidades" style="display:{{strlen($alumno->referentes_carrera) >= 1 ? 'block' : 'none'}}"><b>OTRAS HABILIDADES</b> </div>
     @php
         echo $alumno->referentes_carrera;
