@@ -65,6 +65,17 @@
                                 <input autocomplete="off" type="text" class="form-control form-control-sm" id="sede"
                                     value="{{ $Entity ? $Entity->sede : '' }}" name="sede" placeholder="Sede" readonly required>
                             </div>
+                            <div class="form-group col-lg-6">
+                                <label for="sede" class="m-0 label-primary">Titulado</label>
+                                <input autocomplete="off" type="text" class="form-control form-control-sm" id="estado"
+                                    value="{{ $Entity ? $Entity->estado : '' }}" name="estado" placeholder="Titulado" readonly required>
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label for="sede" class="m-0 label-primary">Egresado</label>
+                                <input autocomplete="off" type="text" class="form-control form-control-sm" id="tipo"
+                                    value="{{ $Entity ? $Entity->tipo : '' }}" name="tipo" placeholder="Tipo" readonly required>
+                            </div>
+                            
                             {{-- <div class="form-group col-lg-6">
                                 <label for="tipo" class="m-0 label-primary">Tipo <b
                                         style="color:red;font-size:10px">(Obligatorio*)</b></label>

@@ -49,6 +49,8 @@ $(function () {
             { title: "Sede", data: "sede", class: "text-left" },
             { title: "Email", data: "email", class: "text-left" },
             { title: "Telefono", data: "tel", class: "text-left" },
+            { title: "Estado", data: "estado", class: "text-left" },
+            { title: "Tipo", data: "tipo", class: "text-left" },
             {
                 data: null,
                 render: function (data) {

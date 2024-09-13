@@ -158,6 +158,18 @@
                             <input autocomplete="off" type="text" class="form-control form-control-lg" id="sede"
                                 name="sede" placeholder="Sede" readonly required>
                         </div>
+                        <div class="form-group col-lg-6">
+                            <label for="sede" class="m-0 label-primary" style="font-size: 17px;">
+                                <i class="fa fa-envelope"></i> Egresado</label>
+                            <input autocomplete="off" type="text" class="form-control form-control-lg" id="egresado"
+                                name="egresado" placeholder="Titulado" readonly required>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label for="sede" class="m-0 label-primary" style="font-size: 17px;">
+                                <i class="fa fa-envelope"></i> Titulado</label>
+                            <input autocomplete="off" type="text" class="form-control form-control-lg" id="titulado"
+                                name="titulado" placeholder="Titulado" readonly required>
+                        </div>
 
                         {{-- <div class="form-group col-lg-6">
                             <label for="sede" class="m-0 label-primary" style="font-size: 17px;">

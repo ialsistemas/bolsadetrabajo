@@ -194,6 +194,8 @@ $(document).ready(function () {
                 $("#email").attr("placeholder", "Buscando ...");
                 $("#especialidad").attr("placeholder", "Buscando ...");
                 $("#sede").attr("placeholder", "Buscando ...");
+                $("#titulado").attr("placeholder", "Buscando ...");
+                $("#egresado").attr("placeholder", "Buscando ...");
             },
             success: function (res) {
                 $("#nombres").attr("placeholder", "Nombres");
@@ -202,6 +204,8 @@ $(document).ready(function () {
                 $("#email").attr("placeholder", "Correo Electronico");
                 $("#especialidad").attr("placeholder", "Especialidad");
                 $("#sede").attr("placeholder", "Sede");
+                $("#egresado").attr("placeholder", "Egresado");
+                $("#titulado").attr("placeholder", "Titulado");
                 if (res.success === true) {
                     const data = res.data[0];
                     $("#nombres").val(data.NombreAlumno);
@@ -210,6 +214,8 @@ $(document).ready(function () {
                     $("#email").val(data.email);
                     $("#especialidad").val(data.especialidad);
                     $("#sede").val(data.Sede);
+                    $("#titulado").val(data.Titulado);
+                    $("#egresado").val(data.Egresado);
                     $("#validationDni")
                         .html("DNI correcto.")
                         .removeClass("text-muted")

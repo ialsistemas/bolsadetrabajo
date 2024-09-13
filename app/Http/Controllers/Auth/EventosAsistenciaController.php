@@ -70,6 +70,8 @@ class EventosAsistenciaController extends Controller
             'apellidos' => $request->apellidos,
             'especialidad' => $request->especialidad,
             'tel' => $request->tel,
+            'estado' => $request->titulado,
+            'tipo' => $request->egresado,
             'email' => $request->email,
             'sede' => $request->sede,
             'id_user' => $request->id_user,

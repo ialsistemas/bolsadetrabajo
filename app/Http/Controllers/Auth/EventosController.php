@@ -199,7 +199,7 @@ class EventosController extends Controller
 
         // Consulta usando el modelo Eloquent
         $participantes = EventosAsistencia::join('eventos as ev', 'eventosasistencia.id_evento', '=', 'ev.id') // Unir con la tabla eventos
-                            ->select('eventosasistencia.dni', 'eventosasistencia.nombres', 'eventosasistencia.apellidos', 'eventosasistencia.email', 'eventosasistencia.tel', 'eventosasistencia.tipo', 'eventosasistencia.sede', 'eventosasistencia.especialidad', 'eventosasistencia.id') // Selecciona los campos necesarios
+                            ->select('eventosasistencia.tipo','eventosasistencia.estado','eventosasistencia.dni', 'eventosasistencia.nombres', 'eventosasistencia.apellidos', 'eventosasistencia.email', 'eventosasistencia.tel', 'eventosasistencia.tipo', 'eventosasistencia.sede', 'eventosasistencia.especialidad', 'eventosasistencia.id') // Selecciona los campos necesarios
                             ->where('ev.id', $id_evento) // Filtrar por el id del evento
                             ->orderBy('eventosasistencia.created_at', 'DESC') // Ordenar por la fecha de creación
                             ->get();
