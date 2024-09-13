@@ -204,8 +204,8 @@ $(document).ready(function () {
                 $("#email").attr("placeholder", "Correo Electronico");
                 $("#especialidad").attr("placeholder", "Especialidad");
                 $("#sede").attr("placeholder", "Sede");
-                $("#egresado").attr("placeholder", "Egresado");
-                $("#titulado").attr("placeholder", "Titulado");
+                $("#egresado").attr("placeholder", "Ingrese..");
+                $("#titulado").attr("placeholder", "Ingrese..");
                 if (res.success === true) {
                     const data = res.data[0];
                     $("#nombres").val(data.NombreAlumno);
