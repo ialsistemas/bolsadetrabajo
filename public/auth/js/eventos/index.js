@@ -214,8 +214,8 @@ $(document).ready(function () {
                     $("#email").val(data.email);
                     $("#especialidad").val(data.especialidad);
                     $("#sede").val(data.Sede);
-                    $("#titulado").val(data.Titulado);
                     $("#egresado").val(data.Egresado);
+                    $("#titulado").val(data.Titulado);
                     $("#validationDni")
                         .html("DNI correcto.")
                         .removeClass("text-muted")
@@ -237,7 +237,9 @@ $(document).ready(function () {
                     $("#email").val("");
                     $("#especialidad").val("");
                     $("#sede").val("");
-
+                    $("#egresado").val("");
+                    $("#titulado").val("");
+                    
                     $(dni)
                         .removeClass("border-success border-dark")
                         .addClass("border-danger");
