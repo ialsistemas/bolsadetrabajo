@@ -52,7 +52,7 @@ class LoginEmpresaController extends Controller
         $curl = curl_init();
         curl_setopt_array($curl, array(
             /* CURLOPT_URL => "https://my.apidevs.pro/api/dni/".$data."?api_token=3fcaa8c48f59ff6ee58afff70a360af5fdcc214f512128165cdc050da28ee770", */
-            CURLOPT_URL => "https://apiperu.dev/api/dni/".$data."?api_token=3fccc8c48f59ff6ee58afff70a360af5fdcc214f571128165cdc050da28f2770",
+            CURLOPT_URL => "https://my.apidev.pro/api/dni/".$data."?api_token=3fcaa8c48f59ff6ee58afff70a360af5fdcc214f512128165cdc050da28ee770",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_CUSTOMREQUEST => "GET",
             CURLOPT_SSL_VERIFYPEER => false
@@ -70,7 +70,7 @@ class LoginEmpresaController extends Controller
     public function consultar_sunat($data){
         $curl = curl_init();
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://apiperu.dev/api/ruc/".$data."?api_token=3fccc8c48f59ff6ee58afff70a360af5fdcc214f571128165cdc050da28f2770",
+            CURLOPT_URL => "https://my.apidev.pro/api/ruc/".$data."?api_token=3fcaa8c48f59ff6ee58afff70a360af5fdcc214f512128165cdc050da28ee770",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_CUSTOMREQUEST => "GET",
             CURLOPT_SSL_VERIFYPEER => false
