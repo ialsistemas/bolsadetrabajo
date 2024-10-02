@@ -10,7 +10,6 @@
 
 @section('contenido')
     <div class="content-wrapper">
-
         <section class="content-header">
             <h1>
                 Listado de Usuarios
@@ -19,20 +18,23 @@
 
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <button type="button" id="modalRegistrarUsuarios" class="btn-primary"><i class="fa fa-plus"></i> Registrar Usuario</button>
+                    <button type="button" id="modalRegistrarUsuarios" class="btn-primary"><i class="fa fa-plus"></i> Registrar
+                        Usuario</button>
                 </li>
             </ol>
         </section>
-
         <section class="content">
             @csrf
             <div class="row">
                 <div class="col-md-12">
-                    <table id="tableUsuarios" class="table table-bordered table-striped display nowrap margin-top-10 dataTable no-footer"></table>
+                    <div class="content-header">
+                        <table id="tableUsuarios"
+                            class="table table-bordered table-striped display nowrap margin-top-10 dataTable no-footer">
+                        </table>
+                    </div>
                 </div>
             </div>
         </section>
-
     </div>
 @endsection
 

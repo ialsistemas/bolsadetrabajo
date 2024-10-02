@@ -23,7 +23,43 @@ $(function(){
             { title: "Nombres y Apellidos ", data: "nombres"},
             { title: "Usuario de Ingreso ", data: "email"},
             { title: "Perfil", data: "profile.name", className: "text-center" },
-           /*  { title: "Fecha de Creación ", data: "created_at"}, */
+            {
+                title: "Estado",
+                data: "estado",
+                render: function (data) {
+                    return data === 1 || data === '1'
+                        ? "<span class='estado-activo'>Activo</span>"
+                        : "<span class='estado-inactivo'>Inactivo</span>";
+                },
+            },
+            {
+                title: "Online",
+                data: null,
+                className: "text-center",
+                render: function(data, type, row) {
+                    console.log('row.online:', row.online); // Para depuración
+            
+                    const onlineStatus = Number(row.online);
+            
+                    if (onlineStatus === 0) {
+                        return "<p class='text-danger'>● OffLine</p>";
+                    } else if (onlineStatus === 1) {
+                        return "<p class='text-success animated-online'>● En Línea</p>";
+                    } else {
+                        return "<p class='text-muted'>● Desconocido</p>";
+                    }
+                }
+            },
+            {
+                title: "Último inicio de sesión",
+                data: "inicio_sesion",
+                className: "text-center"
+            },
+            {
+                title: "Último cierre de sesión",
+                data: "cerrar_sesion",
+                className: "text-center"
+            },
             
             {
                 data: null,

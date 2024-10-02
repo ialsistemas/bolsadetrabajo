@@ -51,7 +51,7 @@ $(function(){
             { title: "Carrera del Alumno", data:"carrera"},
             { title: "Grado Académico", data: "grado_academico"},
             { title: "Estado", data: "estado"},
-            { title: "Titulo Oferta", data: "titulo", class: "text-left"},
+            { title: "CARGO QUE DESEMPEÑA EN LA EMPRESA", data: "titulo", class: "text-left"},
             { title: "Empresa", data: "nombre_comercial", class: "text-left"},
             { title: "Ruc", data: "ruc"}
         ]

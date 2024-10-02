@@ -51,7 +51,8 @@ class UsuariosController extends Controller
             'nombres' => 'required|unique:users,nombres,' . ($request->id ?? 'NULL') . ',id,deleted_at,NULL',
             'email' => 'required|unique:users,email,' . ($request->id  ?? 'NULL') . ',id,deleted_at,NULL',
             'password' => 'nullable|min:6', // Se valida solo si está presente
-            'profile_id' => 'required'
+            'profile_id' => 'required',
+            'estado' => 'required|in:1,2'
         ]);
 
         // Verificar si la validación falla
@@ -87,6 +88,7 @@ class UsuariosController extends Controller
         $entity->nombres = trim($request->nombres);
         $entity->email = trim($request->email);
         $entity->profile_id = $request->profile_id;
+        $entity->estado = $request->estado;
 
         // Guardar la entidad
         if ($entity->save()) {

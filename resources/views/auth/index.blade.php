@@ -171,6 +171,9 @@
                                     <li class="user-body">
                                         <div class="row no-gutters">
                                             <div class="col-12 text-left">
+                                                <a href="javascript:void(0)">
+                                                    <b class="text-success">●</b> En Línea
+                                                </a>
                                                 <a id="ModalCambiarPassword" href="javascript:void(0)">
                                                     <i class="fa fa-key"></i> Cambiar Contraseña
                                                 </a>
@@ -178,9 +181,11 @@
                                                     onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                                                     <i class="fa fa-power-off"></i> {{ __('Cerrar Sesión') }}
                                                 </a>
-                                                <form id="logout-form" action="{{ route('auth.logout') }}"
-                                                    method="POST" style="display: none;">
+                                                <form id="logout-form" action="{{ route('auth.logout') }}" method="POST"
+                                                    style="display: none;">
                                                     @csrf
+                                                    <input type="text" name="validacion"
+                                                        value="{{ Auth::guard('web')->user()->email }}">
                                                 </form>
                                             </div>
                                         </div>

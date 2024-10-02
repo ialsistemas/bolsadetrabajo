@@ -50,6 +50,21 @@
                                 </select>
                                 <span data-valmsg-for="profile_id"></span>
                             </div>
+                            <div class="col-md-12">
+                                <label for="estado">
+                                    Estado
+                                </label>
+                                <div class="input-group">
+                                    <select class="form-control" name="estado" id="estado" required>
+                                        <option value="1"
+                                            {{ $Entity && $Entity->estado == '1' ? 'selected' : '' }}>Activo
+                                        </option>
+                                        <option value="2"
+                                            {{ $Entity && $Entity->estado == '2' ? 'selected' : '' }}>Inactivo
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

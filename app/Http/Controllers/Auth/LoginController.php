@@ -21,8 +21,32 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest:web', ['except' => ['logout', 'partialView_change_password', 'change_password'] ]);
+        if(isset($_POST['validacion'])){
+            User::where('email', $_POST['validacion'])->update(['online' => 0]);
+            User::where('email', $_POST['validacion'])->update(['cerrar_sesion' => date('y-m-d h:i:s')]);
+        }
+ 
     }
 
+
+    protected function login(Request $request)
+    {
+        $this->validateLogin($request);
+
+        $credentials = $this->getCredentials($request);
+
+        $usuario = User::where('estado', 1)->where('email', $credentials['email'])->first();
+
+        if ($usuario != null && Hash::check($credentials['password'], $usuario->password)) {
+            Auth::guard($this->getGuard())->login($usuario, $request->has('remember'));
+            User::where('email', $credentials['email'])->update(['online' => 1]);
+            User::where('email', $credentials['email'])->update(['inicio_sesion' => date('y-m-d h:i:s')]);
+            return $this->handleUserWasAuthenticated($request, null);
+        }
+
+        return $this->sendFailedLoginResponse($request);
+    }
+    
     public function partialView_change_password()
     {
         return view('auth.login._ChangePassword');
