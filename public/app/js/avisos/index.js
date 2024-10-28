@@ -120,4 +120,3 @@ $(function(){
     });
 
 });
-console.log("aaaaaaaaaaaa");

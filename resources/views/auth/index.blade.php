@@ -83,7 +83,7 @@
             background: rgb(231, 229, 229) !important;
         }
     </style>
-    <div class="wrapper">
+    <div class="wrapper" id="contenido">
 
         <div id="loading">
             <i class="fa fa-refresh fa-spin" aria-hidden="true"></i>
@@ -93,10 +93,38 @@
             <div class="inside-header">
                 <a href="{{ route('auth.inicio') }}" class="logo">
                     <span class="logo-lg">
-                        <img src="{{ asset('app/img/logo.png') }}" alt="logo" class="light-logo">
-                        <img src="{{ asset('app/img/logo.png') }}" alt="logo" class="dark-logo">
+                        <img src="{{ asset('app/img/logo.png') }}" alt="logo" class="logo1">
+                        <img src="{{ asset('app/img/logo_ial.png') }}" alt="logo" class="logo2">
                     </span>
                 </a>
+                <style>
+                    .logo1 {
+                        display: block;
+                        margin-top: 10px;
+                        /* Muestra el logo completo por defecto */
+                    }
+
+                    .logo2 {
+                        display: none;
+                        /* Esconde el logo responsive por defecto */
+                    }
+
+                    @media (max-width: 768px) {
+
+                        /* Ajusta el ancho según lo que consideres 'responsive' */
+                        .logo1 {
+                            display: none;
+                            /* Esconde el logo completo en pantallas pequeñas */
+                        }
+                        .logo2 {
+                            margin-top: 15px;
+                            width: 50px;
+                            display: block;
+                            /* Muestra el logo responsive en pantallas pequeñas */
+                        }
+                    }
+                </style>
+
                 <nav class="navbar navbar-static-top">
                     <a href="#" class="sidebar-toggle d-block d-lg-none" data-toggle="push-menu" role="button"
                         style="color: #363d4a">
@@ -107,6 +135,37 @@
                             @if (Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_DESARROLLADOR ||
                                     Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_ADMINISTRADOR)
                                 <li id="notifications" class="dropdown notifications-menu">
+                                    <style>
+                                        #expandImage {
+                                            border-radius: 50%;
+                                            /* Hacer el botón circular */
+                                            background-color: #f8f9fa;
+                                            /* Color de fondo */
+                                            border: none;
+                                            /* Sin borde */
+                                            transition: background-color 0.3s;
+                                            /* Efecto al pasar el mouse */
+                                        }
+
+                                        #expandImage:hover {
+                                            background-color: #e2e6ea;
+                                            /* Color al pasar el mouse */
+                                        }
+                                    </style>
+                                    <button type="button" class="btn btn-light" id="expandImage"
+                                        style="margin-right: 10px; margin-top: 10px;">
+                                        <i class="mdi mdi-fullscreen" style="width:500px !important;"></i>
+                                    </button>
+                                    <script>
+                                        document.getElementById('expandImage').addEventListener('click', function() {
+                                            const content = document.getElementById('contenido');
+                                            if (!document.fullscreenElement) {
+                                                content.requestFullscreen().catch(err => {});
+                                            } else {
+                                                document.exitFullscreen();
+                                            }
+                                        });
+                                    </script>
                                     <button type="button" class="mt-3 dropdown-toggle btn btn-light"
                                         data-toggle="dropdown" style ="margin-top:10px !important;">
                                         <i class="mdi mdi-bell faa-ring animated"></i>
@@ -145,6 +204,7 @@
                                     /* Color verde para activo */
                                 }
                             </style>
+
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <div class="user-image-wrapper">
@@ -181,8 +241,8 @@
                                                     onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                                                     <i class="fa fa-power-off"></i> {{ __('Cerrar Sesión') }}
                                                 </a>
-                                                <form id="logout-form" action="{{ route('auth.logout') }}" method="POST"
-                                                    style="display: none;">
+                                                <form id="logout-form" action="{{ route('auth.logout') }}"
+                                                    method="POST" style="display: none;">
                                                     @csrf
                                                     <input type="text" name="validacion"
                                                         value="{{ Auth::guard('web')->user()->email }}">
@@ -261,25 +321,7 @@
                                 </a>
                             </li>
                         @endif
-                        @if (Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_DESARROLLADOR)
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                    <span class="active-item-here"></span> {{-- <i class="fa fa-cog mr-5"></i> --}}
-                                    <span>Ver más</span></a>
-                                <ul class="dropdown-menu multilevel scale-up-left">
-                                    <li class="nav-item"><a class="nav-link" href="{{ route('auth.usuarios') }}"><i
-                                                class="fa fa-user mr-5"></i> Gestión de
-                                            Usuarios</a>
-                                    </li>
-                                    <li class="nav-item"><a class="nav-link"
-                                            href="{{ route('auth.alumnosancionado') }}"><i
-                                                class="fa fa-gavel mr-5"></i> Estudiantes
-                                            Sancionados</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        @endif
+
                         {{-- Fin --}}
                         {{-- <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
@@ -305,7 +347,7 @@
                                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
                                     aria-haspopup="true" aria-expanded="false">
                                     <span class="active-item-here"> <i class="fa fa-calendar-alt mr-5"></i></span>
-                                    {{-- <i class="fa fa-cog mr-5"></i> --}}
+                                    <i class="fa fa-calendar mr-5"></i>
                                     <span>Gestión de Eventos</span>
                                 </a>
                                 <ul class="dropdown-menu multilevel scale-up-left">
@@ -323,7 +365,26 @@
                                             Registrar Asistencia
                                         </a>
                                     </li>
-                           
+
+                                </ul>
+                            </li>
+                        @endif
+                        @if (Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_DESARROLLADOR)
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    <span class="active-item-here"></span> {{-- <i class="fa fa-cog mr-5"></i> --}}
+                                    <span>Ver más</span></a>
+                                <ul class="dropdown-menu multilevel scale-up-left">
+                                    <li class="nav-item"><a class="nav-link" href="{{ route('auth.usuarios') }}"><i
+                                                class="fa fa-user mr-5"></i> Gestión de
+                                            Usuarios</a>
+                                    </li>
+                                    <li class="nav-item"><a class="nav-link"
+                                            href="{{ route('auth.alumnosancionado') }}"><i
+                                                class="fa fa-gavel mr-5"></i> Estudiantes
+                                            Sancionados</a>
+                                    </li>
                                 </ul>
                             </li>
                         @endif

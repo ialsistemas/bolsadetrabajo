@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> 
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="https://www.ial.edu.pe/isotipo.png">
-    <meta name="title" content="Instituto Arzobispo Loayza"/>
-    <meta name="description" content=""/>
+    <meta name="title" content="Instituto Arzobispo Loayza" />
+    <meta name="description" content="" />
     <meta name="keywords" content="">
     <meta property="og:title" content="">
     <meta property="og:description" content="">
@@ -28,8 +29,10 @@
     <link rel="stylesheet" href="{{ asset('app/plugins/toastr/css/toastr.min.css') }}">
     <link rel="stylesheet" href="{{ asset('auth/plugins/sweetalert/sweetalert.css') }}">
     <link rel="stylesheet" href="{{ asset('app/css/app.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('app/css/estilossebas.css') }}">
     @yield('styles')
 </head>
+
 <body>
 
     <div id="loading">
@@ -43,51 +46,74 @@
                     <div class="col-lg-12">
                         <nav class="navbar navbar-expand-lg navbar-light">
                             <a class="navbar-brand" href="{{ route('index') }}">
-                                <img src="{{ asset('app/img/logo.png') }}" alt="Instituto Arzobispo Loayza" class="logo">
+                                <img src="{{ asset('app/img/logo.png') }}" alt="Instituto Arzobispo Loayza"
+                                    class="logo">
                             </a>
-                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainmenu" aria-controls="mainmenu" aria-expanded="false" aria-label="Toggle navigation">
+                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainmenu"
+                                aria-controls="mainmenu" aria-expanded="false" aria-label="Toggle navigation">
                                 <span class="navbar-toggler-icon"></span>
                             </button>
-                            <div class="collapse navbar-collapse" id="mainmenu">
 
+                            <div class="collapse navbar-collapse" id="mainmenu">
                                 <ul class="navbar-nav ml-auto">
-                                    @if(Auth::guard('alumnos')->check() || Auth::guard('empresasw')->check())
-                                    {{-- {{ Auth::guard('alumnos')->user()->usuario_alumno }} --}}
-                                    {{-- {{ Auth::guard('empresasw')->check() }} --}}
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ Auth::guard('alumnos')->check() ? route('alumno.perfil') : route('empresa.perfil') }}">
-                                            <i class="fa fa-user"></i>
-                                            Hola, {{ Auth::guard('alumnos')->check() ? (Auth::guard('alumnos')->user()->nombres." ".Auth::guard('alumnos')->user()->apellidos) : Auth::guard('empresasw')->user()->nombre_comercial }}
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle d-flex align-items-center custom-dropdown"
+                                            href="#" id="userMenu" role="button" data-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false" style="justify-content: space-around !important;">
+                                            @if (Auth::guard('alumnos')->check() && Auth::guard('alumnos')->user()->foto)
+                                                <img src="{{ asset('uploads/alumnos/fotos/' . Auth::guard('alumnos')->user()->foto) }}"
+                                                    alt="Imagen del Alumno" class="user-avatar">
+                                            @else
+                                                <img src="{{ asset('auth/image/icon/iconoempresa.png') }}"
+                                                    class="user-avatar" alt="User Image">
+                                            @endif
+                                            <span class="ms-2 small">
+                                                Hola, <br>
+                                                {{ Auth::guard('alumnos')->check() ? Auth::guard('alumnos')->user()->nombres : Auth::guard('empresasw')->user()->nombre_comercial }}
+                                            </span>
                                         </a>
+
+
+                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
+                                            @if (Auth::guard('alumnos')->check() || Auth::guard('empresasw')->check())
+                                                <a class="dropdown-item"
+                                                    href="{{ Auth::guard('alumnos')->check() ? route('alumno.perfil') : route('empresa.perfil') }}">
+                                                    <i class="fa fa-user"></i> Perfil
+                                                </a>
+                                                <div class="divider"></div> <!-- División -->
+                                                @if (Auth::guard('alumnos')->check())
+                                                    <a class="dropdown-item"
+                                                        href="{{ route('alumno.postulaciones') }}">
+                                                        <i class="fa fa-bell"></i> Mis Postulaciones
+                                                    </a>
+                                                @endif
+                                                <a class="dropdown-item" href="javascript:void(0)"
+                                                    onclick="event.preventDefault(); localStorage.setItem('cliente_id', ''); document.getElementById('logout-form').submit();">
+                                                    <i class="fa fa-power-off"></i> {{ __('Cerrar Sesión') }}
+                                                </a>
+
+                                                <form id="logout-form"
+                                                    action="{{ Auth::guard('alumnos')->check() ? route('alumno.logout') : route('empresa.logout') }}"
+                                                    method="POST" style="display: none;">
+                                                    @csrf
+                                                    <input type="hidden" name="validacion"
+                                                        value="{{ Auth::guard('alumnos')->check() ? Auth::guard('alumnos')->user()->usuario_alumno : Auth::guard('empresasw')->user()->usuario_empresa }}">
+                                                </form>
+                                            @else
+                                                <a class="dropdown-item" href="{{ route('auth.login') }}">
+                                                    <i class="fa fa-user"></i> Administrador
+                                                </a>
+                                            @endif
+                                        </div>
+
                                     </li>
-                                    @if (Auth::guard('alumnos')->check())
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{{route('alumno.postulaciones') }}">
-                                                <i class="fa fa-bell"></i> Mis Postulaciones
-                                            </a>
-                                        </li>                                    
-                                    @endif
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="javascript:void(0)" onclick="event.preventDefault();localStorage.setItem('cliente_id','');document.getElementById('logout-form').submit();">
-                                            <i class="fa fa-power-off"></i> {{ __('Cerrar Sesión') }}
-                                        </a>
-                                        <form id="logout-form" action="{{ Auth::guard('alumnos')->check() ? route('alumno.logout') : route('empresa.logout') }}" method="POST" style="display: none;">
-                                            @csrf
-                                            <input type="text" name="validacion" value="{{ Auth::guard('alumnos')->check() ? Auth::guard('alumnos')->user()->usuario_alumno : Auth::guard('empresasw')->user()->usuario_empresa }}">
-                                        </form>
-                                    </li>
-                                    @else
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('auth.login') }}"> <i class="fa fa-user"></i> Administrador</a>
-                                    </li>
-                                    @endif
                                 </ul>
                             </div>
                         </nav>
                     </div>
                 </div>
             </div>
-        </header>        
+        </header>
     @endif
 
 
@@ -99,7 +125,9 @@
                 <div class="row">
                     <div class="col-lg-5 col-md-4 col-sm-6">
                         <p class="text"><span class="text-uppercase"><b> Licenciados por Minedu </b><br>
-                        Informes</span>: (01) 330-9090 | <a href="mailto:bolsadetrabajo@arzobispoloayza.edu.pe">bolsadetrabajo@arzobispoloayza.edu.pe</a></p>
+                                Informes</span>: (01) 330-9090 | <a
+                                href="mailto:bolsadetrabajo@arzobispoloayza.edu.pe">bolsadetrabajo@arzobispoloayza.edu.pe</a>
+                        </p>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-6">
                         <h5 class="sub-title">Bolsa Laboral</h5>
@@ -107,17 +135,19 @@
                     <div class="col-lg-3 col-md-4 col-sm-6">
                         <ul>
                             <li><a href="javascript:void(0)" target="_blank"><i class="fa fa-instagram"></i></a></li>
-                            <li><a href="javascript:void(0)" target="_blank"><i class="fa fa-youtube-play"></i></a></li>
+                            <li><a href="javascript:void(0)" target="_blank"><i class="fa fa-youtube-play"></i></a>
+                            </li>
                             <li><a href="javascript:void(0)" target="_blank"><i class="fa fa-facebook"></i></a></li>
                         </ul>
                     </div>
                     <hr>
                     <div class="col-12 copyright">
-                        <p>MAJML - Todos los derechos reservados para Instituto Arzobispo Loayza &copy; <?php echo date('Y') ?> </p>
+                        <p>MAJML - Todos los derechos reservados para Instituto Arzobispo Loayza &copy;
+                            <?php echo date('Y'); ?> </p>
                     </div>
                 </div>
             </div>
-        </footer>        
+        </footer>
     @endif
     {{-- <script>
         document.addEventListener("keydown", function(e) {
@@ -150,8 +180,8 @@
     <script type="text/javascript" src="{{ asset('app/plugins/bootstrap4/js/bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('app/plugins/toastr/js/toastr.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('auth/plugins/sweetalert/sweetalert.min.js') }}"></script>
-
     <script type="text/javascript" src="{{ asset('app/js/_Layout.min.js') }}"></script>
     @yield('scripts')
 </body>
+
 </html>

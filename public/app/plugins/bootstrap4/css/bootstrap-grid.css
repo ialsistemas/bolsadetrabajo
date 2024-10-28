@@ -1165,11 +1165,12 @@ html {
 .d-flex {
   display: -ms-flexbox !important;
   display: flex !important;
+  justify-content: space-evenly !important; 
 }
 
 .d-inline-flex {
   display: -ms-inline-flexbox !important;
-  display: inline-flex !important;
+
 }
 
 @media (min-width: 576px) {
