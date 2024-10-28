@@ -238,7 +238,7 @@ span[data-valmsg-for] {
 }
 
 #main .head-section .form input {
-  width: 85%;
+  width: 75%;
   height: 100%;
   padding: 10px;
   margin: 0;
@@ -249,7 +249,7 @@ span[data-valmsg-for] {
 }
 
 #main .head-section .form button {
-  width: 14%;
+  width: 20%;
   height: 100%;
   background-color: #0087CC;
   color: #fff;
