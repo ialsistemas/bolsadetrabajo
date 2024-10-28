@@ -116,6 +116,7 @@
                             display: none;
                             /* Esconde el logo completo en pantallas pequeñas */
                         }
+
                         .logo2 {
                             margin-top: 15px;
                             width: 50px;
@@ -153,9 +154,10 @@
                                         }
                                     </style>
                                     <button type="button" class="btn btn-light" id="expandImage"
-                                        style="margin-right: 10px; margin-top: 10px;">
+                                        style="margin-right: 10px; margin-top: 10px;" title="Ampliar pantalla">
                                         <i class="mdi mdi-fullscreen" style="width:500px !important;"></i>
                                     </button>
+
                                     <script>
                                         document.getElementById('expandImage').addEventListener('click', function() {
                                             const content = document.getElementById('contenido');
