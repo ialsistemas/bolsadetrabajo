@@ -14,7 +14,7 @@
         <section class="content-header">
             <h1>
                 Listado Empresas
-                <small>Mantenimiento</small>
+                {{-- <small>Mantenimiento</small> --}}
             </h1>
         </section>
 

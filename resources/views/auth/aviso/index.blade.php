@@ -39,7 +39,7 @@
         <section class="content-header d-flex justify-content-between align-items-center">          
                 <h2>
                     Listado Avisos
-                    <small>| Mantenimiento</small>
+                   {{--  <small>| Mantenimiento</small> --}}
                 </h2>           
             <!-- Botón de refresco alineado a la derecha -->
             <div>

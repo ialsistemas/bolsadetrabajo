@@ -24,8 +24,8 @@
 
         <section class="content-header">
             <h1>
-                Eventos |
-                <small>Mantenimiento</small>
+                Eventos 
+                {{-- <small>Mantenimiento</small> --}}
             </h1>
             {{-- <ol class="breadcrumb">
                 <li class="breadcrumb-item">

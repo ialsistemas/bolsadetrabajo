@@ -33,7 +33,7 @@
         <section class="content-header">
             <h1>
                 Publicar Anuncios para los Alumnos
-                <small>Mantenimiento</small>
+                {{-- <small>Mantenimiento</small> --}}
             </h1>
         </section>
 

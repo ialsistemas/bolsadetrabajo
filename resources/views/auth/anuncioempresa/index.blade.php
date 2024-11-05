@@ -35,7 +35,7 @@
         <section class="content-header">
             <h1>
                 Publicar Anuncios paras las Empresas
-                <small>Mantenimiento</small>
+                {{-- <small>Mantenimiento</small> --}}
             </h1>
         </section>
 

@@ -35,7 +35,7 @@
         <section class="content-header">
             <h1>
                 Publicar Programas de Inserción rápida
-                <small>Mantenimiento</small>
+               {{--  <small>Mantenimiento</small> --}}
             </h1>
         </section>
 

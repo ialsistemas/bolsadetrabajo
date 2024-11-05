@@ -13,7 +13,7 @@
         <section class="content-header">
             <h1>
                 Listado de Usuarios
-                <small>Mantenimiento</small>
+                {{-- <small>Mantenimiento</small> --}}
             </h1>
 
             <ol class="breadcrumb">
