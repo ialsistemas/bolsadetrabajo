@@ -1,6 +1,6 @@
 var OnSuccessRegistroSancion, OnFailureRegistroSancion;
 var $dataTableAlumnoSancionado;
-const $table = $("#tableAlumnoSancionado");
+const $tableSancionado = $("#tableAlumnoSancionado");
 const $actividad_eco_filter_id = $("#actividad_eco_filter_id");
 const $ruc_dni = $("#ruc_dni");
 
@@ -11,7 +11,7 @@ $(function() {
     OnFailureRegistroSancion = () => onFailureForm();
 
     // Inicializa el DataTable y asigna la variable global
-    $dataTableAlumnoSancionado = $table.DataTable({
+    $dataTableAlumnoSancionado = $tableSancionado.DataTable({
         columnDefs: [
             {
                 defaultContent: "-",
@@ -114,7 +114,7 @@ $(function() {
     });
 
     // Maneja el clic en el botón "Quitar Sanción"
-    $table.on("click", ".btn-danger", function () {
+    $tableSancionado.on("click", ".btn-danger", function () {
         const id = $dataTableAlumnoSancionado.row($(this).parents("tr")).data().id;
         const formData = new FormData();
         formData.append("_token", $("input[name=_token]").val());

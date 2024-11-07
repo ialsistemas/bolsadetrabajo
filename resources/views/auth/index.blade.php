@@ -279,12 +279,28 @@
                                     <i class="fa fa-male mr-5"></i> <span>Empleador</span>
                                 </a>
                             </li>
-                            <li class="nav-item {{ Route::currentRouteName() == 'auth.alumno' ? 'active' : '' }}">
+                            <li
+                                class="nav-item dropdown {{ Route::currentRouteName() == 'auth.alumno' || Route::currentRouteName() == 'auth.alumnosancionado' ? 'active' : '' }}">
+                                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    <span class="active-item-here"></span><i class="fa fa-users mr-5"></i>
+                                    <span>Estudiantes</span></a>
+                                <ul class="dropdown-menu multilevel scale-up-left">
+                                    <li class="nav-item"><a class="nav-link" href="{{ route('auth.alumno') }}"><i
+                                                class="fa fa-users mr-5"></i> Gestión de Estudiantes</a></li>
+                                    <li class="nav-item"><a class="nav-link"
+                                            href="{{ route('auth.alumnosancionado') }}"><i
+                                                class="fa fa-gavel mr-5"></i>Estudiantes Sancionados</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            {{-- <li class="nav-item {{ Route::currentRouteName() == 'auth.alumno' ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ route('auth.alumno') }}"><span
                                         class="active-item-here"></span>
                                     <i class="fa fa-users mr-5"></i> <span>Estudiantes</span>
                                 </a>
-                            </li>
+                            </li> --}}
                             <li
                                 class="nav-item dropdown {{ Route::currentRouteName() == 'auth.aviso' || Route::currentRouteName() == 'auth.avisoPostulacion' ? 'active' : '' }}">
                                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
@@ -344,7 +360,8 @@
                                 </li>
                             </ul>
                         </li> --}}
-                        @if (Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_DESARROLLADOR)
+                        @if (Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_DESARROLLADOR ||
+                                Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_ADMINISTRADOR)
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
                                     aria-haspopup="true" aria-expanded="false">
@@ -382,11 +399,11 @@
                                                 class="fa fa-user mr-5"></i> Gestión de
                                             Usuarios</a>
                                     </li>
-                                    <li class="nav-item"><a class="nav-link"
+                                    {{-- <li class="nav-item"><a class="nav-link"
                                             href="{{ route('auth.alumnosancionado') }}"><i
                                                 class="fa fa-gavel mr-5"></i> Estudiantes
                                             Sancionados</a>
-                                    </li>
+                                    </li> --}}
                                 </ul>
                             </li>
                         @endif

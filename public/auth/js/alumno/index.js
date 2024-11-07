@@ -191,7 +191,7 @@ $(function () {
                     <div class="dropdown-menu p-0">
                     ${estado}
                     <a class="dropdown-item" target='_blank' href='/auth/alumno/print_cv_pdf/${data.id}'><i class='fa fa-address-card'></i> Ver CV</a>
-                    <!-- <a class="dropdown-item btn-sancionar" href="#"><i class='fa fa-exclamation-triangle'></i> Sancionar</a> -->
+                    <a class="dropdown-item btn-sancionar" href="#"><i class='fa fa-exclamation-triangle'></i> Sancionar</a>
                     <a class="dropdown-item btn-delete" href="#"><i class='fa fa-trash'></i> Eliminar</a>
                     </div>
                 </div>`;

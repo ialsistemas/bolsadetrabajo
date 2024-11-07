@@ -25,7 +25,6 @@
         <section class="content-header">
             <h1>
                 Alumnos Sancionados
-                <small>Mantenimiento</small>
             </h1>
         </section>
 
