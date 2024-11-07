@@ -259,7 +259,7 @@
                     <div id="block-message" style="display: none; position: relative; top: 0; left: 0; right: 0; background-color: rgba(255, 0, 0, 0.8); color: white; text-align: center; padding: 10px; font-weight: bold; z-index: 1000;">
                         <i class="fa fa-exclamation-triangle" style="font-size: 15px; margin-right: 5px;"></i>
                         Usted se encuentra sancionado temporalmente. 
-                        <a href="#" id="view-reason" style="color: yellow; text-decoration: underline; font-size:12px;">Ver motivo</a>
+                       {{--  <a href="#" id="view-reason" style="color: yellow; text-decoration: underline; font-size:12px;">Ver motivo</a> --}}
                     </div>
                     
                     <!-- Modal or popup to show the reason -->
