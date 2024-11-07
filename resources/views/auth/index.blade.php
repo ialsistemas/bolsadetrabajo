@@ -14,83 +14,16 @@
     <link rel="stylesheet" href="{{ asset('auth/plugins/toastr/css/toastr.min.css') }}">
     <link rel="stylesheet" href="{{ asset('auth/css/layout/app.min.css') }}">
     <link rel="stylesheet" href="{{ asset('auth/css/index.css') }}">
+    <link rel="stylesheet" href="{{ asset('auth/css/indexauth/style.css') }}">
     @yield('styles')
 </head>
 
 <body>
 
-    <style>
-        /* CAMBIAR THEME DE SISTEMA */
-        .content-wrapper:before {
-           /*  background: radial-gradient(circle, rgba(0, 114, 191, 1) 37%, rgba(0, 195, 244, 1) 100%); */
-           background: radial-gradient(circle, rgba(0, 114, 191, 1) 37%, rgb(3 75 146) 100%);
-        }
-
-        .main-nav {
-            background: radial-gradient(circle, rgba(0, 114, 191, 1) 37%, rgb(3 75 146) 100%);
-        }
-
-        .active-item-here {
-            color: #006ab6;
-        }
-
-        .table thead {
-            background-color: #006ab6;
-        }
-
-        .btn-secondary {
-            color: #fff;
-            background-color: #2ecc71;
-            border-color: #2ecc71;
-        }
-
-        .btn-secondary:hover {
-            color: #fff;
-            background-color: #1cb65c;
-            border-color: #1cb65c;
-        }
-
-        div.dataTables_wrapper div.dataTables_filter input {
-            width: 400px !important;
-        }
-
-        @media screen and (max-width:503px) {
-            div.dataTables_wrapper div.dataTables_filter input {
-                width: 100% !important;
-            }
-        }
-
-        .modal.modal-fill .modal-dialog .modal-header {
-            background-color: #0072bf;
-        }
-
-        .modal.modal-fill {
-            background: rgba(135, 189, 236, 0.305);
-            !important;
-        }
-
-        header {
-            padding-top: 5px;
-        }
-
-        .li_notifi {
-            background: rgb(215, 215, 215);
-            cursor: pointer;
-            padding: 5px 10px !important;
-            border: 0px 0px 2px 0px solid rgb(104, 104, 104) !important;
-        }
-
-        .li_notifi:hover {
-            background: rgb(231, 229, 229) !important;
-        }
-        
-    </style>
     <div class="wrapper" id="contenido">
-
         <div id="loading">
             <i class="fa fa-refresh fa-spin" aria-hidden="true"></i>
         </div>
-
         <header class="main-header">
             <div class="inside-header">
                 <a href="{{ route('auth.inicio') }}" class="logo">
@@ -99,35 +32,6 @@
                         <img src="{{ asset('app/img/logo_ial.png') }}" alt="logo" class="logo2">
                     </span>
                 </a>
-                <style>
-                    .logo1 {
-                        display: block;
-                        margin-top: 10px;
-                        /* Muestra el logo completo por defecto */
-                    }
-
-                    .logo2 {
-                        display: none;
-                        /* Esconde el logo responsive por defecto */
-                    }
-
-                    @media (max-width: 768px) {
-
-                        /* Ajusta el ancho según lo que consideres 'responsive' */
-                        .logo1 {
-                            display: none;
-                            /* Esconde el logo completo en pantallas pequeñas */
-                        }
-
-                        .logo2 {
-                            margin-top: 15px;
-                            width: 50px;
-                            display: block;
-                            /* Muestra el logo responsive en pantallas pequeñas */
-                        }
-                    }
-                </style>
-
                 <nav class="navbar navbar-static-top">
                     <a href="#" class="sidebar-toggle d-block d-lg-none" data-toggle="push-menu" role="button"
                         style="color: #363d4a">
@@ -138,23 +42,6 @@
                             @if (Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_DESARROLLADOR ||
                                     Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_ADMINISTRADOR)
                                 <li id="notifications" class="dropdown notifications-menu">
-                                    <style>
-                                        #expandImage {
-                                            border-radius: 50%;
-                                            /* Hacer el botón circular */
-                                            background-color: #f8f9fa;
-                                            /* Color de fondo */
-                                            border: none;
-                                            /* Sin borde */
-                                            transition: background-color 0.3s;
-                                            /* Efecto al pasar el mouse */
-                                        }
-
-                                        #expandImage:hover {
-                                            background-color: #e2e6ea;
-                                            /* Color al pasar el mouse */
-                                        }
-                                    </style>
                                     <button type="button" class="btn btn-light" id="expandImage"
                                         style="margin-right: 10px; margin-top: 10px;" title="Ampliar pantalla">
                                         <i class="mdi mdi-fullscreen" style="width:500px !important;"></i>
@@ -181,34 +68,6 @@
                                     </ul>
                                 </li>
                             @endif
-                            <style>
-                                .user-image-wrapper {
-                                    position: relative;
-                                }
-
-                                .user-image {
-                                    border-radius: 50%;
-                                }
-
-                                .status-indicator {
-                                    position: absolute;
-                                    bottom: 0;
-                                    right: 0;
-                                    width: 12px;
-                                    height: 12px;
-                                    border-radius: 50%;
-                                    background-color: #28a745;
-                                    /* Color verde para activo */
-                                    border: 2px solid #fff;
-                                    /* Borde blanco para destacarlo */
-                                }
-
-                                .status-indicator.active {
-                                    background-color: #28a745;
-                                    /* Color verde para activo */
-                                }
-                            </style>
-
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <div class="user-image-wrapper">
@@ -256,7 +115,6 @@
                                     </li>
                                 </ul>
                             </li>
-
                         </ul>
                     </div>
                 </nav>
@@ -393,7 +251,8 @@
                         @endif
                         @if (Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_DESARROLLADOR ||
                                 Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_ADMINISTRADOR)
-                            <li class="nav-item dropdown {{ Route::currentRouteName() == 'auth.usuarios' ? 'active' : '' }}">
+                            <li
+                                class="nav-item dropdown {{ Route::currentRouteName() == 'auth.usuarios' ? 'active' : '' }}">
                                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
                                     aria-haspopup="true" aria-expanded="false">
                                     <span class="active-item-here"></span> {{-- <i class="fa fa-cog mr-5"></i> --}}
@@ -417,7 +276,6 @@
         </div>
         @yield('contenido')
         <div class="conta mt-15" style=" padding-right: 0px !important; padding-left: 0px !important;">
-
             <footer class="text-center text-white" style="background-color: #004991 !important">
                 <!-- Grid container -->
                 <div class="container p-4 pb-0">
@@ -445,7 +303,6 @@
                     <!-- Section: Social media -->
                 </div>
                 <!-- Grid container -->
-
                 <!-- Copyright -->
                 <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
                     © 2024 Todos los derechos reservados para
@@ -454,7 +311,6 @@
                 </div>
                 <!-- Copyright -->
             </footer>
-
         </div>
 
 

@@ -1,0 +1,135 @@
+        /* CAMBIAR THEME DE SISTEMA */
+        .content-wrapper:before {
+            /*  background: radial-gradient(circle, rgba(0, 114, 191, 1) 37%, rgba(0, 195, 244, 1) 100%); */
+            background: radial-gradient(circle, rgba(0, 114, 191, 1) 37%, rgb(3 75 146) 100%);
+        }
+
+        .main-nav {
+            background: radial-gradient(circle, rgba(0, 114, 191, 1) 37%, rgb(3 75 146) 100%);
+        }
+
+        .active-item-here {
+            color: #006ab6;
+        }
+
+        .table thead {
+            background-color: #006ab6;
+        }
+
+        .btn-secondary {
+            color: #fff;
+            background-color: #2ecc71;
+            border-color: #2ecc71;
+        }
+
+        .btn-secondary:hover {
+            color: #fff;
+            background-color: #1cb65c;
+            border-color: #1cb65c;
+        }
+
+        div.dataTables_wrapper div.dataTables_filter input {
+            width: 400px !important;
+        }
+
+        @media screen and (max-width:503px) {
+            div.dataTables_wrapper div.dataTables_filter input {
+                width: 100% !important;
+            }
+        }
+
+        .modal.modal-fill .modal-dialog .modal-header {
+            background-color: #0072bf;
+        }
+
+        .modal.modal-fill {
+            background: rgba(135, 189, 236, 0.305) !important;
+        }
+
+        header {
+            padding-top: 5px;
+        }
+
+        .li_notifi {
+            background: rgb(215, 215, 215);
+            cursor: pointer;
+            padding: 5px 10px !important;
+            border: 0px 0px 2px 0px solid rgb(104, 104, 104) !important;
+        }
+
+        .li_notifi:hover {
+            background: rgb(231, 229, 229) !important;
+        }
+
+
+        /* logo */
+        .logo1 {
+            display: block;
+            margin-top: 10px;
+            /* Muestra el logo completo por defecto */
+        }
+
+        .logo2 {
+            display: none;
+            /* Esconde el logo responsive por defecto */
+        }
+
+        @media (max-width: 768px) {
+
+            /* Ajusta el ancho según lo que consideres 'responsive' */
+            .logo1 {
+                display: none;
+                /* Esconde el logo completo en pantallas pequeñas */
+            }
+
+            .logo2 {
+                margin-top: 15px;
+                width: 50px;
+                display: block;
+                /* Muestra el logo responsive en pantallas pequeñas */
+            }
+        }
+
+        /* Expandir con boton como F12 */
+        #expandImage {
+            border-radius: 50%;
+            /* Hacer el botón circular */
+            background-color: #f8f9fa;
+            /* Color de fondo */
+            border: none;
+            /* Sin borde */
+            transition: background-color 0.3s;
+            /* Efecto al pasar el mouse */
+        }
+
+        #expandImage:hover {
+            background-color: #e2e6ea;
+            /* Color al pasar el mouse */
+        }
+
+        /* User */
+        .user-image-wrapper {
+            position: relative;
+        }
+
+        .user-image {
+            border-radius: 50%;
+        }
+
+        .status-indicator {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #28a745;
+            /* Color verde para activo */
+            border: 2px solid #fff;
+            /* Borde blanco para destacarlo */
+        }
+
+        .status-indicator.active {
+            background-color: #28a745;
+            /* Color verde para activo */
+        }
