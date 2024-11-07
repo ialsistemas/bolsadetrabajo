@@ -212,7 +212,7 @@ span[data-valmsg-for] {
 
 #main .head-section {
   padding: 20px 0;
-  background: radial-gradient(circle, rgba(0, 114, 191, 1) 37%, rgba(0, 195, 244, 1) 100%);
+  background: radial-gradient(circle, rgba(0, 114, 191, 1) 37%, rgb(0 73 145) 100%);
   background-size: cover;
   background-repeat: no-repeat;
 }

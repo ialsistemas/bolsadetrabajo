@@ -22,19 +22,20 @@
     <style>
         /* CAMBIAR THEME DE SISTEMA */
         .content-wrapper:before {
-            background: radial-gradient(circle, rgba(0, 114, 191, 1) 37%, rgba(0, 195, 244, 1) 100%);
+           /*  background: radial-gradient(circle, rgba(0, 114, 191, 1) 37%, rgba(0, 195, 244, 1) 100%); */
+           background: radial-gradient(circle, rgba(0, 114, 191, 1) 37%, rgb(3 75 146) 100%);
         }
 
         .main-nav {
-            background: radial-gradient(circle, rgba(0, 114, 191, 1) 37%, rgba(0, 195, 244, 1) 100%);
+            background: radial-gradient(circle, rgba(0, 114, 191, 1) 37%, rgb(3 75 146) 100%);
         }
 
         .active-item-here {
-            color: #0072bf;
+            color: #006ab6;
         }
 
         .table thead {
-            background-color: #0072bf;
+            background-color: #006ab6;
         }
 
         .btn-secondary {
@@ -82,6 +83,7 @@
         .li_notifi:hover {
             background: rgb(231, 229, 229) !important;
         }
+        
     </style>
     <div class="wrapper" id="contenido">
 
@@ -362,7 +364,8 @@
                         </li> --}}
                         @if (Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_DESARROLLADOR ||
                                 Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_ADMINISTRADOR)
-                            <li class="nav-item dropdown">
+                            <li
+                                class="nav-item dropdown {{ Route::currentRouteName() == 'auth.eventos' || Route::currentRouteName() == 'auth.eventosasistencia' ? 'active' : '' }}">
                                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
                                     aria-haspopup="true" aria-expanded="false">
                                     <span class="active-item-here"> <i class="fa fa-calendar-alt mr-5"></i></span>
@@ -388,8 +391,9 @@
                                 </ul>
                             </li>
                         @endif
-                        @if (Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_DESARROLLADOR)
-                            <li class="nav-item dropdown">
+                        @if (Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_DESARROLLADOR ||
+                                Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_ADMINISTRADOR)
+                            <li class="nav-item dropdown {{ Route::currentRouteName() == 'auth.usuarios' ? 'active' : '' }}">
                                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
                                     aria-haspopup="true" aria-expanded="false">
                                     <span class="active-item-here"></span> {{-- <i class="fa fa-cog mr-5"></i> --}}

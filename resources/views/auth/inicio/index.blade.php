@@ -141,7 +141,7 @@
                 {{-- Fin estilo --}}
                 <div class="col-lg-3 mb-4 zoom-container">
                     <div class="totales text-center"
-                        style="background: linear-gradient(to bottom right, #007bc5, #00b2e9);">
+                        style="background: linear-gradient(to bottom right, #007bc5, #035098)">
                         <div class="title">
                             <p class="title-text" style="color:rgb(255, 255, 255)">
                                 <i class="fa fa-building"></i> Total de Empresas
@@ -196,7 +196,7 @@
 
                 <div class="col-lg-3 mb-4 zoom-container">
                     <div class="totales text-center"
-                        style="background: linear-gradient(to bottom right, #007bc5, #00b2e9);">
+                        style="background: linear-gradient(to bottom right, #007bc5, #035098)">
                         <div class="title">
                             <p class="title-text" style="color:rgb(255, 255, 255)">
                                 <i class="fa fa-bullhorn"></i> Total de Avisos
