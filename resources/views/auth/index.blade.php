@@ -152,6 +152,10 @@
                                             href="{{ route('auth.alumnosancionado') }}"><i
                                                 class="fa fa-gavel mr-5"></i>Estudiantes Sancionados</a>
                                     </li>
+                                    <li class="nav-item"><a class="nav-link"
+                                        href="{{ route('auth.certificados') }}"><i class="fa fa-id-card"></i>
+                                        Estudiantes Certificados</a>
+                                </li>
                                 </ul>
                             </li>
 
@@ -262,11 +266,6 @@
                                                 class="fa fa-user mr-5"></i> Gestión de
                                             Usuarios</a>
                                     </li>
-                                    {{-- <li class="nav-item"><a class="nav-link"
-                                            href="{{ route('auth.alumnosancionado') }}"><i
-                                                class="fa fa-gavel mr-5"></i> Estudiantes
-                                            Sancionados</a>
-                                    </li> --}}
                                 </ul>
                             </li>
                         @endif

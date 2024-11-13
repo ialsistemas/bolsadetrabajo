@@ -306,6 +306,21 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:web'], function () {
         Route::post('/update', 'Auth\EventosAsistenciaController@update')->name('auth.eventosasistencia.update');
     });
 
+    Route::group(['prefix' => 'certificados'], function () {
+        Route::get('/', 'Auth\CertificadosController@index')->name('auth.certificados');
+        Route::get('/list_all', 'Auth\CertificadosController@list_all')->name('auth.certificados.list_all');
+        Route::get('/partialView/{id}', 'Auth\CertificadosController@partialView')->name('auth.certificados.create');
+        Route::get('/mostrarParticipantes', 'Auth\CertificadosController@mostrarParticipantes')->name('auth.certificados.mostrarParticipantes');
+        Route::get('/partialViewCertificado/{id}', 'Auth\CertificadosController@partialViewCertificado')->name('auth.certificados.create');
+        Route::post('/deleteAlumno', 'Auth\CertificadosController@deleteAlumno')->name('auth.certificados.deleteAlumno');
+        Route::post('/store', 'Auth\CertificadosController@store')->name('auth.certificados.store');
+
+        
+        /* Route::post('/update', 'Auth\CertificadosController@update')->name('auth.certificados.update'); */
+        
+    });
+
+
 
 
 });

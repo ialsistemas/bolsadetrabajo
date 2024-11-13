@@ -14,11 +14,12 @@ use Illuminate\Support\Facades\DB;
 class AlumnoSancionadoController extends Controller
 {
     public function index()
-        {
-        if (Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_DESARROLLADOR) {
-            return view('auth.alumnosancionado.index');
-        } // Opcionalmente, podrías manejar el caso en que la condición no se cumple
-            return redirect('/auth/inicio'); // Redirige a una página predeterminada si la condición no se cumple
+        {  
+            if (Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_DESARROLLADOR ||
+            Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_ADMINISTRADOR) {
+                return view('auth.alumnosancionado.index');
+            } 
+                return redirect('/auth/inicio'); 
         }
 
         public function list_all(Request $request)
