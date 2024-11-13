@@ -32,7 +32,7 @@
                         <label for="fecha" class="m-0 label-primary">Fecha</label>
                         <input type="date" class="form-control form-control-sm" id="fecha" name="fecha"
                             value="{{ old('fecha') }}" required>
-                    </div>Enfrenta al Goliat
+                    </div>
 
                     <!-- Campo para Horas -->
                     <div class="form-group col-lg-12">
