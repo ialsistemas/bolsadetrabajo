@@ -149,7 +149,7 @@
             </div>
         </footer>
     @endif
-    {{-- <script>
+    <script>
         document.addEventListener("keydown", function(e) {
             // Deshabilitar F12
             if (e.keyCode === 123) {
@@ -173,7 +173,7 @@
         document.addEventListener("contextmenu", function(e) {
             e.preventDefault();
         });
-    </script> --}}
+    </script>
 
 
     <script type="text/javascript" src="{{ asset('app/plugins/jquery/3.5.1/jquery.min.js') }}"></script>
