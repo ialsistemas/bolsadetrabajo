@@ -17,7 +17,7 @@
                             value="{{ $Entity != null ? $Entity->id : '' }}" required>
                         {{-- {{ $Entity != null ? $Entity->id : '' }}  --}}
                         <div style="display: flex; flex-wrap: wrap;">
-                            <div class="form-group col-lg-6">
+                            {{-- <div class="form-group col-lg-6">
                                 <label for="dni" class="m-0 label-primary">DNI <b
                                         style="color:red;font-size:10px">(Obligatorio*)</b></label>
                                 <div class="input-group">
@@ -28,7 +28,32 @@
                                 <div class="invalid-feedback">
                                     Por favor ingresa un DNI válido (entre 1 y 8 dígitos).
                                 </div>
+                            </div> --}}
+
+                            <div class="form-group col-lg-6">
+                                <label for="dni" class="m-0 label-primary"> DNI <b
+                                        style="color:red;"">(Obligatorio*)</b></label>
+                                <div class="input-group">
+                                    <input autocomplete="off" type="text" class="form-control form-control-sm"
+                                        id="dni" name="dni" placeholder="Ingresar DNI" minlength="1"
+                                        value="{{ $Entity ? $Entity->dni : '' }}" required readonly>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary btn-sm" id="buscardni" type="button"
+                                            style="background-color: #0072bf; color: white;">
+                                            <i class="fa fa-search"></i> Buscar
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="invalid-feedback" style="font-size: 16px;">
+                                    Por favor ingresa un DNI válido (entre 1 y 8 dígitos).
+                                </div>
                             </div>
+                            {{-- EL CURSOR DNI SIEMPRE ESTE ACTIVO --}}
+                            <script>
+                                document.addEventListener("DOMContentLoaded", function() {
+                                    document.getElementById("dni").focus();
+                                });
+                            </script>
 
                             <div class="form-group col-lg-6">
                                 <label for="nombre" class="m-0 label-primary">Nombres</label>
@@ -62,135 +87,28 @@
                             </div>
                             <div class="form-group col-lg-6">
                                 <label for="sede" class="m-0 label-primary">Sede</label>
-                                <input autocomplete="off" type="text" class="form-control form-control-sm" id="sede"
-                                    value="{{ $Entity ? $Entity->sede : '' }}" name="sede" placeholder="Sede" readonly required>
+                                <input autocomplete="off" type="text" class="form-control form-control-sm"
+                                    id="sede" value="{{ $Entity ? $Entity->sede : '' }}" name="sede"
+                                    placeholder="Sede" readonly required>
                             </div>
                             <div class="form-group col-lg-6">
                                 <label for="sede" class="m-0 label-primary">Titulado</label>
-                                <input autocomplete="off" type="text" class="form-control form-control-sm" id="estado"
-                                    value="{{ $Entity ? $Entity->estado : '' }}" name="estado" placeholder="Titulado" readonly required>
+                                <input autocomplete="off" type="text" class="form-control form-control-sm"
+                                    id="estado" value="{{ $Entity ? $Entity->estado : '' }}" name="estado"
+                                    placeholder="Titulado" readonly required>
                             </div>
                             <div class="form-group col-lg-6">
                                 <label for="sede" class="m-0 label-primary">Egresado</label>
-                                <input autocomplete="off" type="text" class="form-control form-control-sm" id="tipo"
-                                    value="{{ $Entity ? $Entity->tipo : '' }}" name="tipo" placeholder="Tipo" readonly required>
+                                <input autocomplete="off" type="text" class="form-control form-control-sm"
+                                    id="tipo" value="{{ $Entity ? $Entity->tipo : '' }}" name="tipo"
+                                    placeholder="Tipo" readonly required>
                             </div>
-                            
-                            {{-- <div class="form-group col-lg-6">
-                                <label for="tipo" class="m-0 label-primary">Tipo <b
-                                        style="color:red;font-size:10px">(Obligatorio*)</b></label>
-                                <select name="tipo" id="tipo" class="form-control form-control-sm" required>
-                                    <option value="">Seleccione</option>
-                                    <option value="Estudiante"
-                                        {{ old('tipo', $Entity->tipo) == 'Estudiante' ? 'selected' : '' }}>
-                                        Estudiante
-                                    </option>
-                                    <option value="Egresado"
-                                        {{ old('tipo', $Entity->tipo) == 'Egresado' ? 'selected' : '' }}>
-                                        Egresado
-                                    </option>
-                                    <option value="Titulado"
-                                        {{ old('tipo', $Entity->tipo) == 'Titulado' ? 'selected' : '' }}>
-                                        Titulado
-                                    </option>
-                                </select>
-                            </div> --}}
-
-
-                            {{-- <div class="form-group col-lg-6">
-                                <label for="sede" class="m-0 label-primary">Sede <b
-                                        style="color:red;font-size:10px">(Obligatorio*)</b></label>
-                                <select name="sede" id="sede" class="form-control form-control-sm" required>
-                                    <option value="">Seleccione</option>
-                                    <option value="AREQUIPA 09 - CERCADO DE LIMA"
-                                        {{ old('sede', $Entity->sede) == 'AREQUIPA 09 - CERCADO DE LIMA' ? 'selected' : '' }}>
-                                        AREQUIPA 09 - CERCADO DE LIMA
-                                    </option>
-                                    <option value="AREQUIPA 14 - CERCADO DE LIMA"
-                                        {{old('sede', $Entity->sede) == 'AREQUIPA 14 - CERCADO DE LIMA' ? 'selected' : '' }}>
-                                        AREQUIPA 14 - CERCADO DE LIMA
-                                    </option>
-                                    <option value="ATE 01 (NICOLAS AYLLON 831)"
-                                        {{ old('sede', $Entity->sede) == 'ATE 01 (NICOLAS AYLLON 831)' ? 'selected' : '' }}>
-                                        ATE 01 (NICOLAS AYLLON 831)
-                                    </option>
-                                    <option value="BELISARIO - SAN JUAN DE MIRAFLORES"
-                                        {{ old('sede', $Entity->sede) == 'BELISARIO - SAN JUAN DE MIRAFLORES' ? 'selected' : '' }}>
-                                        BELISARIO - SAN JUAN DE MIRAFLORES
-                                    </option>
-                                    <option value="BILLINGHURST - SAN JUAN DE MIRAFLORES"
-                                        {{ old('sede', $Entity->sede) == 'BILLINGHURST - SAN JUAN DE MIRAFLORES' ? 'selected' : '' }}>
-                                        BILLINGHURST - SAN JUAN DE MIRAFLORES
-                                    </option>
-                                    <option value="CHOTA - CERCADO DE LIMA"
-                                        {{ old('sede', $Entity->sede) == 'CHOTA - CERCADO DE LIMA' ? 'selected' : '' }}>
-                                        CHOTA - CERCADO DE LIMA
-                                    </option>
-                                    <option value="CENTRAL - CERCADO DE LIMA"
-                                        {{ old('sede', $Entity->sede) == 'CENTRAL - CERCADO DE LIMA' ? 'selected' : '' }}>
-                                        CENTRAL - CERCADO DE LIMA
-                                    </option>
-                                    <option value="CLÍNICA - CERCADO DE LIMA"
-                                        {{ old('sede', $Entity->sede) == 'CLÍNICA - CERCADO DE LIMA' ? 'selected' : '' }}>
-                                        CLÍNICA - CERCADO DE LIMA
-                                    </option>
-                                    <option value="ELEKTRA - FUENTE PIEDRA"
-                                        {{ old('sede', $Entity->sede) == 'ELEKTRA - FUENTE PIEDRA' ? 'selected' : '' }}>
-                                        ELEKTRA - FUENTE PIEDRA
-                                    </option>
-                                    <option value="HORACIO ZEVALLOS"
-                                        {{ old('sede', $Entity->sede) == 'HORACIO ZEVALLOS' ? 'selected' : '' }}>
-                                        HORACIO ZEVALLOS
-                                    </option>
-                                    <option value="LOS CHINOS - SAN JUAN DE MIRAFLORES"
-                                        {{ old('sede', $Entity->sede) == 'LOS CHINOS - SAN JUAN DE MIRAFLORES' ? 'selected' : '' }}>
-                                        LOS CHINOS - SAN JUAN DE MIRAFLORES
-                                    </option>
-                                    <option value="MENDIOLA - LOS OLIVOS"
-                                        {{ old('sede', $Entity->sede) == 'MENDIOLA - LOS OLIVOS' ? 'selected' : '' }}>
-                                        MENDIOLA - LOS OLIVOS
-                                    </option>
-                                    <option value="MIGUEL IGLESIAS - SAN JUAN DE MIRAFLORES"
-                                        {{ old('sede', $Entity->sede) == 'MIGUEL IGLESIAS - SAN JUAN DE MIRAFLORES' ? 'selected' : '' }}>
-                                        MIGUEL IGLESIAS - SAN JUAN DE MIRAFLORES
-                                    </option>
-                                    <option value="PTE PIEDRA 2"
-                                        {{ old('sede', $Entity->sede) == 'PTE PIEDRA 2' ? 'selected' : '' }}>
-                                        PTE PIEDRA 2
-                                    </option>
-                                    <option value="SJL 10 - SAN JUAN DE LURIGANCHO"
-                                        {{ old('sede', $Entity->sede) == 'SJL 10 - SAN JUAN DE LURIGANCHO' ? 'selected' : '' }}>
-                                        SJL 10 - SAN JUAN DE LURIGANCHO
-                                    </option>
-                                    <option value="SJL CDRA 22 - SAN JUAN DE LURIGANCHO"
-                                        {{ old('sede', $Entity->sede) == 'SJL CDRA 22 - SAN JUAN DE LURIGANCHO' ? 'selected' : '' }}>
-                                        SJL CDRA 22 - SAN JUAN DE LURIGANCHO
-                                    </option>
-                                    <option value="SJL 50 - SAN JUAN DE LURIGANCHO"
-                                        {{ old('sede', $Entity->sede) == 'SJL 50 - SAN JUAN DE LURIGANCHO' ? 'selected' : '' }}>
-                                        SJL 50 - SAN JUAN DE LURIGANCHO
-                                    </option>
-                                    <option value="SALAVERRY - LOS OLIVOS"
-                                        {{ old('sede', $Entity->sede) == 'SALAVERRY - LOS OLIVOS' ? 'selected' : '' }}>
-                                        SALAVERRY - LOS OLIVOS
-                                    </option>
-                                    <option value="SAN LÁZARO - INDEPENDENCIA"
-                                        {{ old('sede', $Entity->sede) == 'SAN LÁZARO - INDEPENDENCIA' ? 'selected' : '' }}>
-                                        SAN LÁZARO - INDEPENDENCIA
-                                    </option>
-                                    <option value="VILLA EL SALVADOR"
-                                        {{ old('sede', $Entity->sede) == 'VILLA EL SALVADOR' ? 'selected' : '' }}>
-                                        VILLA EL SALVADOR
-                                    </option>
-                                    <option value="VISTA ALEGRE"
-                                        {{ old('sede', $Entity->sede) == 'VISTA ALEGRE' ? 'selected' : '' }}>
-                                        VISTA ALEGRE
-                                    </option>
-                                </select>
-                            </div> --}}
-                            <style>
-
-                            </style>
+                            <div class="form-group col-lg-6">
+                                <label for="ciclo" class="m-0 label-primary">Ciclo</label>
+                                <input autocomplete="off" type="text" class="form-control form-control-sm"
+                                    id="ciclo" value="{{ $Entity ? $Entity->ciclo : '' }}" name="ciclo"
+                                    placeholder="Ciclo" readonly required>
+                            </div>
                             <div class="form-group col-lg-12">
                                 <!-- Botón de Envío -->
                                 <button type="submit" class="btn btn-primary "

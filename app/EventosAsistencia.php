@@ -25,7 +25,8 @@ class EventosAsistencia extends Model
         'tipo',
         'sede',
         'especialidad',
-        'id_user'
+        'id_user',
+        'ciclo'
         
     ];
     

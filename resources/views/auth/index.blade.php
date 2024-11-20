@@ -328,7 +328,7 @@
     <script type="text/javascript" src="{{ asset('auth/plugins/moment/es.js') }}"></script>
     <script type="text/javascript" src="{{ asset('auth/js/_Layout.js') }}"></script>
     {{-- Para bloquear el F12 y otras funciones --}}
-    <script>
+    {{-- <script>
         document.addEventListener("keydown", function(e) {
             // Deshabilitar F12
             if (e.keyCode === 123) {
@@ -352,7 +352,7 @@
         document.addEventListener("contextmenu", function(e) {
             e.preventDefault();
         });
-    </script>
+    </script> --}}
     <script type="text/javascript">
         const usuarioLoggin = {
             user_id: {{ \Illuminate\Support\Facades\Auth::guard('web')->user()->id }},

@@ -196,6 +196,7 @@ $(document).ready(function () {
                 $("#sede").attr("placeholder", "Buscando ...");
                 $("#titulado").attr("placeholder", "Buscando ...");
                 $("#egresado").attr("placeholder", "Buscando ...");
+                $("#ciclo").attr("placeholder", "Buscando ...");
             },
             success: function (res) {
                 $("#nombres").attr("placeholder", "Nombres");
@@ -206,6 +207,7 @@ $(document).ready(function () {
                 $("#sede").attr("placeholder", "Sede");
                 $("#egresado").attr("placeholder", "Ingrese..");
                 $("#titulado").attr("placeholder", "Ingrese..");
+                $("#ciclo").attr("placeholder", "Ingrese..");
                 if (res.success === true) {
                     const data = res.data[0];
                     $("#nombres").val(data.NombreAlumno);
@@ -216,6 +218,7 @@ $(document).ready(function () {
                     $("#sede").val(data.Sede);
                     $("#egresado").val(data.Egresado);
                     $("#titulado").val(data.Titulado);
+                    $("#ciclo").val(data.ciclo);
                     $("#validationDni")
                         .html("DNI correcto.")
                         .removeClass("text-muted")
@@ -239,7 +242,7 @@ $(document).ready(function () {
                     $("#sede").val("");
                     $("#egresado").val("");
                     $("#titulado").val("");
-                    
+                    $("#ciclo").val("");
                     $(dni)
                         .removeClass("border-success border-dark")
                         .addClass("border-danger");

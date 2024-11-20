@@ -170,6 +170,12 @@
                             <input autocomplete="off" type="text" class="form-control form-control-lg" id="titulado"
                                 name="titulado" placeholder="Ingrese.." readonly required>
                         </div>
+                        <div class="form-group col-lg-6">
+                            <label for="ciclo" class="m-0 label-primary" style="font-size: 17px;">
+                                <i class="fa fa-envelope"></i> Ciclo</label>
+                            <input autocomplete="off" type="text" class="form-control form-control-lg" id="ciclo"
+                                name="ciclo" placeholder="Ingrese.." readonly>
+                        </div>
 
                         {{-- <div class="form-group col-lg-6">
                             <label for="sede" class="m-0 label-primary" style="font-size: 17px;">

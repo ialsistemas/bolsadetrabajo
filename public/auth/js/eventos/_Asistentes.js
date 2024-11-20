@@ -51,6 +51,7 @@ $(function () {
             { title: "Telefono", data: "tel", class: "text-left" },
             { title: "Estado", data: "estado", class: "text-left" },
             { title: "Tipo", data: "tipo", class: "text-left" },
+            { title: "Ciclo", data: "ciclo", class: "text-left" },
             {
                 data: null,
                 render: function (data) {

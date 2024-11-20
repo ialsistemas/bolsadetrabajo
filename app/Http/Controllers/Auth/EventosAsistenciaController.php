@@ -74,6 +74,7 @@ class EventosAsistenciaController extends Controller
             'tipo' => $request->egresado,
             'email' => $request->email,
             'sede' => $request->sede,
+            'ciclo' => $request->ciclo,
             'id_user' => $request->id_user,
         ];
 
@@ -97,7 +98,7 @@ class EventosAsistenciaController extends Controller
             $entity = EventosAsistencia::find($request->id);
             $entity->tel = $request->tel;
             $entity->email = $request->email;
-            /* $entity->tipo = $request->tipo; */
+            $entity->ciclo = $request->ciclo;
             $entity->sede = $request->sede;
 
             if($entity->save()) $status = true;            
