@@ -27,6 +27,11 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <div class="form-group col-lg-3 col-md-12 d-flex flex-column">
+                                <a href="javascript:void(0)" class="btn-m btn-success-m" onclick="clickExcelEventos()">
+                                    <i class="fa fa-file"></i> Exportar en Excel
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -1,3 +1,7 @@
+function clickExcelEventos(){
+    $('.dt-buttons .buttons-excel').click()
+}
+
 // JavaScript para el formulario
 $(function () {
     const $table = $("#tableAsistentes");
