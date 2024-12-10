@@ -320,6 +320,13 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:web'], function () {
         
     });
 
+    Route::group(['prefix' => 'configuracion'], function () {
+        Route::get('/', 'Auth\ConfiguracionController@index')->name('auth.configuracion');
+        Route::get('/list_all', 'Auth\ConfiguracionController@list_all')->name('auth.configuracion.list_all');
+        Route::post('/update', 'Auth\ConfiguracionController@update')->name('auth.configuracion.update');
+
+    });
+
 
 
 

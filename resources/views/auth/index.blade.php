@@ -26,15 +26,15 @@
         </div>
         <header class="main-header">
             <div class="inside-header">
-                <a href="{{ route('auth.inicio') }}" class="logo">
-                    <span class="logo-lg">
-                        {{-- <img src="{{ asset('app/img/logo.png') }}" alt="logo" class="logo1"> --}}
-                        {{-- NAVIDAD --}}
-                        <img src="https://www.ial.edu.pe/web_loayza/assets/img/imgactualizado/logoloayzanavidad.png" alt="logo" class="logo1">
-                       
-                        <img src="{{ asset('app/img/logo_ial.png') }}" alt="logo" class="logo2">
-                    </span>
-                </a>
+                @if ($configuracion->logo)
+                    <a href="{{ route('auth.inicio') }}" class="logo">
+                        <span class="logo-lg">
+                            <img src="{{ asset($configuracion->logo) }}" alt="Logo de la Empresa" class="logo1"
+                                style="max-width: 150px; max-height: 150px;">
+                            <img src="{{ asset('app/img/logo_ial.png') }}" alt="logo" class="logo2">
+                        </span>
+                    </a>
+                @endif
                 <nav class="navbar navbar-static-top">
                     <a href="#" class="sidebar-toggle d-block d-lg-none" data-toggle="push-menu" role="button"
                         style="color: #363d4a">
@@ -156,9 +156,9 @@
                                                 class="fa fa-gavel mr-5"></i>Estudiantes Sancionados</a>
                                     </li>
                                     <li class="nav-item"><a class="nav-link"
-                                        href="{{ route('auth.certificados') }}"><i class="fa fa-id-card"></i>
-                                        Estudiantes Certificados</a>
-                                </li>
+                                            href="{{ route('auth.certificados') }}"><i class="fa fa-id-card"></i>
+                                            Estudiantes Certificados</a>
+                                    </li>
                                 </ul>
                             </li>
 
@@ -269,6 +269,12 @@
                                                 class="fa fa-user mr-5"></i> Gestión de
                                             Usuarios</a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('auth.configuracion') }}">
+                                            <i class="fa fa-cog mr-5"></i> Configuración
+                                        </a>
+                                    </li>
+
                                 </ul>
                             </li>
                         @endif
@@ -284,26 +290,36 @@
                     <!-- Section: Social media -->
                     <section class="mb-4">
                         <!-- Facebook -->
+                        @if($configuracion->facebook)
                         <a class="btn btn-outline-light btn-floating m-1"
-                            href="https://www.facebook.com/EmpleabilidadIAL" target="_blank" role="button"><i
+                           href="{{ $configuracion->facebook }}" target="_blank" role="button"><i
                                 class="fa fa-facebook-f"></i></a>
-
+                        @endif
+                
                         <!-- Instagram -->
+                        @if($configuracion->instagram)
                         <a class="btn btn-outline-light btn-floating m-1"
-                            href="https://www.instagram.com/empleabilidadloayza/" target="_blank" role="button"><i
+                           href="{{ $configuracion->instagram }}" target="_blank" role="button"><i
                                 class="fa fa-instagram"></i></a>
-
-                        <!-- Linkedin -->
+                        @endif
+                
+                        <!-- LinkedIn -->
+                        @if($configuracion->linkedin)
                         <a class="btn btn-outline-light btn-floating m-1"
-                            href="https://pe.linkedin.com/company/ial-oficial" target="_blank" role="button"><i
+                           href="{{ $configuracion->linkedin }}" target="_blank" role="button"><i
                                 class="fa fa-linkedin"></i></a>
-
-                        <!-- Whatsapp -->
-                        <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i
+                        @endif
+                
+                        <!-- WhatsApp -->
+                        @if($configuracion->tel)
+                        <a class="btn btn-outline-light btn-floating m-1"
+                           href="https://wa.me/{{ $configuracion->tel }}" target="_blank" role="button"><i
                                 class="fa fa-whatsapp"></i></a>
+                        @endif
                     </section>
                     <!-- Section: Social media -->
                 </div>
+                
                 <!-- Grid container -->
                 <!-- Copyright -->
                 <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">

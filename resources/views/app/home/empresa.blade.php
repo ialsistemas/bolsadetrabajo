@@ -5,7 +5,6 @@
 @endsection
 
 @section('content')
-
     {{-- <div id="main">
         <div class="banner-header">
             <img src="{{ asset('app/img/bolsa-de-trabajo_azul_oscuro.jpg') }}" class="img-fluid" alt="Bolsa Laboral">
@@ -72,26 +71,35 @@
         </div>
         <div></div>
     </div> --}}
-
 @endsection
 <script src="https://kit.fontawesome.com/6f8129a9b1.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="{{ asset('app/css/home/login.css') }}">
 <section class="section_login">
-    <div class="content_view_login">
+    <div class="content_view_login"
+        style="
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    background: url('{{ asset($configuracion->banneruser) }}');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;">
         {{-- <div class="sect_img"> 
             <img src="{{ asset('app/img/logo_ial.png') }}" alt="">
         </div>   --}}
         <div class="sect_login">
             <div class="content_login">
                 <div class="content_titulo_login">
-                   {{--  <img src="{{ asset('app/img/logo_ial.png') }}" alt=""><br><br> --}}
-                   {{-- NAVIDAD --}}
-                    <img src="https://www.ial.edu.pe/web_loayza/assets/img/imgactualizado/logoloayzanavidad.png" alt="" style="width: 50% !important;"><br><br>
+                    @if ($configuracion->logo)
+                        <img src="{{ asset($configuracion->logo) }}" alt=""
+                            style="width: 50% !important;"><br><br>
+                    @endif
                     <span>BIENVENIDOS</span>
                     <p class="title_">BOLSA DE TRABAJO IAL</p>
                     <p>Más oportunidades laborales</p>
                     <div class="access_administrador">
-                        <a href="{{ route('auth.login') }}"><i style="color: #0072bf; font-size:20px;" class="fa-solid fa-users-between-lines"></i></a>
+                        <a href="{{ route('auth.login') }}"><i style="color: #0072bf; font-size:20px;"
+                                class="fa-solid fa-users-between-lines"></i></a>
                     </div>
                 </div>
                 <div class="section_page_login">
@@ -102,33 +110,42 @@
                     @csrf
                     <div class="">
                         <label for="" class="text-primary-m">Usuario</label>
-                        <input type="text" class="form-control-m {{ $errors->has('usuario_empresa') ? ' is-invalid' : '' }}" id="usuario_empresa" name="usuario_empresa" value="{{ old('usuario_empresa') }}">
+                        <input type="text"
+                            class="form-control-m {{ $errors->has('usuario_empresa') ? ' is-invalid' : '' }}"
+                            id="usuario_empresa" name="usuario_empresa" value="{{ old('usuario_empresa') }}">
                         @if ($errors->has('usuario_empresa'))
                             <span class="invalid-feedback" role="alert">
-                            <span style="color:#cd3232; font-weigth:100 !important;">{{ $errors->first('usuario_empresa') }}</span>
-                        </span>
+                                <span
+                                    style="color:#cd3232; font-weigth:100 !important;">{{ $errors->first('usuario_empresa') }}</span>
+                            </span>
                         @endif
                     </div>
                     <br>
                     <div class="">
                         <label for="" class="text-primary-m">Contraseña</label>
                         <div class="control-password">
-                            <input type="password" class="form-control-m {{ $errors->has('password_empresa') ? ' is-invalid' : '' }}" id="password_empresa" name="password">
-                            <a href="javascript:void(0);" onclick="togglePasswordVisibility()"><i id="toggleButton" class="fa-solid fa-eye-slash"></i></a>                            
+                            <input type="password"
+                                class="form-control-m {{ $errors->has('password_empresa') ? ' is-invalid' : '' }}"
+                                id="password_empresa" name="password">
+                            <a href="javascript:void(0);" onclick="togglePasswordVisibility()"><i id="toggleButton"
+                                    class="fa-solid fa-eye-slash"></i></a>
                         </div>
                         @if ($errors->has('password_empresa'))
                             <span class="invalid-feedback" role="alert">
-                            <span style="color:#cd3232; font-weigth:100 !important;">{{ $errors->first('password_empresa') }}</span>
-                        </span>
+                                <span
+                                    style="color:#cd3232; font-weigth:100 !important;">{{ $errors->first('password_empresa') }}</span>
+                            </span>
                         @endif
                     </div>
                     <br>
                     <div class="">
-                        <button type="submit" class="btn-m btn-primary-gradient">Ingresar <i class="fa-solid fa-right-to-bracket"></i></button>
+                        <button type="submit" class="btn-m btn-primary-gradient">Ingresar <i
+                                class="fa-solid fa-right-to-bracket"></i></button>
                     </div>
                     <br>
                     <div class="text-center text-primary">
-                        ¿No tienes una cuenta? <a href="{{ route('empresa.crear_empresa') }}" style="color:#00c3f4">Registrate</a>
+                        ¿No tienes una cuenta? <a href="{{ route('empresa.crear_empresa') }}"
+                            style="color:#00c3f4">Registrate</a>
                     </div>
                 </form>
             </div>
@@ -140,17 +157,17 @@
 
 <script>
     function togglePasswordVisibility() {
-    var passwordInput = document.getElementById("password_empresa");
-    var toggleButton = document.getElementById("toggleButton");
-    if (passwordInput.type === "password") {
-        passwordInput.type = "text";
-        toggleButton.classList.remove("fa-eye-slash");
-        toggleButton.classList.add("fa-eye");
-    } else {
-        passwordInput.type = "password";
-        toggleButton.classList.remove("fa-eye");
-        toggleButton.classList.add("fa-eye-slash");
-    }
+        var passwordInput = document.getElementById("password_empresa");
+        var toggleButton = document.getElementById("toggleButton");
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            toggleButton.classList.remove("fa-eye-slash");
+            toggleButton.classList.add("fa-eye");
+        } else {
+            passwordInput.type = "password";
+            toggleButton.classList.remove("fa-eye");
+            toggleButton.classList.add("fa-eye-slash");
+        }
 
     }
 </script>

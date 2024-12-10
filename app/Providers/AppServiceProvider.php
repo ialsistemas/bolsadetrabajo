@@ -2,8 +2,10 @@
 
 namespace BolsaTrabajo\Providers;
 
+use BolsaTrabajo\Configuracion;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    /* public function boot()
     {
         if (\App::environment('production')) {
             \URL::forceScheme('https');
@@ -31,5 +33,22 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(200);
         \Carbon\Carbon::setLocale('es');
         
+    } */
+
+    public function boot()
+    {
+        if (\App::environment('production')) {
+            \URL::forceScheme('https');
+            $this->app['request']->server->set('HTTPS','on');
+        }
+
+        Schema::defaultStringLength(200);
+        \Carbon\Carbon::setLocale('es');
+
+        // View Composer para cargar la variable $empresa
+        View::composer('*', function ($view) {
+            $configuracion = Configuracion::first();
+            $view->with('configuracion', $configuracion);
+        });
     }
 }
