@@ -13,20 +13,6 @@
 
 <body>
     <section class="login">
-        <img src="https://www.ial.edu.pe/web_loayza/assets/img/imgactualizado/papanoel.gif" alt="" class="gif-overlay">
-		<style>
-			.gif-overlay {
-				position: fixed; /* Establece el GIF en una posición fija */
-				top: 0px; /* Ajusta la distancia desde la parte superior */
-				left: 50%;
-				transform: translateX(-50%);
-				z-index: 10; /* Asegura que esté encima del contenido */
-			}
-	
-			.login {
-				padding-top: 100px; /* Da espacio para que el GIF no se sobreponga al contenido */
-			}
-		</style>
         <div class="wrap-content">
             <div class="form-logo">
                 {{-- <img src="{{ asset('app/img/logo.png') }}" alt="Instituto Arzobispo Loayza"> --}}
@@ -60,7 +46,6 @@
                  <a href="{{ route('index') }}" class="return-label">Regresar a la página principal</a>
             </form>
         </div>
-        <img src="https://www.ial.edu.pe/web_loayza/assets/img/imgactualizado/papanoel.gif" alt="">
     </section>
 </body>
 

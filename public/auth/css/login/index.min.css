@@ -25,11 +25,12 @@
 body {
     padding: 0;
     margin: 0;
-    background-image: url("../../image/bg.jpg");
+    background-image: url("https://www.ial.edu.pe/web_loayza/assets/img/imgactualizado/fondonavidadbolsa.png");
     background-attachment: fixed;
     background-size: cover;
-    background-position: center center
-}
+    background-position: center center;
+  }
+  
 
 .h1,
 .h2,
