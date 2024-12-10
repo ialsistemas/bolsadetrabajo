@@ -81,7 +81,9 @@
         <div class="sect_login">
             <div class="content_login">
                 <div class="content_titulo_login">
-                    <img src="{{ asset('app/img/logo_ial.png') }}" alt=""><br><br>
+                    {{-- <img src="{{ asset('app/img/logo_ial.png') }}" alt=""><br><br> --}}
+                    {{-- NAVIDAD --}}
+                    <img src="https://www.ial.edu.pe/web_loayza/assets/img/imgactualizado/logoloayzanavidad.png" alt=""><br><br>
                     <span>BIENVENIDOS</span>
                     <p class="title_">BOLSA DE TRABAJO IAL</p>
                     <p>Más oportunidades laborales</p>
