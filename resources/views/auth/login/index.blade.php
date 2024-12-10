@@ -9,17 +9,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>Bolsa Trabajo | Administrador</title>
     <link rel="stylesheet" href="{{ asset('auth/css/login/index.min.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
     <section class="login">
+        
         <div class="wrap-content">
+            <div style="background-color:#044ab0; text-align: center; border-radius:5px;">
+                <h5 class="form-title" style="color:white; margin: 0; padding: 10px 0; font-size: 12px; font-weight: 100;">
+                    <i class="fa fa-lock" style="margin-right: 8px;"></i>Acceso solo para Administrador
+                </h5>
+            </div>
+            
+            
             <div class="form-logo">
                 {{-- <img src="{{ asset('app/img/logo.png') }}" alt="Instituto Arzobispo Loayza"> --}}
                 {{-- NAVIDAD --}}
-                <img src="https://www.ial.edu.pe/web_loayza/assets/img/imgactualizado/logoloayzanavidad.png" alt="Instituto Arzobispo Loayza">
+                <img src="https://www.ial.edu.pe/web_loayza/assets/img/imgactualizado/logoloayzanavidad.png"
+                    alt="Instituto Arzobispo Loayza">
             </div>
-            <h3 class="form-title">Iniciar Sesión</h3>
             <form method="post" action="{{ route('auth.login.post') }}">
                 @csrf
                 <div class="form-group">
@@ -40,10 +49,10 @@
                         </span>
                     @endif
                 </div>
-                <button type="submit" class="button">Ingresar</button>
+                <button type="submit" class="button">Iniciar Sesión</button>
                 <br>
-                    {{-- Se Aumento  --}}
-                 <a href="{{ route('index') }}" class="return-label">Regresar a la página principal</a>
+                {{-- Se Aumento  --}}
+                <a href="{{ route('index') }}" class="return-label">Regresar a la página principal</a>
             </form>
         </div>
     </section>
