@@ -28,7 +28,10 @@
             <div class="inside-header">
                 <a href="{{ route('auth.inicio') }}" class="logo">
                     <span class="logo-lg">
-                        <img src="{{ asset('app/img/logo.png') }}" alt="logo" class="logo1">
+                        {{-- <img src="{{ asset('app/img/logo.png') }}" alt="logo" class="logo1"> --}}
+                        {{-- NAVIDAD --}}
+                        <img src="https://www.ial.edu.pe/web_loayza/assets/img/imgactualizado/logoloayzanavidad.png" alt="logo" class="logo1">
+                       
                         <img src="{{ asset('app/img/logo_ial.png') }}" alt="logo" class="logo2">
                     </span>
                 </a>
