@@ -22,7 +22,6 @@
                 </h5>
             </div>
             
-            
             <div class="form-logo">
                 {{-- <img src="{{ asset('app/img/logo.png') }}" alt="Instituto Arzobispo Loayza"> --}}
                 {{-- NAVIDAD --}}
