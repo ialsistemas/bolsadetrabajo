@@ -123,8 +123,8 @@ footer ul li {
 }
 
 footer ul li a {
-    margin: 10px 5px;
-   /*  background: #ffffffb5; */
+   /*  margin: 10px 5px; */
+    background: rgba(0, 123, 255, 0.25);
     border-radius: 50%;
     width: auto;
     width: 40px;
@@ -133,6 +133,11 @@ footer ul li a {
     text-align: center;
     color: #0087CC;
     font-size: 25px
+}
+
+
+footer ul li a i{
+    margin-top: 10px !important;
 }
 
 /*# sourceMappingURL=app.min.css.map */
