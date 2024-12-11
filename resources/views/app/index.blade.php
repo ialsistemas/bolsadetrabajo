@@ -46,8 +46,10 @@
                     <div class="col-lg-12">
                         <nav class="navbar navbar-expand-lg navbar-light">
                             <a class="navbar-brand" href="{{ route('index') }}">
-                                <img src="{{ asset('app/img/logo.png') }}" alt="Instituto Arzobispo Loayza"
-                                    class="logo">
+                                @if ($configuracion->logo)
+                                    <img src="{{ asset($configuracion->logo) }}" alt="Instituto Arzobispo Loayza"
+                                        class="logo" style="width: 60%">
+                                @endif
                             </a>
                             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainmenu"
                                 aria-controls="mainmenu" aria-expanded="false" aria-label="Toggle navigation">
@@ -59,7 +61,8 @@
                                     <li class="nav-item dropdown">
                                         <a class="nav-link dropdown-toggle d-flex align-items-center custom-dropdown"
                                             href="#" id="userMenu" role="button" data-toggle="dropdown"
-                                            aria-haspopup="true" aria-expanded="false" style="justify-content: space-around !important;">
+                                            aria-haspopup="true" aria-expanded="false"
+                                            style="justify-content: space-around !important;">
                                             @if (Auth::guard('alumnos')->check() && Auth::guard('alumnos')->user()->foto)
                                                 <img src="{{ asset('uploads/alumnos/fotos/' . Auth::guard('alumnos')->user()->foto) }}"
                                                     alt="Imagen del Alumno" class="user-avatar">
@@ -118,38 +121,140 @@
 
 
     @yield('content')
+    <style>
+        #whatsapp-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            /* Cambiado de 'right' a 'left' */
+            z-index: 1000;
+            text-decoration: none;
+        }
+
+        .whatsapp-btn {
+            background-color: #25d366;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+
+        .whatsapp-btn:hover {
+            background-color: #128c7e;
+            text-decoration: none;
+            /* Elimina la subrayado en hover */
+        }
+
+
+        .whatsapp-btn i {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+    </style>
+    <a href="https://wa.me/{{ $configuracion->tel }}?text=Hola,%20vengo%20de%20la%20Bolsa%20de%20trabajo%20y%20quiero%20conocer%20más%20sobre%20los%20programas%20de%20empleabilidad.%20Información%20por%20favor."
+        target="_blank" id="whatsapp-btn">
+        <div class="whatsapp-btn">
+            <i class="fa fa-whatsapp"></i> <!-- Ícono de WhatsApp -->
+            ¿Necesitas ayuda?
+        </div>
+    </a>
+
+
+
+
 
     @if (Auth::guard('alumnos')->check() || Auth::guard('empresasw')->check())
-        <footer>
+        <footer style="color: #ecf0f1; padding: 20px 0;">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-5 col-md-4 col-sm-6">
-                        <p class="text"><span class="text-uppercase"><b> Licenciados por Minedu </b><br>
-                                Informes</span>: (01) 330-9090 | <a
-                                href="mailto:bolsadetrabajo@arzobispoloayza.edu.pe">bolsadetrabajo@arzobispoloayza.edu.pe</a>
+                    <!-- Información de Contacto -->
+                    <div class="col-lg-4 col-md-6 mb-3">
+                        <h5 class="text-uppercase"><b>Licenciados por Minedu</b></h5>
+                        <div
+                            style="border-left: 5px solid orange; border-right: 5px solid orange; border-bottom: 2px solid orange; margin-top: 10px;">
+                        </div>
+                        <br>
+                        <p>
+                            <span>Informes:</span> (01) 330-9090 <br>
+                            <a href="mailto:bolsadetrabajo@arzobispoloayza.edu.pe"
+                                style="color: #ecf0f1; text-decoration: none;">
+                                bolsadetrabajo@arzobispoloayza.edu.pe
+                            </a>
                         </p>
                     </div>
-                    <div class="col-lg-4 col-md-4 col-sm-6">
-                        <h5 class="sub-title">Bolsa Laboral</h5>
+
+                    <!-- Sección de Bolsa Laboral -->
+                    <div class="col-lg-4 col-md-6 mb-3">
+                        <h5 class="text-uppercase"><b>Bolsa Laboral</b></h5>
+                        <div
+                            style="border-left: 5px solid orange; border-right: 5px solid orange; border-bottom: 2px solid orange; margin-top: 10px;">
+                        </div><br>
+                        <p>Consulta las oportunidades laborales en nuestro instituto.</p>
                     </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6">
-                        <ul>
-                            <li><a href="javascript:void(0)" target="_blank"><i class="fa fa-instagram"></i></a></li>
-                            <li><a href="javascript:void(0)" target="_blank"><i class="fa fa-youtube-play"></i></a>
-                            </li>
-                            <li><a href="javascript:void(0)" target="_blank"><i class="fa fa-facebook"></i></a></li>
+
+                    <!-- Redes Sociales -->
+                    <div class="col-lg-4 col-md-12">
+                        <h5 class="text-uppercase"><b>Más Información</b></h5>
+                        <div
+                            style="border-left: 5px solid orange; border-right: 5px solid orange; border-bottom: 2px solid orange; margin-top: 10px;">
+                        </div><br>
+                        <ul style="list-style: none; padding: 0; display: flex; gap: 10px;">
+                            <!-- Instagram -->
+                            @if ($configuracion->instagram)
+                                <li>
+                                    <a href="{{ $configuracion->instagram }}" target="_blank"
+                                        style="color: #ecf0f1; font-size: 20px;">
+                                        <i class="fa fa-instagram"></i>
+                                    </a>
+                                </li>
+                            @endif
+
+                            <!-- LinkedIn -->
+                            @if ($configuracion->linkedin)
+                                <li>
+                                    <a href="{{ $configuracion->linkedin }}" target="_blank"
+                                        style="color: #ecf0f1; font-size: 20px;">
+                                        <i class="fa fa-linkedin"></i>
+                                    </a>
+                                </li>
+                            @endif
+
+                            <!-- Facebook -->
+                            @if ($configuracion->facebook)
+                                <li>
+                                    <a href="{{ $configuracion->facebook }}" target="_blank"
+                                        style="color: #ecf0f1; font-size: 20px;">
+                                        <i class="fa fa-facebook"></i>
+                                    </a>
+                                </li>
+                            @endif
                         </ul>
                     </div>
-                    <hr>
-                    <div class="col-12 copyright">
-                        <p>MAJML - Todos los derechos reservados para Instituto Arzobispo Loayza &copy;
-                            <?php echo date('Y'); ?> </p>
+                </div>
+
+                <!-- Línea Divisoria -->
+                <hr style="border-top: 1px solid #7f8c8d; margin: 20px 0;">
+
+                <!-- Derechos Reservados -->
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <p style="margin: 0;">MAJML - Todos los derechos reservados para Instituto Arzobispo Loayza
+                            &copy;
+                            <?php echo date('Y'); ?>
+                        </p>
                     </div>
                 </div>
             </div>
         </footer>
+
     @endif
-    <script>
+    {{--  <script>
         document.addEventListener("keydown", function(e) {
             // Deshabilitar F12
             if (e.keyCode === 123) {
@@ -174,7 +279,7 @@
             e.preventDefault();
         });
     </script>
-
+ --}}
 
     <script type="text/javascript" src="{{ asset('app/plugins/jquery/3.5.1/jquery.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('app/plugins/bootstrap4/js/bootstrap.min.js') }}"></script>

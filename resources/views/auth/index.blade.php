@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+a<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -290,36 +290,33 @@
                     <!-- Section: Social media -->
                     <section class="mb-4">
                         <!-- Facebook -->
-                        @if($configuracion->facebook)
-                        <a class="btn btn-outline-light btn-floating m-1"
-                           href="{{ $configuracion->facebook }}" target="_blank" role="button"><i
-                                class="fa fa-facebook-f"></i></a>
+                        @if ($configuracion->facebook)
+                            <a class="btn btn-outline-light btn-floating m-1" href="{{ $configuracion->facebook }}"
+                                target="_blank" role="button"><i class="fa fa-facebook-f"></i></a>
                         @endif
-                
+
                         <!-- Instagram -->
-                        @if($configuracion->instagram)
-                        <a class="btn btn-outline-light btn-floating m-1"
-                           href="{{ $configuracion->instagram }}" target="_blank" role="button"><i
-                                class="fa fa-instagram"></i></a>
+                        @if ($configuracion->instagram)
+                            <a class="btn btn-outline-light btn-floating m-1" href="{{ $configuracion->instagram }}"
+                                target="_blank" role="button"><i class="fa fa-instagram"></i></a>
                         @endif
-                
+
                         <!-- LinkedIn -->
-                        @if($configuracion->linkedin)
-                        <a class="btn btn-outline-light btn-floating m-1"
-                           href="{{ $configuracion->linkedin }}" target="_blank" role="button"><i
-                                class="fa fa-linkedin"></i></a>
+                        @if ($configuracion->linkedin)
+                            <a class="btn btn-outline-light btn-floating m-1" href="{{ $configuracion->linkedin }}"
+                                target="_blank" role="button"><i class="fa fa-linkedin"></i></a>
                         @endif
-                
+
                         <!-- WhatsApp -->
-                        @if($configuracion->tel)
-                        <a class="btn btn-outline-light btn-floating m-1"
-                           href="https://wa.me/{{ $configuracion->tel }}" target="_blank" role="button"><i
-                                class="fa fa-whatsapp"></i></a>
+                        @if ($configuracion->tel)
+                            <a class="btn btn-outline-light btn-floating m-1"
+                                href="https://wa.me/{{ $configuracion->tel }}" target="_blank" role="button"><i
+                                    class="fa fa-whatsapp"></i></a>
                         @endif
                     </section>
                     <!-- Section: Social media -->
                 </div>
-                
+
                 <!-- Grid container -->
                 <!-- Copyright -->
                 <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
