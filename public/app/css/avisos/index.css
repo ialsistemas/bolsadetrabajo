@@ -282,7 +282,7 @@ span[data-valmsg-for] {
 #main .filter {
   width: 100%;
   border-radius: 50px;
-  height: auto;
+  height: 100%;
   background-color: #fff;
   box-shadow: -1px 3px 19px 0px rgb(9 74 144 / 11%);
 }
