@@ -1,4 +1,4 @@
-a<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -161,7 +161,6 @@ a<!DOCTYPE html>
                                     </li>
                                 </ul>
                             </li>
-
                             {{-- <li class="nav-item {{ Route::currentRouteName() == 'auth.alumno' ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ route('auth.alumno') }}"><span
                                         class="active-item-here"></span>

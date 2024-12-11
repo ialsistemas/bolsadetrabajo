@@ -460,7 +460,7 @@ span[data-valmsg-for] {
     top: 15px;
     left: 15px;
     font-family: flexo;
-    color: rgba(86, 82, 82, 0.82);
+    color: #005ca6;
     cursor: text;
     transition: .25s ease;
     font-size: 14px
@@ -468,18 +468,21 @@ span[data-valmsg-for] {
 
 #main .filter form input,
 #main .filter form select {
+    width: 100%;
     display: block;
-    border: none;
-    border-radius: 0;
-    color: #6f6b6b;
+    cursor: pointer;
+    border: 1px solid #005ca6; /* Línea en el borde */
+    border-radius: 20px;
+    color: #005ca6;
     font-family: flexo;
-    background: #f1f1f1;
-    font-size: 15px;
+    font-size: 13px;
     transition: .3s ease;
-    padding: 20px 0 5px 0;
-    font-weight: 300;
-    padding-left: 15px
+    padding: 15px 15px 10px 0;
+    font-weight: 400;
+    padding-left: 15px;
+    background: none; /* Sin fondo */
 }
+
 
 #main .filter form input:focus~label,
 #main .filter form input:valid~label,

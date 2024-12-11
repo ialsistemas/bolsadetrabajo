@@ -168,16 +168,16 @@ span[data-valmsg-for] {
   width: 100%;
   display: block;
   cursor: pointer;
-  border: none;
-  border-radius: 0;
-  color: #6f6b6b;
+  border: 1px solid #005ca6; /* Línea en el borde */
+  border-radius: 20px;
+  color: #005ca6;
   font-family: flexo;
-  background: #f1f1f1;
   font-size: 13px;
   transition: .3s ease;
   padding: 15px 0 10px 0;
   font-weight: 400;
   padding-left: 15px;
+  background: none; /* Sin fondo */
 }
 
 #main #reportrange i.fa-angle-down, #main #export_reportrange i.fa-angle-down {
@@ -240,6 +240,7 @@ span[data-valmsg-for] {
 #main .head-section .form input {
   width: 75%;
   height: 100%;
+  border-radius: 50px;
   padding: 10px;
   margin: 0;
   color: #6f6b6b;
@@ -251,6 +252,7 @@ span[data-valmsg-for] {
 #main .head-section .form button {
   width: 20%;
   height: 100%;
+  border-radius: 50px;
   background-color: #0087CC;
   color: #fff;
   font-weight: 300;
@@ -279,9 +281,12 @@ span[data-valmsg-for] {
 
 #main .filter {
   width: 100%;
-  height: 100%;
+  border-radius: 50px;
+  height: auto;
   background-color: #fff;
+  box-shadow: -1px 3px 19px 0px rgb(9 74 144 / 11%);
 }
+
 
 #main .filter .content-perfil {
   padding: 20px;
@@ -437,7 +442,7 @@ span[data-valmsg-for] {
 
 #main .filter form h5 {
   font-family: flexo;
-  color: #0087CC;
+  color: #005ca6;
   margin-bottom: 20px;
 }
 
@@ -450,7 +455,7 @@ span[data-valmsg-for] {
   top: 15px;
   left: 15px;
   font-family: flexo;
-  color: rgba(86, 82, 82, 0.82);
+  color: #005ca6;
   cursor: text;
   transition: .25s ease;
   font-size: 14px;
@@ -460,9 +465,11 @@ span[data-valmsg-for] {
   display: block;
   border: none;
   border-radius: 0;
-  color: #6f6b6b;
+  border: 1px solid #005ca6;
+  border-radius: 20px;
+  color: #005ca6;
   font-family: flexo;
-  background: #f1f1f1;
+  background: none;
   font-size: 15px;
   transition: .3s ease;
   padding: 20px 0 5px 0;

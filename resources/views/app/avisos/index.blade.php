@@ -165,7 +165,7 @@
                                 <a href="{{ route('empresa.registrar_aviso') }}" class="button" >Nueva oportunidad</a>
                                 <a href="{{ route('empresa.listar_aviso') }}" class="button" >Mis oportunidades</a>
                             @endif
-                            <h5>Filtros</h5>
+                            <h5>Encuentra empleo hoy</h5>
                             <div class="form-content">
                                 <div class="form-group">
                                     <div id="reportrange" class="text-capitalize" style="">
@@ -189,15 +189,16 @@
                                             <option value="{{ $a->id }}">{{ $a->nombre }}</option>
                                         @endforeach
                                     </select>
-                                    <label for="provincia_filter_id">Ciudad</label>
+                                    <label for="provincia_filter_idd"><i class="fa fa-map-marker"></i>&nbsp; Ciudad</label>
                                 </div>
+                                
                                 <div class="form-group">
                                     <select name="distrito_filter_id" id="distrito_filter_id" class="form-input" required>
                                         <option value="" hidden></option>
                                     </select>
-                                    <label for="distrito_filter_id">Distrito</label>
+                                    <label for="distrito_filter_id"><i class="fa fa-location-arrow"></i>&nbsp; Distrito</label>
                                 </div>
-
+                                
                                 <div class="form-group">
                                     <select name="tipo_estudiante" id="tipo_estudiante" class="form-input" required>
                                         <option value="" hidden></option>
@@ -205,8 +206,9 @@
                                             <option value="{{ $value->id }}">{{ $value->grado_estado }}</option>
                                         @endforeach
                                     </select>
-                                    <label for="tipo_estudiante">Tipo de Estudiante</label>
+                                    <label for="tipo_estudiante"><i class="fa fa-graduation-cap"></i>&nbsp; Tipo de Estudiante</label>
                                 </div>
+                                
 
                                 <div class="form-group" hidden>
                                     <select name="horario_filter_id" id="horario_filter_id" class="form-input" required>
