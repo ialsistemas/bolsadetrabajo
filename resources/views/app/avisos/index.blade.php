@@ -22,7 +22,7 @@
             width: 38%;
         }
 
-        .content_img_banner_va img {
+        ..content_img_banner_va img {
             width: 100%;
         }
 
@@ -176,7 +176,7 @@
 
         <div class="container-fluid mt-3">
             <div class="row">
-                <div class="col-md-3 filter-cont" style="position: -webkit-sticky; position: sticky; top: 10px;">
+                <div class="col-md-3 filter-cont">
                     <!-- Bloque de perfil del usuario -->
                     <div class="filter" style="margin-bottom: 20px;">
                         <div class="content-perfil text-center">
@@ -186,17 +186,17 @@
                                     : '/uploads/default.png' }}"
                                     class="img-responsive img-circle" alt="Editar Foto"
                                     style="width: 120px; height: 120px; object-fit: cover; margin: 10px auto;">
-                                <input type="file" class="styled form-control" name="foto" id="foto"
+                                {{-- <input type="file" class="styled form-control" name="foto" id="foto"
                                     accept="image/jpeg, image/png" {{ $alumno != null ? '' : 'required' }}
-                                    style="margin-top: 10px;">
+                                    style="margin-top: 10px;"> --}}
                             </div>
-                            <h5 style="margin-top: 15px;color: #2e2e2e;">{{ $alumno->nombres . ' ' . $alumno->apellidos }}
-                            </h5>
+                            <h5 style="margin-top: 15px;color: #2e2e2e;">{{ $alumno->nombres . ' ' . $alumno->apellidos }}</h5>
                             <p style="font-family: 'Arial', sans-serif;font-weight:100;font-size:12px;margin-top:5px;">
                                 {{ $alumno->areas->nombre }}</p>
-                            @if (Auth::guard('alumnos')->check())
-                                <a href="{{ route('alumno.postulaciones') }}" class="btn-perfil-estudiante"
-                                    style="background-color: white; 
+                                @if (Auth::guard('alumnos')->check())
+                                <a href="{{ route('alumno.postulaciones') }}" 
+                                   class="btn-perfil-estudiante" 
+                                   style="background-color: white; 
                                           border: 1px solid #005ca6; 
                                           border-radius: 25px; 
                                           color: #005ca6; 
@@ -209,6 +209,7 @@
                                 </a>
                             @endif
                             <hr>
+
                         </div>
                     </div>
                     <!-- Bloque de filtro existente -->
@@ -284,7 +285,7 @@
                         </form>
                     </div>
                 </div>
-                
+
                 {{-- Añadi esto para proponer --}}
                 <div id="avisos" class="col-md-7 not-padding">
                     {{-- <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
@@ -346,6 +347,7 @@
                         document.addEventListener('DOMContentLoaded', function() {
                             // Obtener el valor de aprobado
                             var aprobado = @json($alumno->aprobado);
+
                             // Obtener los elementos div
                             var cardsListDiv = document.getElementById('cards-list');
                             var blockMessageDiv = document.getElementById('block-message');
@@ -362,6 +364,7 @@
                 </div>
 
                 <div id="aviso-informacion hidden"></div>
+
                 <div class="col-md-2 text-center">
                     <a href="https://wa.me/922611913?text=Hola, Vengo de la Bolsa de trabajo y quiero conocer más sobre los programas de empleabilidad. Información por favor 😊"
                         target="_blank">
