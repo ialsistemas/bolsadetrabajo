@@ -194,7 +194,7 @@
                             <p style="font-family: 'Arial', sans-serif;font-weight:100;font-size:12px;margin-top:5px;">
                                 {{ $alumno->areas->nombre }}</p>
                                 @if (Auth::guard('alumnos')->check())
-                                <a href="{{ route('alumno.postulaciones') }}" 
+                                <a href="{{ route('alumno.perfil') }}" 
                                    class="btn-perfil-estudiante" 
                                    style="background-color: white; 
                                           border: 1px solid #005ca6; 
