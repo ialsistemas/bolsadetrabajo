@@ -180,7 +180,7 @@
                     <!-- Bloque de perfil del usuario -->
                     <div class="filter" style="margin-bottom: 20px;">
                         <div class="content-perfil text-center">
-                            <div class="imagen-perfil">
+                            <div class="imagen-perfil" style="background-color: white;">
                                 <img src="{{ $alumno != null && $alumno->foto != null
                                     ? '/uploads/alumnos/fotos/' . $alumno->foto
                                     : '/uploads/default.png' }}"
