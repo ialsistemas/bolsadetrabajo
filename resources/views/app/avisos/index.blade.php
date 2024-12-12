@@ -190,13 +190,13 @@
                                     accept="image/jpeg, image/png" {{ $alumno != null ? '' : 'required' }}
                                     style="margin-top: 10px;"> --}}
                             </div>
-                            <h5 style="margin-top: 15px;color: #2e2e2e;">{{ $alumno->nombres . ' ' . $alumno->apellidos }}</h5>
+                            <h5 style="margin-top: 15px;color: #2e2e2e;">{{ $alumno->nombres . ' ' . $alumno->apellidos }}
+                            </h5>
                             <p style="font-family: 'Arial', sans-serif;font-weight:100;font-size:12px;margin-top:5px;">
                                 {{ $alumno->areas->nombre }}</p>
-                                @if (Auth::guard('alumnos')->check())
-                                <a href="{{ route('alumno.perfil') }}" 
-                                   class="btn-perfil-estudiante" 
-                                   style="background-color: white; 
+                            @if (Auth::guard('alumnos')->check())
+                                <a href="{{ route('alumno.perfil') }}" class="btn-perfil-estudiante"
+                                    style="background-color: white; 
                                           border: 1px solid #005ca6; 
                                           border-radius: 25px; 
                                           color: #005ca6; 
@@ -209,7 +209,10 @@
                                 </a>
                             @endif
                             <hr>
-
+                            <a href="{{ route('alumno.postulaciones') }}"
+                                style="text-decoration: none; font-family: 'Arial', sans-serif; font-weight: 100; font-size: 15px; margin-top: 5px; color: #005ca6;">
+                                Ver todas mis postulaciones <i class="fa fa-angle-double-right"></i>
+                            </a>
                         </div>
                     </div>
                     <!-- Bloque de filtro existente -->

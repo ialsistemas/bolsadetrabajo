@@ -55,18 +55,6 @@
                         <form action="" method="GET">
                             {{-- Codigo Sebastian, para que se ve mas llamativo --}}
                             <style>
-                                @keyframes zoomButton {
-                                    0% {
-                                        transform: scale(1);
-                                    }
-                                    50% {
-                                        transform: scale(1.05);
-                                    }
-                                    100% {
-                                        transform: scale(1);
-                                    }
-                                }
-                            
                                 .button {
                                     display: inline-block;
                                     padding: 12px 24px;
@@ -77,11 +65,7 @@
                                     font-size: 18px;
                                     border: 2px solid #4CAF50;
                                     transition: transform 0.2s ease;
-                                    animation: zoomButton 2s ease-in-out infinite;
-                                }
-                            
-                                .button:hover {
-                                    transform: scale(1.2);
+                                    
                                 }
                             </style>
                             {{-- Fin Style --}}
