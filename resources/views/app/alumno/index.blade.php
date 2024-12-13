@@ -1,7 +1,7 @@
 @extends('app.index')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('app/css/avisos/index.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('app/css/avisos/index.css') }}">
     <link rel="stylesheet" href="{{ asset('app/plugins/datepicker/datepicker3.css') }}">
     <style type="text/css">
         .hidden {
@@ -43,7 +43,7 @@
                 data-ajax-failure="OnFailureActualizoPerfil">
                 <div class="row">
                     <div class="col-md-3 filter-cont">
-                        <div class="filter" style="background-color: #f5f9fb !important;">
+                        <div class="filter" style="background-color: #ffffff !important;height:auto;">
                             <div class="content-perfil">
                                 <div class="imagen-perfil">
                                     <img src="{{ $alumno != null && $alumno->foto != null
@@ -54,9 +54,53 @@
                                         accept="image/jpeg, image/png" {{ $alumno != null ? '' : 'required' }}>
                                 </div>
                                 <h5>{{ $alumno->nombres . ' ' . $alumno->apellidos }}</h5>
+                                <p
+                                    style="font-family: 'Arial', sans-serif; font-weight: 100; font-size: 12px; margin-top: 5px;">
+                                    {{ $alumno->areas->nombre }}</p>
                                 <p>{{ $alumno->egresado == \BolsaTrabajo\App::$TIPO_ALUMNO ? 'Estudiante' : ($alumno->egresado == \BolsaTrabajo\App::$TIPO_TITULADO ? 'Titulado' : 'Egresado') }}
                                 </p>
-                                <p>{{ $alumno->areas->nombre }}</p>
+                                <input type="hidden" id="alumnoId" name="alumnoId" value="{{ $alumno->id }}">
+                                <div class="progress-container">
+                                    <progress id="progress-bar" max="100" value="0"></progress>
+                                    <div class="progress-text" id="progress-text" style="color : #25d366;">0%</div>
+                                </div>
+
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        const alumnoId = document.getElementById('alumnoId').value;
+                                        console.log('Alumno ID:', alumnoId); // Asegúrate de que aquí se muestra el valor correcto
+
+                                        fetchProgresoCV(alumnoId);
+                                    });
+
+                                    async function fetchProgresoCV(alumnoId) {
+                                        try {
+                                            const response = await fetch('{{ route('alumno.progreso') }}', {
+                                                method: 'POST',
+                                                headers: {
+                                                    'Content-Type': 'application/json',
+                                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                                },
+                                                body: JSON.stringify({
+                                                    alumnoId: alumnoId
+                                                })
+                                            });
+
+                                            if (!response.ok) {
+                                                const errorText = await response.text();
+                                                throw new Error(`Error: ${response.status} - ${errorText}`);
+                                            }
+
+                                            const data = await response.json();
+                                            const progressBar = document.getElementById('progress-bar');
+                                            const progressText = document.getElementById('progress-text');
+                                            progressBar.value = data.progreso;
+                                            progressText.textContent = `${data.progreso}%`;
+                                        } catch (error) {
+                                            console.error('Error:', error);
+                                        }
+                                    }
+                                </script>
                                 <div class="hoja_de_vida_content">
                                     {{-- @if ($alumno->hoja_de_vida != null && $alumno->hoja_de_vida != '')
                                         <a href="/uploads/alumnos/archivos/{{ $alumno->hoja_de_vida }}" target="_blank">Cv{{ str_replace(' ', '', $alumno->nombres." ".$alumno->apellidos ) }}</a>
@@ -74,12 +118,16 @@
                                     </a>
                                 </div>
                                 <hr>
+                                <a href="{{ route('alumno.postulaciones') }}"
+                                    style="text-decoration: none; font-family: 'Arial', sans-serif; font-weight: 100; font-size: 15px; margin-top: 5px; color: #005ca6;">
+                                    Ver todas mis postulaciones <i class="fa fa-angle-double-right"></i>
+                                </a>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-7">
                         @csrf
-                        <div class="card aviso" style="background-color:#f5f9fb !important;">
+                        <div class="card aviso" style="background-color:#ffffff !important;">
 
                             @if ($errors != null && count($errors) > 0)
                                 <div class="form-group row">
@@ -105,7 +153,7 @@
                                     background: #ffffff;
                                     border-color: #dadada;
                                     font-family: Arial, Helvetica, sans-serif;
-                                   /*  font-weight: 400; */
+                                    /*  font-weight: 400; */
                                     box-shadow: -6px 5px 20px 0rem rgba(230, 230, 230, 0.397);
                                     border-radius: 10px;
                                 }
@@ -143,13 +191,19 @@
                                         value="{{ $alumno->dni }}" required>
                                     <span data-valmsg-for="dni"></span>
                                 </div>
-                                <div class="col-md-6 mt-3">
+                                {{-- EL CURSOR DNI SIEMPRE ESTE ACTIVO --}}
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", function() {
+                                        document.getElementById("dni").focus();
+                                    });
+                                </script>
+                                {{-- <div class="col-md-6 mt-3">
                                     <label for="fecha_nacimiento">Fecha de Nacimiento</label>
                                     <input type="text" class="form-input" name="fecha_nacimiento" id="fecha_nacimiento"
                                         value="{{ \Carbon\Carbon::createFromFormat('Y-m-d', $alumno->fecha_nacimiento)->format('d/m/Y') }}"
                                         placeholder="Fecha de Nacimiento" autocomplete="off" required>
                                     <span data-valmsg-for="fecha_nacimiento"></span>
-                                </div>
+                                </div> --}}
 
                                 <div class="col-md-6 mt-3">
                                     <label for="provincia_id">Departamento</label>
@@ -185,8 +239,9 @@
                                 </div>
                                 <div class="col-md-6 mt-3">
                                     <label for="telefono">Teléfono</label>
-                                    <input type="text" class="form-input" name="telefono" id="telefono" minlength="6"
-                                        maxlength="15" value="{{ $alumno->telefono }}" placeholder="Teléfono" required>
+                                    <input type="text" class="form-input" name="telefono" id="telefono"
+                                        minlength="6" maxlength="15" value="{{ $alumno->telefono }}"
+                                        placeholder="Teléfono" required>
                                     <span data-valmsg-for="telefono"></span>
                                 </div>
                                 <div class="col-md-6 mt-3">
@@ -271,7 +326,8 @@
                                         </div>
                                     @endforeach
                                 </div>
-                                <a href="javascript:void(0)" data-info="agregarExperienciaLaboral"><i class="fa fa-plus"></i> Agregar Experiencia</a>
+                                <a href="javascript:void(0)" data-info="agregarExperienciaLaboral"><i
+                                        class="fa fa-plus"></i> Agregar Experiencia</a>
                             </div>
                             <hr>
                             <hr>
@@ -309,7 +365,8 @@
                                         </div>
                                     @endforeach
                                 </div>
-                                <a href="javascript:void(0)" data-info="agregarEducacion"><i class="fa fa-plus"></i> Agregar Educación</a>
+                                <a href="javascript:void(0)" data-info="agregarEducacion"><i class="fa fa-plus"></i>
+                                    Agregar Educación</a>
                             </div>
                             <hr>
                             <hr>
@@ -347,7 +404,8 @@
                                         </div>
                                     @endforeach
                                 </div>
-                                <a href="javascript:void(0)" data-info="agregarReferenciaLaboral"><i class="fa fa-plus"></i> Agregar Formación</a>
+                                <a href="javascript:void(0)" data-info="agregarReferenciaLaboral"><i
+                                        class="fa fa-plus"></i> Agregar Formación</a>
                             </div>
 
                             {{-- <div class="form-group row">
@@ -417,7 +475,7 @@
                                 resize: auto !important;
                             }
                         </style>
-                        <div class="card aviso mt-2" style="background-color:#f5f9fb;">
+                        <div class="card aviso mt-2" style="background-color:#fdfdfd;">
 
                             {{-- @if ($alumno->hoja_de_vida != null && $alumno->hoja_de_vida != '')
                                     <a href="/uploads/alumnos/archivos/{{ $alumno->hoja_de_vida }}" class="btn_cv" target="_blank"> Descargar mi CV </a>
@@ -445,7 +503,6 @@
 @endsection
 
 @section('scripts')
-
     {{-- Se Comento --}}
     {{--  <script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script> --}}
     {{-- <script type="text/javascript" src="{{ asset('app/plugins/ckeditor/ckeditor.js') }}"></script> --}}

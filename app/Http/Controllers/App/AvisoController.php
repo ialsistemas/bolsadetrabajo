@@ -228,4 +228,71 @@ class AvisoController extends Controller
         return response()->json(['Success' => $status, 'Message' => $message]);
     }
 
+
+    public function progresoCV(Request $request)
+    {
+        $alumnoId = $request->input('alumnoId');
+        
+        if (!$alumnoId) {
+            return response()->json(['error' => 'ID del alumno no proporcionado'], 400);
+        }
+
+        $alumno = Alumno::find($alumnoId);
+
+        if (!$alumno) {
+            return response()->json(['error' => 'Alumno no encontrado'], 404);
+        }
+
+        // Inicia el contador de campos completados
+        $completados = 0;
+
+        // Contar los campos en la tabla 'alumnos'
+        if ($alumno->nombres && $alumno->apellidos && $alumno->dni && $alumno->telefono && 
+            $alumno->email && $alumno->fecha_nacimiento && $alumno->direccion && $alumno->foto) {
+            $completados += 8; 
+        } else {
+            if ($alumno->nombres) $completados++;
+            if ($alumno->apellidos) $completados++;
+            if ($alumno->dni) $completados++;
+            if ($alumno->telefono) $completados++;
+            if ($alumno->email) $completados++;
+            if ($alumno->fecha_nacimiento) $completados++;
+            if ($alumno->direccion) $completados++;
+            if ($alumno->foto) $completados++;
+            if ($alumno->foto) $perfil_profesional++;
+            if ($alumno->foto) $referentes_carrera++;
+        }
+
+
+
+        // Contar los registros en la tabla 'referencia_laborals'
+        $referenciasLaborales = ReferenciaLaboral::where('alumno_id', $alumnoId)->count();
+        if ($referenciasLaborales > 0) {
+            $completados++;
+        }
+
+        // Contar los registros en la tabla 'experiencia_laborals'
+        $experienciasLaborales = ExperienciaLaboral::where('alumno_id', $alumnoId)->count();
+        if ($experienciasLaborales > 0) {
+            $completados++;
+        }
+
+        // Contar los registros en la tabla 'educacions'
+        $educacion = Educacion::where('alumno_id', $alumnoId)->count();
+        if ($educacion > 0) {
+            $completados++;
+        }
+
+        // Total de campos a verificar
+        $totalCampos = 8 + 1 + 1 + 1 + 1; // 8 campos de alumnos, 1 de perfil, 1 de referencias, 1 de experiencia y 1 de educación
+
+        // Calcular el progreso en porcentaje
+        $progreso = ($completados / $totalCampos) * 100;
+
+        return response()->json(['progreso' => (int)$progreso]);
+    }
+
+
+
+    
 }

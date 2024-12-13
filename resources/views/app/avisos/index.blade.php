@@ -194,6 +194,50 @@
                             </h5>
                             <p style="font-family: 'Arial', sans-serif;font-weight:100;font-size:12px;margin-top:5px;">
                                 {{ $alumno->areas->nombre }}</p>
+
+                            <input type="hidden" id="alumnoId" name="alumnoId" value="{{ $alumno->id }}">
+                            <div class="progress-container">
+                                <progress id="progress-bar" max="100" value="0"></progress>
+                                <div class="progress-text" id="progress-text" style="color : #25d366;">0%</div>
+                            </div>
+
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    const alumnoId = document.getElementById('alumnoId').value;
+                                    console.log('Alumno ID:', alumnoId); // Asegúrate de que aquí se muestra el valor correcto
+
+                                    fetchProgresoCV(alumnoId);
+                                });
+
+                                async function fetchProgresoCV(alumnoId) {
+                                    try {
+                                        const response = await fetch('{{ route('alumno.progreso') }}', {
+                                            method: 'POST',
+                                            headers: {
+                                                'Content-Type': 'application/json',
+                                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                            },
+                                            body: JSON.stringify({
+                                                alumnoId: alumnoId
+                                            })
+                                        });
+
+                                        if (!response.ok) {
+                                            const errorText = await response.text();
+                                            throw new Error(`Error: ${response.status} - ${errorText}`);
+                                        }
+
+                                        const data = await response.json();
+                                        const progressBar = document.getElementById('progress-bar');
+                                        const progressText = document.getElementById('progress-text');
+                                        progressBar.value = data.progreso;
+                                        progressText.textContent = `${data.progreso}%`;
+                                    } catch (error) {
+                                        console.error('Error:', error);
+                                    }
+                                }
+                            </script>
+
                             @if (Auth::guard('alumnos')->check())
                                 <a href="{{ route('alumno.perfil') }}" class="btn-perfil-estudiante"
                                     style="background-color: white; 

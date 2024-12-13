@@ -484,7 +484,8 @@ span[data-valmsg-for] {
 }
 
 #main .card {
-  padding: 20px;
+  padding: 40px;
+  border-radius: 20px;
   margin-bottom: 1rem;
   cursor: pointer;
   font-weight: 300;
@@ -602,6 +603,7 @@ span[data-valmsg-for] {
   color: #6f6b6b;
   font-family: flexo;
   background: #f1f1f1;
+  border: 1px solid #005ca6;
   font-size: 15px;
   transition: .3s ease;
   padding: 14px 15px 12px 15px;
@@ -723,3 +725,38 @@ span[data-valmsg-for] {
   background-color: #de1c1c;
 }
 /*# sourceMappingURL=index.css.map */
+.progress-container {
+  width: 100%;
+  position: relative;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+progress {
+  width: 60%;
+  appearance: none;
+  -webkit-appearance: none;
+  height: 6px;
+  border-radius: 15px;
+  overflow: hidden;
+  transition: width 1s ease-in-out; /* Añade una transición suave */
+}
+
+progress::-webkit-progress-bar {
+  background-color: #e0e0e0;
+  border-radius: 15px;
+}
+
+progress::-webkit-progress-value {
+  background-color: #25d366;
+  border-radius: 15px;
+  transition: width 0.8s ease; /* Añade un efecto al llenado de la barra */
+}
+
+progress[value="0"]::-webkit-progress-value {
+  width: 0;
+}
+
+progress[value="100"]::-webkit-progress-value {
+  width: 100%;
+}

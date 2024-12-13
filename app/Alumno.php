@@ -85,4 +85,23 @@ class Alumno extends Authenticatable
         return $errors;
     }
 
+
+ 
+    /* Añadido para la carga de porcentaje hecho por sebas */
+    public function referenciaLaborals()
+    {
+        return $this->hasMany(ReferenciaLaboral::class);
+    }
+
+    public function experenciaLaborals()
+    {
+        return $this->hasMany(ExperenciaLaboral::class);
+    }
+
+    public function educacions()
+    {
+        return $this->hasMany(Educacion::class);
+    }
+
+
 }

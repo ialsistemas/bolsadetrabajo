@@ -18,6 +18,7 @@ Route::group(['middleware' => 'auth:alumnos'], function () {
         Route::get('/{empresa}/informacion', 'App\AvisoController@empresa_informacion')->name('alumno.empresa_informacion');
         Route::get('/{empresa}/aviso/{slug}', 'App\AvisoController@informacion')->name('alumno.informacion');
         Route::post('/aviso/postular', 'App\AvisoController@postular')->name('alumno.postular');
+        Route::post('/progreso', 'App\AvisoController@progresoCV')->name('alumno.progreso');
 
         //Route::group(['middleware' => 'alumno'], function () {});
 
