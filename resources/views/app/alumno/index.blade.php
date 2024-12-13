@@ -197,13 +197,13 @@
                                         document.getElementById("dni").focus();
                                     });
                                 </script>
-                                {{-- <div class="col-md-6 mt-3">
+                                <div class="col-md-6 mt-3">
                                     <label for="fecha_nacimiento">Fecha de Nacimiento</label>
                                     <input type="text" class="form-input" name="fecha_nacimiento" id="fecha_nacimiento"
                                         value="{{ \Carbon\Carbon::createFromFormat('Y-m-d', $alumno->fecha_nacimiento)->format('d/m/Y') }}"
                                         placeholder="Fecha de Nacimiento" autocomplete="off" required>
                                     <span data-valmsg-for="fecha_nacimiento"></span>
-                                </div> --}}
+                                </div>
 
                                 <div class="col-md-6 mt-3">
                                     <label for="provincia_id">Departamento</label>
