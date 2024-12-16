@@ -113,8 +113,8 @@
                                 padding: 0 5px 2px 0;">
                             Empresa Verificada</div>
                         <div class="badge">
-                            <small><i class="fa fa-money" aria-hidden="true"></i> S/.
-                                {{ number_format($aviso->salario, 2, ',', '.') }}</small>
+                            <small><i class="fa fa-money" aria-hidden="true"></i> 
+                                {{ $aviso->salario != null ? $aviso->salario: '-' }}</small>
                         </div>
 
                         <div class="badge"><small><i class="fa fa-hospital-o" aria-hidden="true"></i>
