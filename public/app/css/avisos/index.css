@@ -523,18 +523,19 @@ span[data-valmsg-for] {
 }
 
 #main .card.aviso button {
-  width: 60%;
-  text-transform: uppercase;
+  /* width: 60%;
+  text-transform: uppercase; */
   text-align: center;
-  padding: 12px 20px;
+  padding: 12px 50px;
   margin: 10px auto;
   font-size: 17px;
-  font-weight: 400;
+  font-weight: 600 !important;
   color: #fff;
   border: 0;
   outline: 0;
   transition: 0.5s ease;
-  background-color: #00C853;
+  border-radius:50px;
+  background-color: #0056b3;
 }
 
 #main .card.aviso button:hover {
@@ -543,7 +544,7 @@ span[data-valmsg-for] {
 
 #main .card.aviso a:not(.cke_button) {
   margin-top: 10px;
-  font-size: 15px;
+  font-size: 13px;
   text-decoration: underline;
   text-align: center;
   width: 100%;

@@ -285,7 +285,6 @@
                                     <input type="text" class="form-input" name="perfil_profesional"
                                         id="perfil_profesional" placeholder="Redacte su perfil Profesional"
                                         value="{{ strip_tags($alumno->perfil_profesional) }}" required>
-
                                 </div>
                             </div>
 
@@ -456,12 +455,13 @@
                         </div>
                         <style>
                             .card .btn_cv {
-                                width: 60% !important;
-                                text-transform: uppercase;
+                                width: 20% !important;
+                                border-radius: 50px;
+                                text-transform: none;
                                 text-align: center;
                                 padding: 12px 20px;
                                 margin: 10px auto;
-                                font-size: 17px;
+                                font-size: 15px !important;
                                 font-weight: 400;
                                 color: #fff !important;
                                 border: 0;
@@ -480,7 +480,7 @@
                             {{-- @if ($alumno->hoja_de_vida != null && $alumno->hoja_de_vida != '')
                                     <a href="/uploads/alumnos/archivos/{{ $alumno->hoja_de_vida }}" class="btn_cv" target="_blank"> Descargar mi CV </a>
                                 @endif --}}
-                            <button type="submit"><i class="fa fa-save"></i> Guardar</button>
+                            <button type="submit"><i class="fa fa-save"></i> Guardar Datos</button>
                             <a href="pdf" class="btn_cv" target="_blank"> <i class="fa fa-download"></i> Descargar
                                 mi CV </a>
 
