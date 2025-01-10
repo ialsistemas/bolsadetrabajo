@@ -18,7 +18,7 @@ class EventosController extends Controller
         return view('auth.eventos.index');
         
     }
-      
+
     public function list_all()
     {
         return response()->json(['data' => Eventos::orderby('id', 'desc')->get()]);

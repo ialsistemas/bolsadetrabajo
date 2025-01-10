@@ -614,11 +614,14 @@ span[data-valmsg-for] {
     border-radius: 0;
     color: #6f6b6b;
     font-family: flexo;
-    background: #f1f1f1;
+    background: #fafafa;
     font-size: 15px;
     transition: .3s ease;
     padding: 14px 15px 12px 15px;
-    font-weight: 300
+    font-weight: 300;
+    border: 1px solid #f1f1f1;
+    border-radius: 20px;
+    
 }
 
 #main .formulario option {

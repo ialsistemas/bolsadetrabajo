@@ -102,13 +102,13 @@
                     </div>
                 </div>
                 <div class="section_page_login">
-                    <a href="{{ route('index') }}" class="active-line-bottom">Alumno</a>
-                    <a href="{{ route('loginEmpresa') }}">Empleador</a>
+                    <a href="{{ route('index') }}" class="active-line-bottom">Solo Alumnos</a>
+                    <a href="{{ route('loginEmpresa') }}">Solo Empleador</a>
                 </div>
                 <form class="form-login" action="{{ route('alumno.login.post') }}" method="post">
                     @csrf
                     <div class="">
-                        <label for="" class="text-primary-m">Usuario</label>
+                        <label for="" class="text-primary-m">DNI del estudiante</label>
                         <input type="text" autocomplete="off" id="usuario_alumno" name="usuario_alumno"
                             class="form-control-m {{ $errors->has('usuario_alumno') ? ' is-invalid' : '' }}"
                             value="{{ old('usuario_alumno') }}">
@@ -145,6 +145,7 @@
                         ¿No tienes una cuenta? <a href="{{ route('alumno.crear_alumno') }}"
                             style="color:#00c3f4">Registrate</a>
                     </div>
+
                 </form>
             </div>
 
