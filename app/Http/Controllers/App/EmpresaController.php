@@ -239,7 +239,7 @@ class EmpresaController extends Controller
     
 
     /* Codigo Sebastian */
-    public function listar_aviso_json(Request $request){
+    /*public function listar_aviso_json(Request $request){
         // Validar y obtener las fechas desde la solicitud
         $fechaDesde = $request->input('fecha_desde', '2000-01-01');
         $fechaHasta = $request->input('fecha_hasta', date('Y-m-d'));
@@ -257,7 +257,30 @@ class EmpresaController extends Controller
 
         // Retornar los datos en formato JSON
         return response()->json(['data' => $avisos]);
-    }
+    }*/
+
+    public function listar_aviso_json(Request $request){
+        // Validar y obtener las fechas desde la solicitud
+        $fechaDesde = $request->input('fecha_desde', '2000-01-01');
+        $fechaHasta = $request->input('fecha_hasta', date('Y-m-d'));
+
+        $fechaHoraDesde = $fechaDesde . ' 00:00:00';
+        $fechaHoraHasta = $fechaHasta . ' 23:59:59';
+
+        // Obtener los avisos filtrados por empresa y rango de fechas
+        $avisos = Aviso::where('empresa_id', Auth::guard('empresasw')->user()->id)
+            ->whereBetween('created_at', [$fechaHoraDesde, $fechaHoraHasta])
+            ->with('areas')
+            ->with('empresas')
+            ->with('modalidades')
+            ->with('horarios')
+            ->with('provincias')
+            ->with('distritos')
+            ->get();
+
+        // Retornar los datos en formato JSON
+        return response()->json(['data' => $avisos]);
+    } 
 
     public function partialView_aviso($id)
     {
