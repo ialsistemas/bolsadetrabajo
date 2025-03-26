@@ -64,22 +64,24 @@
 </head>
 <body>
     <div class="container">
-        <table width="100%" align="center">
+        <table width="100%">
             <tr>
-                <td align="center">
-                    <img src="{{ "http://bolsadetrabajo.ial.edu.pe/uploads/alumnos/fotos/".$alumno->foto }}" 
-                        width="120" height="120" 
-                        style="border-radius: 50%; display: block; margin: auto;">
+                <!-- Imagen a la izquierda -->
+                <td width="120" align="center">
+                    @if($alumno->foto != null)
+                        <img src="{{ "http://bolsadetrabajo.ial.edu.pe/uploads/alumnos/fotos/".$alumno->foto }}" 
+                            width="120" height="120" 
+                            style="border-radius: 50%; display: block;">
+                    @endif
                 </td>
-            </tr>
-            <tr>
-                <td align="center">
-                    <h2>{{ $alumno->apellidos }} {{ $alumno->nombres }}</h2>
-                    <p><b>DNI:</b> {{ $alumno->dni }} | <b>Celular:</b> {{ $alumno->telefono }} | <b>Email:</b> {{ $alumno->email }}</p>
+                <td>
+                    <h2 style="margin: 0;">{{ $alumno->apellidos }} {{ $alumno->nombres }}</h2>
+                    <p style="margin: 5px 0;"><b>DNI:</b> {{ $alumno->dni }}</p>
+                    <p style="margin: 5px 0;"><b>Celular:</b> {{ $alumno->telefono }}</p>
+                    <p style="margin: 5px 0;"><b>Email:</b> {{ $alumno->email }}</p>
                 </td>
             </tr>
         </table>
-        
         <div class="section-title">Perfil Profesional</div>
         <p class="info">{{ $alumno->perfil_profesional }}</p>
 
