@@ -267,7 +267,7 @@
         Swal.fire({
             icon: 'info',
             html:
-                'El Salario mínimo por 8h es de 1025 soles mensuales según ley.',
+                'El Salario mínimo por 8h es de 1130 soles mensuales según ley.',
             showCloseButton: true,
             showCancelButton: false,
             showConfirmButton: false,

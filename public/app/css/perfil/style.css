@@ -1,0 +1,145 @@
+.hidden {
+    display: none !important;
+}
+
+.btn_ejemplo_perfil {
+    color: #2092f0 !important;
+    display: inline !important;
+}
+
+.colo_parentesis {
+    color: #d61010e0 !important;
+}
+.filter{
+    background-color: #ffffff !important;
+    height:auto;
+}
+.name-alumno{
+    font-family: 'Arial', sans-serif; 
+    font-weight: 100; 
+    font-size: 12px; 
+    margin-top: 5px;
+}
+#progress-text{
+    color : #25d366;
+}
+.enlace-postulaciones{
+    text-decoration: none;
+    font-family: 'Arial',sans-serif;
+    font-weight: 100;
+    font-size: 15px;
+    margin-top: 5px;
+    color: #005ca6;
+}
+.card .aviso{
+    background-color:#ffffff !important;
+}
+#main .formulario input,
+#main .formulario select,
+#main .formulario textarea {
+    background: #ffffff;
+    border-color: #dadada;
+    font-family: Arial, Helvetica, sans-serif;
+    box-shadow: -6px 5px 20px 0rem rgba(230, 230, 230, 0.397);
+    border-radius: 10px;
+}
+.form-input:focus {
+    border-color: #80bdff;
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+}
+#main .formulario input:focus,
+#main .formulario select:focus,
+#main .formulario textarea:focus {
+    border-color: #80bdff;
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+}
+#main .formulario input:focus:hover,
+#main .formulario select:focus:hover,
+#main .formulario textarea:focus:hover {
+    border-color: #66aaff;
+    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.35);
+}
+.alert-blink{
+    font-size: 18px;
+    animation: throb 1.5s infinite alternate;
+}
+@keyframes throb {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.03);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+.container-experiencia{
+    display: flex;
+    justify-content:center;
+    width:50%;
+    margin:0 auto; 
+}
+.ul-container{
+    display: flex;
+    gap: 5px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.btn-edit{
+    width: 35px;
+    height: 35px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn-delete{
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
+}
+.container-fomacion{
+    display: flex;
+    justify-content:center;
+    margin:0 auto;
+    align-items:center
+}
+.btn_ejemplo_perfil{
+    width:100px;
+    margin-top:0px
+}
+.card .btn_cv {
+    width: 20% !important;
+    border-radius: 50px;
+    text-transform: none;
+    text-align: center;
+    padding: 12px 20px;
+    margin: 10px auto;
+    font-size: 15px !important;
+    font-weight: 400;
+    color: #fff !important;
+    border: 0;
+    outline: 0;
+    transition: 0.5s ease;
+    background-color: #2092f0;
+    text-decoration: none !important;
+}
+textarea {
+    resize: auto !important;
+}
+.card .aviso .mt-2{
+    background-color:#fdfdfd;
+}
+.card .experiencia{
+    background-color:#ffffff !important;
+}

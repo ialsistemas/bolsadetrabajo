@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use PDF;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Contracts\Encryption\DecryptException;
 
 class AlumnoController extends Controller
 {
@@ -28,50 +30,90 @@ class AlumnoController extends Controller
         $Areas = Area::all();
         $Provincias = Provincia::all();
         $Distritos = Distrito::where('provincia_id', $Alumno->provincia_id)->get();
-
         $Educaciones = Educacion::where('alumno_id', $Alumno->id)->orderBy('estudio_inicio', 'DESC')->get(); //se añadió desc order by para que ordene segun la fecha de mayo a menor
         $ExperienciaLaboral = ExperienciaLaboral::where('alumno_id', $Alumno->id)->orderBy('inicio_laburo', 'DESC')->get();
+        foreach ($ExperienciaLaboral as $exp) {
+            $exp->encrypted_id = Crypt::encryptString($exp->id);
+        }
         $ReferenciaLaboral = ReferenciaLaboral::where('alumno_id', $Alumno->id)->orderBy('inicio_curso', 'DESC')->get(); // se añadio tambien
         $Habilidades = AlumnoHabilidad::where('alumno_id', $Alumno->id)
-            ->whereHas('habilidades', function ($query) { $query->whereNull('deleted_at'); })
+            ->whereHas('habilidades', function ($query) {
+                $query->whereNull('deleted_at');
+            })
             ->get();
-
-        $Anios =  range(date('Y'), date('Y')-21);
+        $Anios =  range(date('Y'), date('Y') - 21);
         array_push($Anios, "En Curso");
-
         $errors = Alumno::ValidatePerfilAlumno();
+        $modificationNotice = 0;
+        foreach ($ExperienciaLaboral as $exp) {
+            if ($exp->descripcion == strip_tags($exp->descripcion)) {
+                $modificationNotice = 1;
+                break;
+            }
+        }
+        return view('app.alumno.index', [
+            'provincias' => $Provincias, 'distritos' => $Distritos, 'areas' => $Areas, 'alumno' => $Alumno, 'educaciones' => $Educaciones,
+            'experienciaLaboral' => $ExperienciaLaboral, 'referenciaLaboral' => $ReferenciaLaboral, 'habilidades' => $Habilidades, 'anios' => $Anios, 'errors' => $errors, 'modificationNotice' => $modificationNotice
+        ]);
+    }
 
-        return view('app.alumno.index', ['provincias' => $Provincias, 'distritos' => $Distritos, 'areas' => $Areas, 'alumno' => $Alumno, 'educaciones' => $Educaciones,
-            'experienciaLaboral' => $ExperienciaLaboral, 'referenciaLaboral' => $ReferenciaLaboral, 'habilidades' => $Habilidades, 'anios' => $Anios, 'errors' => $errors]);
+    public function experienciaLaboral($id)
+    {
+        try {
+            $id = Crypt::decryptString($id);
+            $Alumno = Auth::guard('alumnos')->user();
+            $experienciaData = ExperienciaLaboral::where('id', $id)->where('alumno_id', $Alumno->id)->first();
+            if ($experienciaData) {
+                return view('app.alumno.experienciaLaboralView')->with('alumno', $Alumno)->with('experienciaData', $experienciaData);
+            } else {
+                return redirect()->route('alumno.perfil');
+            }
+        } catch (DecryptException $e) {
+            return redirect()->route('alumno.perfil');
+        }
+    }
+    public function newExperienciaLaboral()
+    {
+        $Alumno = Auth::guard('alumnos')->user();
+        $experienciaData = null;
+        return view('app.alumno.experienciaLaboralView')->with('alumno', $Alumno)->with('experienciaData', $experienciaData);
     }
 
     // function hecho por marco
-    public function donwloadCValumno(){
+    public function donwloadCValumno()
+    {
         $Alumno = Auth::guard('alumnos')->user();
         $Areas = Area::all();
         $Provincias = Provincia::all();
         $Distritos = Distrito::where('provincia_id', $Alumno->provincia_id)->get();
 
         $Educaciones = Educacion::where('alumno_id', $Alumno->id)->orderBy('estudio_inicio', 'DESC')->get(); // se añadio 
-        $ExperienciaLaboral = ExperienciaLaboral::where('alumno_id', $Alumno->id)->orderBy('inicio_laburo', 'DESC')->get();
+        $ExperienciaLaboral = ExperienciaLaboral::where('alumno_id', $Alumno->id)->orderBy('inicio_laburo', 'DESC')->whereNull('deleted_at')->get();
         $ReferenciaLaboral = ReferenciaLaboral::where('alumno_id', $Alumno->id)->orderBy('inicio_curso', 'DESC')->get(); //se añadio 
         $Habilidades = AlumnoHabilidad::where('alumno_id', $Alumno->id)
-            ->whereHas('habilidades', function ($query) { $query->whereNull('deleted_at'); })
+            ->whereHas('habilidades', function ($query) {
+                $query->whereNull('deleted_at');
+            })
             ->get();
 
-        $Anios =  range(date('Y'), date('Y')-21);
+        $Anios =  range(date('Y'), date('Y') - 21);
         array_push($Anios, "En Curso");
 
         $errors = Alumno::ValidatePerfilAlumno();
-        
-        $pdf = PDF::loadView('app.alumno.cv',  ['provincias' => $Provincias, 'distritos' => $Distritos, 'areas' => $Areas, 'alumno' => $Alumno, 'educaciones' => $Educaciones,
-        'experienciaLaboral' => $ExperienciaLaboral, 'referenciaLaboral' => $ReferenciaLaboral, 'habilidades' => $Habilidades, 'anios' => $Anios, 'errors' => $errors]);
+
+        $pdf = PDF::loadView('app.alumno.cv',  [
+            'provincias' => $Provincias, 'distritos' => $Distritos, 'areas' => $Areas, 'alumno' => $Alumno, 'educaciones' => $Educaciones,
+            'experienciaLaboral' => $ExperienciaLaboral, 'referenciaLaboral' => $ReferenciaLaboral, 'habilidades' => $Habilidades, 'anios' => $Anios, 'errors' => $errors
+        ]);
         // $pdf = PDF::loadHTML('<h1>Test</h1>');
         return $pdf->stream();
+        /*return view('app.alumno.cv')->with('provincias', $Provincias)->with('distritos', $Distritos)->with('areas', $Areas)->with('alumno', $Alumno)->with('educaciones', $Educaciones)->with('experienciaLaboral', $ExperienciaLaboral)->with('referenciaLaboral', $ReferenciaLaboral)->with('habilidades', $Habilidades)->with('anios', $Anios)->with('errors', $errors);*/
     }
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 
-        $status = false; $Alumno = Auth::guard('alumnos')->user();
+        $status = false;
+        $Alumno = Auth::guard('alumnos')->user();
 
         $request->merge([
             'fecha_nacimiento' => Carbon::createFromFormat("d/m/Y", $request->fecha_nacimiento)->format('Y-m-d')
@@ -88,22 +130,24 @@ class AlumnoController extends Controller
             'area_id' => 'required'
         ]);
 
-        if(!$validator->fails()){
+        if (!$validator->fails()) {
 
-            $random = Str::upper(str_random(4)); $foto = null; $hoja_de_vida = null;
+            $random = Str::upper(str_random(4));
+            $foto = null;
+            $hoja_de_vida = null;
 
-            if($request->file('foto') != null){
+            if ($request->file('foto') != null) {
                 $foto = uniqid($random . "_") . '.' . $request->file('foto')->getClientOriginalExtension();
             }
 
-            if($request->file('hoja_de_vida') != null){
+            if ($request->file('hoja_de_vida') != null) {
                 $hoja_de_vida = uniqid($random . "_") . '.' . $request->file('hoja_de_vida')->getClientOriginalExtension();
             }
 
             $Alumno = Alumno::find($Alumno->id);
 
-            if(!$foto) $foto = $Alumno->foto;
-            if(!$hoja_de_vida) $hoja_de_vida = $Alumno->hoja_de_vida;
+            if (!$foto) $foto = $Alumno->foto;
+            if (!$hoja_de_vida) $hoja_de_vida = $Alumno->hoja_de_vida;
 
             $Alumno->tipo_documento = $request->tipo_documento;
             $Alumno->dni = $request->dni;
@@ -130,7 +174,7 @@ class AlumnoController extends Controller
             $Alumno->foto = $foto;
             $Alumno->hoja_de_vida = $hoja_de_vida;
 
-            if($Alumno->save()) {
+            if ($Alumno->save()) {
                 if ($request->file('foto') != null)
                     //$request->file('foto')->storeAs('public/uploads/alumnos/fotos', $foto);
                     $request->file('foto')->move('uploads/alumnos/fotos', $foto);
@@ -141,19 +185,19 @@ class AlumnoController extends Controller
                 $status = true;
             }
         }
-        return response()->json(['Success' => $status, 'Errors' => $validator->errors(), 'Alumno' => $Alumno, 'Edad' => ($request->fecha_nacimiento != null  && $request->fecha_nacimiento < Carbon::now()->format('Y-m-d')) ? (Carbon::createFromFormat('Y-m-d', Carbon::now()->format('Y-m-d'))->diffInYears(Carbon::createFromFormat('Y-m-d', $request->fecha_nacimiento))) : "-"  ]);
+        return response()->json(['Success' => $status, 'Errors' => $validator->errors(), 'Alumno' => $Alumno, 'Edad' => ($request->fecha_nacimiento != null  && $request->fecha_nacimiento < Carbon::now()->format('Y-m-d')) ? (Carbon::createFromFormat('Y-m-d', Carbon::now()->format('Y-m-d'))->diffInYears(Carbon::createFromFormat('Y-m-d', $request->fecha_nacimiento))) : "-"]);
     }
 
     public function educacion($id)
     {
         $entity = null;
 
-        $Anios = range(date('Y'), date('Y')-30);
+        $Anios = range(date('Y'), date('Y') - 30);
         array_push($Anios, "En Curso");
 
-        if($id != 0) {
+        if ($id != 0) {
             $entity = Educacion::find($id);
-            if($entity != null && $entity->alumno_id != Auth::guard('alumnos')->user()->id) {
+            if ($entity != null && $entity->alumno_id != Auth::guard('alumnos')->user()->id) {
                 $entity = null;
             }
         }
@@ -176,11 +220,11 @@ class AlumnoController extends Controller
             'anio' =>  $request->estado == App::$TIPO_ALUMNO ? "En Curso" : $request->anio
         ]);
 
-        if($request->id != 0) {
+        if ($request->id != 0) {
             $Entity = Educacion::where('id', $request->id)->where('alumno_id', Auth::guard('alumnos')->user()->id)->first();
-            if(!$Entity)
+            if (!$Entity)
                 return response()->json(['Success' => $status, 'Message' => 'Información no encontrada o borrada']);
-        }else {
+        } else {
             $Entity = new Educacion();
         }
 
@@ -192,19 +236,19 @@ class AlumnoController extends Controller
             // 'fin_estudio' => 'required',
         ]);
 
-        if (!$validator->fails()){
+        if (!$validator->fails()) {
 
             $Entity->alumno_id = Auth::guard('alumnos')->user()->id;
             $Entity->institucion = $request->institucion;
             $Entity->area_id = $request->area_id;
-            $Entity->estado = $request->estado == App::$TIPO_TITULADO ? "Titulado" : ( $request->estado == App::$TIPO_EGRESADO ?  "Egresado" : "Estudiante");
+            $Entity->estado = $request->estado == App::$TIPO_TITULADO ? "Titulado" : ($request->estado == App::$TIPO_EGRESADO ?  "Egresado" : "Estudiante");
             $Entity->anio = $request->anio;
             $Entity->estudio_inicio = $request->inicio_estudio;
             $Entity->estudio_fin = $request->fin_estudio;
             $Entity->ciclo = $request->ciclo;
             $Entity->estado_estudiante = $request->estado_estudiante;
 
-            if($Entity->save()) $status = true;
+            if ($Entity->save()) $status = true;
         }
 
         return response()->json(['Success' => $status, 'Errors' => $validator->errors()]);
@@ -212,12 +256,13 @@ class AlumnoController extends Controller
 
     public function educacion_delete(Request $request)
     {
-        $status = false; $message = null;
+        $status = false;
+        $message = null;
         $entity = Educacion::find($request->id);
 
-        if($entity->alumno_id == Auth::guard('alumnos')->user()->id) {
+        if ($entity->alumno_id == Auth::guard('alumnos')->user()->id) {
             if ($entity->delete()) $status = true;
-        }else{
+        } else {
             $message = "No tiene privilegios, para realizar esta acción";
         }
 
@@ -227,11 +272,11 @@ class AlumnoController extends Controller
     public function experiencia_laboral($id)
     {
         $entity = null;
-        $Anios = range(date('Y'), date('Y')-30);
+        $Anios = range(date('Y'), date('Y') - 30);
 
-        if($id != 0) {
+        if ($id != 0) {
             $entity = ExperienciaLaboral::find($id);
-            if($entity != null && $entity->alumno_id != Auth::guard('alumnos')->user()->id) {
+            if ($entity != null && $entity->alumno_id != Auth::guard('alumnos')->user()->id) {
                 $entity = null;
             }
         }
@@ -248,11 +293,11 @@ class AlumnoController extends Controller
     {
         $status = false;
 
-        if($request->id != 0) {
+        if ($request->id != 0) {
             $Entity = ExperienciaLaboral::where('id', $request->id)->where('alumno_id', Auth::guard('alumnos')->user()->id)->first();
-            if(!$Entity)
+            if (!$Entity)
                 return response()->json(['Success' => $status, 'Message' => 'Información no encontrada o borrada']);
-        }else {
+        } else {
             $Entity = new ExperienciaLaboral();
         }
 
@@ -262,7 +307,7 @@ class AlumnoController extends Controller
             // 'descripcion' => 'required',
         ]);
 
-        if (!$validator->fails()){
+        if (!$validator->fails()) {
 
             $Entity->alumno_id = Auth::guard('alumnos')->user()->id;
             $Entity->empresa = $request->empresa;
@@ -277,23 +322,25 @@ class AlumnoController extends Controller
             // $Entity->descripcion = $request->descripcion;
             $Entity->descripcion = $request->descrip;
             $Entity->estado = $request->estado;
-            $Entity->inicio_laburo= $request->inicio_laburo;
-            $Entity->fin_laburo= $request->fin_laburo;
+            $Entity->inicio_laburo = $request->inicio_laburo;
+            $Entity->fin_laburo = $request->fin_laburo;
 
-            if($Entity->save()) $status = true;
+            if ($Entity->save()) $status = true;
         }
 
-        return response()->json(['Success' => $status, 'Errors' => $validator->errors()]);
+        //return response()->json(['Success' => $status, 'Errors' => $validator->errors()]);
+        return redirect()->route('alumno.perfil');
     }
 
     public function experiencia_delete(Request $request)
     {
-        $status = false; $message = null;
+        $status = false;
+        $message = null;
         $entity = ExperienciaLaboral::find($request->id);
 
-        if($entity->alumno_id == Auth::guard('alumnos')->user()->id) {
+        if ($entity->alumno_id == Auth::guard('alumnos')->user()->id) {
             if ($entity->delete()) $status = true;
-        }else{
+        } else {
             $message = "No tiene privilegios, para realizar esta acción";
         }
 
@@ -303,9 +350,9 @@ class AlumnoController extends Controller
     public function referencia_laboral($id)
     {
         $entity = null;
-        if($id != 0) {
+        if ($id != 0) {
             $entity = ReferenciaLaboral::find($id);
-            if($entity != null && $entity->alumno_id != Auth::guard('alumnos')->user()->id) {
+            if ($entity != null && $entity->alumno_id != Auth::guard('alumnos')->user()->id) {
                 $entity = null;
             }
         }
@@ -322,11 +369,11 @@ class AlumnoController extends Controller
     {
         $status = false;
 
-        if($request->id != 0) {
+        if ($request->id != 0) {
             $Entity = ReferenciaLaboral::where('id', $request->id)->where('alumno_id', Auth::guard('alumnos')->user()->id)->first();
-            if(!$Entity)
+            if (!$Entity)
                 return response()->json(['Success' => $status, 'Message' => 'Información no encontrada o borrada']);
-        }else {
+        } else {
             $Entity = new ReferenciaLaboral();
         }
 
@@ -334,7 +381,7 @@ class AlumnoController extends Controller
             'institucion' => 'required'
         ]);
 
-        if (!$validator->fails()){
+        if (!$validator->fails()) {
 
             $Entity->alumno_id = Auth::guard('alumnos')->user()->id;
             $Entity->name_curso = $request->name_curso;
@@ -343,7 +390,7 @@ class AlumnoController extends Controller
             $Entity->inicio_curso = $request->inicio_curso;
             $Entity->fin_curso = $request->fin_curso;
 
-            if($Entity->save()) $status = true;
+            if ($Entity->save()) $status = true;
         }
 
         return response()->json(['Success' => $status, 'Errors' => $validator->errors()]);
@@ -351,12 +398,13 @@ class AlumnoController extends Controller
 
     public function referencia_delete(Request $request)
     {
-        $status = false; $message = null;
+        $status = false;
+        $message = null;
         $entity = ReferenciaLaboral::find($request->id);
 
-        if($entity->alumno_id == Auth::guard('alumnos')->user()->id) {
+        if ($entity->alumno_id == Auth::guard('alumnos')->user()->id) {
             if ($entity->delete()) $status = true;
-        }else{
+        } else {
             $message = "No tiene privilegios, para realizar esta acción";
         }
 
@@ -399,7 +447,9 @@ class AlumnoController extends Controller
         if (!$validator->fails()) {
 
             AlumnoHabilidad::where('alumno_id', Auth::guard('alumnos')->user()->id)
-                ->whereHas('habilidades', function ($query) use ($request){ $query->where('tipo',  $request->tipo); })->delete();
+                ->whereHas('habilidades', function ($query) use ($request) {
+                    $query->where('tipo',  $request->tipo);
+                })->delete();
 
             foreach ($request->habilidades as $q) {
                 $Entity = new AlumnoHabilidad();
@@ -419,6 +469,4 @@ class AlumnoController extends Controller
         $errors = Alumno::ValidatePerfilAlumno();
         return response()->json(['Errors' => count($errors)]);
     }
-
-
 }

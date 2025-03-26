@@ -46,6 +46,9 @@ Route::group(['middleware' => 'auth:alumnos'], function () {
         Route::get('/perfil/partialViewHabilidad/{id}', 'App\AlumnoController@habilidad')->name('alumno.perfil.habilidad');
         Route::get('/perfil/partialViewHabilidadProfesional/{id}', 'App\AlumnoController@habilidad_profesional')->name('alumno.perfil.habilidad_profesional');
         Route::post('/perfil/habilidad', 'App\AlumnoController@habilidad_store')->name('alumno.perfil.habilidad_store');
+
+        Route::get('/perfil/experiencia-laboral/{id}', 'App\AlumnoController@experienciaLaboral')->name('alumno.perfil.experiencia-laboral');
+        Route::get('/perfil/new-experiencia-laboral', 'App\AlumnoController@newExperienciaLaboral')->name('alumno.perfil.new-experiencia-laboral');
     });
 });
 
@@ -88,7 +91,7 @@ Route::group(['middleware' => 'auth:empresasw'], function () {
         Route::post('/avisos/alumno/clasificar', 'App\AvisoController@clasificar_aviso')->name('empresa.clasificar_aviso');
         Route::post('/avisos/delete', 'Auth\AvisoController@delete')->name('empresa.aviso.delete');
         Route::get('/app/listar_aviso_json', 'App\EmpresaController@listar_aviso_json')->name('app.listar_aviso_json');
-        });
+    });
 });
 
 
@@ -114,7 +117,7 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:web'], function () {
 
     Route::group(['prefix' => 'inicio'], function () {
         Route::get('/', 'Auth\InicioController@index')->name('auth.inicio');
-        
+
 
         // Route::post('/store', 'Auth\InicioController@store')->name('auth.inicio.store');
         // Route::get('/list_all', 'Auth\InicioController@list')->name('auth.inicio.list');
@@ -161,7 +164,6 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:web'], function () {
 
         Route::get('/list_all_postulantes', 'Auth\AvisoController@list_postulantes')->name('auth.aviso.list_postulantes');
         Route::post('/delete', 'Auth\AvisoController@delete')->name('auth.aviso.delete');
-        
     });
 
     Route::group(['prefix' => 'avisoPostulacion'], function () {
@@ -178,32 +180,28 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:web'], function () {
     });
 
     Route::group(['prefix' => 'anuncioempresa'], function () {
-         Route::get('/', 'Auth\AnuncioEmpresaController@index')->name('auth.anuncioempresa');
+        Route::get('/', 'Auth\AnuncioEmpresaController@index')->name('auth.anuncioempresa');
         Route::post('/store', 'Auth\AnuncioEmpresaController@store')->name('auth.anuncioempresa.store');
         Route::get('/list_all', 'Auth\AnuncioEmpresaController@list')->name('auth.anuncioempresa.list');
-        Route::post('/delete', 'Auth\AnuncioEmpresaController@delete')->name('auth.anuncioempresa.delete'); 
+        Route::post('/delete', 'Auth\AnuncioEmpresaController@delete')->name('auth.anuncioempresa.delete');
         /* Route::get('/list_all', 'Auth\AvisoPostulacionController@list')->name('auth.avisoPostulacion.list'); */
     });
 
     /* Programa Controladores */
-    Route::group(['prefix' => 'programa'], function () {      
-         Route::get('/', 'Auth\ProgramaController@index')->name('auth.programa');
-         Route::post('/store', 'Auth\ProgramaController@store')->name('auth.programa.store');
-         Route::get('/list_all', 'Auth\ProgramaController@listAll')->name('auth.programas.listAll');
-         Route::post('/updateData', 'Auth\ProgramaController@updateData')->name('auth.programa.updateData');
-         Route::get('/partialView/{id}', 'Auth\ProgramaController@partialView')->name('auth.programa.create');
-         Route::post('/delete', 'Auth\ProgramaController@delete')->name('auth.programas.delete');
-         /* Participantes */
-         Route::get('/partialViewParticipantes/{id}', 'Auth\ProgramaController@partialViewParticipantes')->name('auth.programa.partialViewParticipantes');
-         Route::post('/storeParticipantes', 'Auth\ProgramaController@storeParticipantes')->name('auth.programa.storeParticipantes');
-         Route::get('/mostrarParticipantes', 'Auth\ProgramaController@mostrarParticipantes')->name('auth.programa.mostrarParticipantes');
-         Route::post('/deletepar', 'Auth\ProgramaController@deletepar')->name('auth.programas.deletepar');
-         Route::get('/partialViewpar/{id}', 'Auth\ProgramaController@partialViewpar')->name('auth.programa.create');
-         Route::post('/updateParticipanteInscrito', 'Auth\ProgramaController@updateParticipanteInscrito')->name('auth.programa.updateParticipanteInscrito');
-
-
-               
-
+    Route::group(['prefix' => 'programa'], function () {
+        Route::get('/', 'Auth\ProgramaController@index')->name('auth.programa');
+        Route::post('/store', 'Auth\ProgramaController@store')->name('auth.programa.store');
+        Route::get('/list_all', 'Auth\ProgramaController@listAll')->name('auth.programas.listAll');
+        Route::post('/updateData', 'Auth\ProgramaController@updateData')->name('auth.programa.updateData');
+        Route::get('/partialView/{id}', 'Auth\ProgramaController@partialView')->name('auth.programa.create');
+        Route::post('/delete', 'Auth\ProgramaController@delete')->name('auth.programas.delete');
+        /* Participantes */
+        Route::get('/partialViewParticipantes/{id}', 'Auth\ProgramaController@partialViewParticipantes')->name('auth.programa.partialViewParticipantes');
+        Route::post('/storeParticipantes', 'Auth\ProgramaController@storeParticipantes')->name('auth.programa.storeParticipantes');
+        Route::get('/mostrarParticipantes', 'Auth\ProgramaController@mostrarParticipantes')->name('auth.programa.mostrarParticipantes');
+        Route::post('/deletepar', 'Auth\ProgramaController@deletepar')->name('auth.programas.deletepar');
+        Route::get('/partialViewpar/{id}', 'Auth\ProgramaController@partialViewpar')->name('auth.programa.create');
+        Route::post('/updateParticipanteInscrito', 'Auth\ProgramaController@updateParticipanteInscrito')->name('auth.programa.updateParticipanteInscrito');
     });
 
     Route::post('store_estudiante_aviso', 'Auth\AvisoController@store_estudiante_aviso')->name('auth.aviso.store_estudiante_aviso');
@@ -276,12 +274,10 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:web'], function () {
 
     Route::group(['prefix' => 'principal'], function () {
         Route::get('/', 'Auth\PrincipalController@index')->name('auth.principal');
-
     });
 
     Route::group(['prefix' => 'error'], function () {
         Route::get('/', 'Auth\ErrorController@index')->name('auth.error');
-
     });
 
     Route::group(['prefix' => 'eventos'], function () {
@@ -298,7 +294,6 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:web'], function () {
         Route::get('/partialViewEditAsistente/{id}', 'Auth\EventosController@partialViewEditAsistente')->name('auth.eventos.create');
         Route::post('/deleteAsistentes', 'Auth\EventosController@deleteAsistentes')->name('auth.eventos.deleteAsistentes');
         Route::get('/listA', 'Auth\EventosController@listA')->name('auth.eventos.listA');
-
     });
 
     Route::group(['prefix' => 'eventosasistencia'], function () {
@@ -316,21 +311,15 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:web'], function () {
         Route::post('/deleteAlumno', 'Auth\CertificadosController@deleteAlumno')->name('auth.certificados.deleteAlumno');
         Route::post('/store', 'Auth\CertificadosController@store')->name('auth.certificados.store');
 
-        
+
         /* Route::post('/update', 'Auth\CertificadosController@update')->name('auth.certificados.update'); */
-        
     });
 
     Route::group(['prefix' => 'configuracion'], function () {
         Route::get('/', 'Auth\ConfiguracionController@index')->name('auth.configuracion');
         Route::get('/list_all', 'Auth\ConfiguracionController@list_all')->name('auth.configuracion.list_all');
         Route::post('/update', 'Auth\ConfiguracionController@update')->name('auth.configuracion.update');
-
     });
-
-
-
-
 });
 
 
