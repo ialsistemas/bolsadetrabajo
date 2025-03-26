@@ -23,6 +23,7 @@
         .image-container {
             display: block;
             margin: 0 auto;
+            height: 200px;
         }
         .image-container img {
             width: 120px;
