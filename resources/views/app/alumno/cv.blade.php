@@ -21,19 +21,30 @@
             display: flex;
             align-items: center;
             gap: 15px;
+            flex-wrap: nowrap;
         }
         .header img {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
             object-fit: cover;
             border-radius: 50%;
+            flex-shrink: 0;
         }
         .header div {
-            flex: 1;
+            flex-grow: 1;
+            min-width: 0;
+            overflow: hidden;
         }
         .header h2 {
             margin: 0;
             font-size: 24px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .info {
+            font-size: 14px;
+            white-space: normal;
         }
         .section-title {
             font-size: 18px;
