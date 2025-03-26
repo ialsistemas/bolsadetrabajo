@@ -18,13 +18,11 @@
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
         .header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            flex-wrap: nowrap;
+            text-align: center;
         }
         .image-container {
-            flex-shrink: 0;
+            display: block;
+            margin: 0 auto;
         }
         .image-container img {
             width: 120px;
@@ -32,22 +30,11 @@
             object-fit: cover;
             border-radius: 50%;
             display: block;
+            margin: 0 auto;
         }
-        .text-container {
-            flex-grow: 1;
-            min-width: 0;
-            overflow: hidden;
-        }
-        .text-container h2 {
-            margin: 0;
-            font-size: 24px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .info {
-            font-size: 14px;
-            white-space: normal;
+        .info-container {
+            display: block;
+            margin-top: 10px;
         }
         .section-title {
             font-size: 18px;
@@ -83,9 +70,13 @@
                     <img src="{{ "http://bolsadetrabajo.ial.edu.pe/uploads/alumnos/fotos/".$alumno->foto }}" alt="Foto">
                 </div>
             @endif
-            <div class="text-container">
+            <div class="info-container">
                 <h2>{{ $alumno->apellidos }} {{ $alumno->nombres }}</h2>
-                <p class="info"><b>DNI:</b> {{ $alumno->dni }} | <b>Celular:</b> {{ $alumno->telefono }} | <b>Email:</b> {{ $alumno->email }}</p>
+                <p class="info">
+                    <b>DNI:</b> {{ $alumno->dni }} | 
+                    <b>Celular:</b> {{ $alumno->telefono }} | 
+                    <b>Email:</b> {{ $alumno->email }}
+                </p>
             </div>
         </div>
         <div class="section-title">Perfil Profesional</div>
