@@ -76,7 +76,7 @@
     <div class="container">
         <div class="header">
             @if($alumno->foto != null)
-                <div>
+                <div style="display: block">
                     <img src="{{ "http://bolsadetrabajo.ial.edu.pe/uploads/alumnos/fotos/".$alumno->foto }}" alt="Foto">
                 </div>
             @endif
