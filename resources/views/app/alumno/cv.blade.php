@@ -10,7 +10,6 @@
             margin: 40px;
             padding: 0;
             color: #333;
-            /*background: #f9f9f9;*/
         }
         .container {
             background: #fff;
@@ -67,6 +66,7 @@
             @if($alumno->foto != null)
                 <img src="{{ "http://bolsadetrabajo.ial.edu.pe/uploads/alumnos/fotos/".$alumno->foto }}" alt="Foto">
             @endif
+            <br>
             <div>
                 <h2>{{ $alumno->apellidos }} {{ $alumno->nombres }}</h2>
                 <p class="info"><b>DNI:</b> {{ $alumno->dni }} | <b>Celular:</b> {{ $alumno->telefono }} | <b>Email:</b> {{ $alumno->email }}</p>
