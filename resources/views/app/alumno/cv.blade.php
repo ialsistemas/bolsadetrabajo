@@ -20,15 +20,16 @@
         .header {
             display: flex;
             align-items: center;
-            border-bottom: 2px solid #ddd;
-            padding-bottom: 15px;
+            gap: 15px;
         }
         .header img {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
+            width: 100px;
+            height: 100px;
             object-fit: cover;
-            margin-right: 20px;
+            border-radius: 50%;
+        }
+        .header div {
+            flex: 1;
         }
         .header h2 {
             margin: 0;
@@ -66,7 +67,6 @@
             @if($alumno->foto != null)
                 <img src="{{ "http://bolsadetrabajo.ial.edu.pe/uploads/alumnos/fotos/".$alumno->foto }}" alt="Foto">
             @endif
-            <br>
             <div>
                 <h2>{{ $alumno->apellidos }} {{ $alumno->nombres }}</h2>
                 <p class="info"><b>DNI:</b> {{ $alumno->dni }} | <b>Celular:</b> {{ $alumno->telefono }} | <b>Email:</b> {{ $alumno->email }}</p>
