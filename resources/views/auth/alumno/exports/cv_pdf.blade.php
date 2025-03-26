@@ -10,7 +10,6 @@
             margin: 40px;
             padding: 0;
             color: #333;
-            /*background: #f9f9f9;*/
         }
         .container {
             background: #fff;
@@ -19,21 +18,23 @@
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
         .header {
-            display: flex;
-            align-items: center;
-            border-bottom: 2px solid #ddd;
-            padding-bottom: 15px;
+            text-align: center;
         }
-        .header img {
+        .image-container {
+            display: block;
+            margin: 0 auto;
+        }
+        .image-container img {
             width: 120px;
             height: 120px;
-            border-radius: 50%;
             object-fit: cover;
-            margin-right: 20px;
+            border-radius: 50%;
+            display: block;
+            margin: 0 auto;
         }
-        .header h2 {
-            margin: 0;
-            font-size: 24px;
+        .info-container {
+            display: block;
+            margin-top: 10px;
         }
         .section-title {
             font-size: 18px;
@@ -63,16 +64,24 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            @if($alumno->foto != null)
-                <img src="{{ "http://bolsadetrabajo.ial.edu.pe/uploads/alumnos/fotos/".$alumno->foto }}" alt="Foto">
-            @endif
-            <div>
-                <h2>{{ $alumno->apellidos }} {{ $alumno->nombres }}</h2>
-                <p class="info"><b>DNI:</b> {{ $alumno->dni }} | <b>Celular:</b> {{ $alumno->telefono }} | <b>Email:</b> {{ $alumno->email }}</p>
-            </div>
-        </div>
-
+        <table width="100%">
+            <tr>
+                <!-- Imagen a la izquierda -->
+                <td width="120" align="center">
+                    @if($alumno->foto != null)
+                        <img src="{{ "http://bolsadetrabajo.ial.edu.pe/uploads/alumnos/fotos/".$alumno->foto }}" 
+                            width="120" height="120" 
+                            style="border-radius: 50%; display: block;">
+                    @endif
+                </td>
+                <td>
+                    <h2 style="margin: 0;">{{ $alumno->apellidos }} {{ $alumno->nombres }}</h2>
+                    <p style="margin: 5px 0;"><b>DNI:</b> {{ $alumno->dni }}</p>
+                    <p style="margin: 5px 0;"><b>Celular:</b> {{ $alumno->telefono }}</p>
+                    <p style="margin: 5px 0;"><b>Email:</b> {{ $alumno->email }}</p>
+                </td>
+            </tr>
+        </table>
         <div class="section-title">Perfil Profesional</div>
         <p class="info">{{ $alumno->perfil_profesional }}</p>
 
