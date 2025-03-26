@@ -67,9 +67,9 @@
         <table width="100%" align="center">
             <tr>
                 <td align="center">
-                    @if($alumno->foto != null)
-                        <img src="{{ "http://bolsadetrabajo.ial.edu.pe/uploads/alumnos/fotos/".$alumno->foto }}" width="120" height="120" style="border-radius: 50%; display: block; margin: auto;">
-                    @endif
+                    <img src="{{ "http://bolsadetrabajo.ial.edu.pe/uploads/alumnos/fotos/".$alumno->foto }}" 
+                        width="120" height="120" 
+                        style="border-radius: 50%; display: block; margin: auto;">
                 </td>
             </tr>
             <tr>
@@ -79,6 +79,7 @@
                 </td>
             </tr>
         </table>
+        
         <div class="section-title">Perfil Profesional</div>
         <p class="info">{{ $alumno->perfil_profesional }}</p>
 
