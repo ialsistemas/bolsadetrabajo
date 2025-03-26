@@ -23,19 +23,22 @@
             gap: 15px;
             flex-wrap: nowrap;
         }
-        .header img {
+        .image-container {
+            flex-shrink: 0;
+        }
+        .image-container img {
             width: 120px;
             height: 120px;
             object-fit: cover;
             border-radius: 50%;
-            flex-shrink: 0;
+            display: block;
         }
-        .header div {
+        .text-container {
             flex-grow: 1;
             min-width: 0;
             overflow: hidden;
         }
-        .header h2 {
+        .text-container h2 {
             margin: 0;
             font-size: 24px;
             white-space: nowrap;
@@ -76,16 +79,15 @@
     <div class="container">
         <div class="header">
             @if($alumno->foto != null)
-                <div style="display: block">
+                <div class="image-container">
                     <img src="{{ "http://bolsadetrabajo.ial.edu.pe/uploads/alumnos/fotos/".$alumno->foto }}" alt="Foto">
                 </div>
             @endif
-            <div>
+            <div class="text-container">
                 <h2>{{ $alumno->apellidos }} {{ $alumno->nombres }}</h2>
                 <p class="info"><b>DNI:</b> {{ $alumno->dni }} | <b>Celular:</b> {{ $alumno->telefono }} | <b>Email:</b> {{ $alumno->email }}</p>
             </div>
         </div>
-
         <div class="section-title">Perfil Profesional</div>
         <p class="info">{{ $alumno->perfil_profesional }}</p>
 
