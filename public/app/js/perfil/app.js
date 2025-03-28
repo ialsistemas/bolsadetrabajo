@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     const alumnoId = document.getElementById('alumnoId').value;
-    console.log('Alumno ID:', alumnoId);
+    //console.log('Alumno ID:', alumnoId);
     fetchProgresoCV(alumnoId);
 });
 async function fetchProgresoCV(alumnoId) {

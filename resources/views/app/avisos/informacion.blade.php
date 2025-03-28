@@ -128,7 +128,7 @@
                         <p>{{ $aviso->modalidades != null ? $aviso->modalidades->nombre : "-" }}</p> --}}
                         <div class="card aviso" style="border: 0 solid rgba(0, 0, 0, 0.125);padding: 5px;">
                             @if (Auth::guard('alumnos')->user())
-                                <button id="postular" type="button" data-info="{{ $aviso->id }}"
+                                <button id="postular" type="button" data-info="{{ $aviso->id }}" data-user="{{ Auth::guard('alumnos')->user()->id }}"
                                     class="{{ $alumnoAviso ? 'postulaste' : '' }}" {{ $alumnoAviso ? 'disabled' : '' }}>
                                     {{ $alumnoAviso ? 'Ya estas postulando' : 'Postularme' }}
                                 </button>
@@ -165,7 +165,14 @@
 @endsection
 
 @section('scripts')
-    <script type="text/javascript" src="{{ asset('app/js/avisos/informacion.min.js') }}"></script>
+    <script>
+        var routeProgreso= "{{ route('alumno.progreso') }}";
+        var tokenWeb = "{{ csrf_token() }}";
+        var routeHome = "{{ route('alumno.avisos') }}";
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {{-- <script type="text/javascript" src="{{ asset('app/js/avisos/informacion.min.js') }}"></script> --}}
+    <script src="{{ asset('app/js/avisos/informacion.js') }}"></script>
     <script>
         function regresar() {
             window.history.back();

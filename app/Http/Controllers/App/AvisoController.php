@@ -31,19 +31,41 @@ class AvisoController extends Controller
 
     public function avisos(Request $request)
     {
-        if($request->ajax()) {
+        if ($request->ajax()) {
 
             $Perfil = Auth::guard('alumnos')->user() ? App::$PERFIL_ALUMNO : App::$PERFIL_EMPRESA;
             $Avisos = Aviso::orderBy('id', 'desc')
-                ->whereHas('empresas', function ($q){ $q->where('deleted_at', null);  })
-                ->where(function ($q) use ($request){ if($request->name){ $q->where('titulo', 'like', '%'.$request->name. '%'); } })
-                ->where(function ($q) use ($Perfil, $request){ if(in_array($Perfil, [App::$PERFIL_EMPRESA])){ $q->where('empresa_id', Auth::guard('empresasw')->user()->id); } })
-                ->where(function ($q) use ($request){ if($request->fecha_inicio){ $q->whereDate('created_at', '>=', $request->fecha_inicio);}})
-                ->where(function ($q) use ($request){ if($request->fecha_final){ $q->whereDate('created_at', '<=', $request->fecha_final);}})
+                ->whereHas('empresas', function ($q) {
+                    $q->where('deleted_at', null);
+                })
+                ->where(function ($q) use ($request) {
+                    if ($request->name) {
+                        $q->where('titulo', 'like', '%' . $request->name . '%');
+                    }
+                })
+                ->where(function ($q) use ($Perfil, $request) {
+                    if (in_array($Perfil, [App::$PERFIL_EMPRESA])) {
+                        $q->where('empresa_id', Auth::guard('empresasw')->user()->id);
+                    }
+                })
+                ->where(function ($q) use ($request) {
+                    if ($request->fecha_inicio) {
+                        $q->whereDate('created_at', '>=', $request->fecha_inicio);
+                    }
+                })
+                ->where(function ($q) use ($request) {
+                    if ($request->fecha_final) {
+                        $q->whereDate('created_at', '<=', $request->fecha_final);
+                    }
+                })
                 /* ->where(function ($q) use ($request){ if($request->provincia_id){ $q->where('provincia_id', $request->provincia_id);}}) */
-                ->where(function ($q) use ($request){ if($request->distrito_id){ $q->where('distrito_id', $request->distrito_id);}})
+                ->where(function ($q) use ($request) {
+                    if ($request->distrito_id) {
+                        $q->where('distrito_id', $request->distrito_id);
+                    }
+                })
                 ->where('estado_aviso', 1)
-                ->where('solicita_grado_a', 'like', '%'.$request->tipo_estudiante.'%')
+                ->where('solicita_grado_a', 'like', '%' . $request->tipo_estudiante . '%')
                 // ->where(function ($q) use ($request){ if($request->horario_id){ $q->where('horario_id', $request->horario_id);}})
                 // ->where(function ($q) use ($request){ if($request->modalidad_id){ $q->where('modalidad_id', $request->modalidad_id);}})
 
@@ -55,9 +77,9 @@ class AvisoController extends Controller
                 //->where(function ($q) use ($request){ if($request->area_id){ $q->where('area_id', $request->area_id);}})
                 ->paginate($this->avisos_per_page);
             $carrera = Area::all();
-            
+
             return [
-                'avisos' => view('app.avisos.ajax.listado')->with(['carrera' => $carrera, 'avisos' => $Avisos, 'i' => ($this->avisos_per_page*($Avisos->currentPage()-1)+1) ])->render(),
+                'avisos' => view('app.avisos.ajax.listado')->with(['carrera' => $carrera, 'avisos' => $Avisos, 'i' => ($this->avisos_per_page * ($Avisos->currentPage() - 1) + 1)])->render(),
                 'next_page' => $Avisos->nextPageUrl()
             ];
         }
@@ -66,7 +88,7 @@ class AvisoController extends Controller
         $Provincias = Provincia::orderby('nombre', 'asc')->get();
         $Horarios = Horario::orderby('nombre', 'asc')->get();
         $Modalidades = Modalidad::orderby('nombre', 'asc')->get();
-        $Anuncio = Anuncio::where('vigencia', '>=', date('Y-m-d'))->where('mostrar', '<=', date('Y-m-d'))->orderby('created_at', 'desc')->get();        
+        $Anuncio = Anuncio::where('vigencia', '>=', date('Y-m-d'))->where('mostrar', '<=', date('Y-m-d'))->orderby('created_at', 'desc')->get();
         $Grado_academico = Grado_academico::all();
         // Obtener todos los alumnos y seleccionar la columna 'aprobado'
         $Alumno = Auth::guard('alumnos')->user();
@@ -88,12 +110,14 @@ class AvisoController extends Controller
         /* $Aviso = Aviso::where('link', $slug)
             ->whereHas('empresas', function ($q) use ($empresa){ $q->where('link',  $empresa);})->first(); */
         $Aviso = Aviso::where('id', $slug)
-        ->whereHas('empresas', function ($q) use ($empresa){ $q->where('id',  $empresa);})->first();
+            ->whereHas('empresas', function ($q) use ($empresa) {
+                $q->where('id',  $empresa);
+            })->first();
 
         $AlumnosAvisos = AlumnoAviso::where('aviso_id', $Aviso->id)->get();
 
-        if(!Auth::guard('alumnos')->check()){
-            if($Aviso!= null && $Aviso->empresa_id == Auth::guard('empresasw')->user()->id){
+        if (!Auth::guard('alumnos')->check()) {
+            if ($Aviso != null && $Aviso->empresa_id == Auth::guard('empresasw')->user()->id) {
                 return view('app.avisos.informacion', ['aviso' => $Aviso, 'alumnosAvisos' => $AlumnosAvisos]);
             }
             return redirect(route('index'));
@@ -106,16 +130,17 @@ class AvisoController extends Controller
 
     public function postular(Request $request)
     {
-        $status = false; $redirect = null;
+        $status = false;
+        $redirect = null;
 
         $errors = Alumno::ValidatePerfilAlumno();
 
-        if(count($errors) > 0){
+        if (count($errors) > 0) {
             $redirect = route('alumno.perfil');
-        }else{
+        } else {
             $Alumno = Auth::guard('alumnos')->user()->id;
             $AlumnoAvisos = AlumnoAviso::where('alumno_id', $Alumno)->where('aviso_id', $request->aviso_id)->first();
-            if(!$AlumnoAvisos){
+            if (!$AlumnoAvisos) {
                 AlumnoAviso::create([
                     'alumno_id' => $Alumno,
                     'aviso_id' => $request->aviso_id,
@@ -138,15 +163,19 @@ class AvisoController extends Controller
         /* $Aviso = Aviso::where('link', $slug)
             ->whereHas('empresas', function ($q) use ($empresa){ $q->where('link',  $empresa);})->first(); */
         $Aviso = Aviso::where('id', $slug)
-            ->whereHas('empresas', function ($q) use ($empresa){ $q->where('id',  $empresa);})->first();
+            ->whereHas('empresas', function ($q) use ($empresa) {
+                $q->where('id',  $empresa);
+            })->first();
 
         $AlumnosAvisos = AlumnoAviso::with('alumnos')->where('aviso_id', $Aviso->id)->get();
 
-        if(!Auth::guard('alumnos')->user()){
-            if($Aviso!= null && $Aviso->empresa_id == Auth::guard('empresasw')->user()->id){
+        if (!Auth::guard('alumnos')->user()) {
+            if ($Aviso != null && $Aviso->empresa_id == Auth::guard('empresasw')->user()->id) {
 
-                return view('app.avisos.postulantes', ['aviso' => $Aviso, 'alumnosAvisos' => $AlumnosAvisos, 'postulantes' => $AlumnosAvisos, 
-                "Educacion"=>$Educacion, "area"=>$Area, "Distrito"=>$Distrito, "Grado_academico"=>$Grado_academico]);
+                return view('app.avisos.postulantes', [
+                    'aviso' => $Aviso, 'alumnosAvisos' => $AlumnosAvisos, 'postulantes' => $AlumnosAvisos,
+                    "Educacion" => $Educacion, "area" => $Area, "Distrito" => $Distrito, "Grado_academico" => $Grado_academico
+                ]);
             }
         }
         return redirect(route('index'));
@@ -156,17 +185,19 @@ class AvisoController extends Controller
     {
         /* $Aviso = Aviso::where('link', $slug)
             ->whereHas('empresas', function ($q) use ($empresa){ $q->where('link',  $empresa);})->first(); */
-        $Aviso = Aviso::where('id', $slug)->whereHas('empresas', function ($q) use ($empresa){ $q->where('id',  $empresa);})->first();
+        $Aviso = Aviso::where('id', $slug)->whereHas('empresas', function ($q) use ($empresa) {
+            $q->where('id',  $empresa);
+        })->first();
         $Alumno = Alumno::where('usuario_alumno', $alumno)->first();
         $updateEstado = AlumnoAviso::where('alumno_id', $Alumno->id)->where('aviso_id', $slug)->update(['estado_id' => 2]);
-        $Estados = Estado::whereIn('id', [2,4,5])->get();
+        $Estados = Estado::whereIn('id', [2, 4, 5])->get();
         $AlumnosAvisos = AlumnoAviso::with('alumnos')->where('aviso_id', $Aviso->id);
         $Postulante = $AlumnosAvisos->where('alumno_id', $Alumno->id)->first();
         $Educaciones = Educacion::where('alumno_id', $Alumno->id)->get();
         $Area = Area::all();
 
-        if(!Auth::guard('alumnos')->user() && $Postulante){
-            if($Aviso!= null && $Aviso->empresa_id == Auth::guard('empresasw')->user()->id){
+        if (!Auth::guard('alumnos')->user() && $Postulante) {
+            if ($Aviso != null && $Aviso->empresa_id == Auth::guard('empresasw')->user()->id) {
                 $AlumnosAvisos = $AlumnosAvisos->get();
                 return view('app.avisos.postulante_informacion', ['area' => $Area, 'educaciones' => $Educaciones, 'aviso' => $Aviso, 'alumnosAvisos' => $AlumnosAvisos, 'alumno' => $Alumno, 'postulante' => $Postulante, 'estados' => $Estados]);
             }
@@ -175,7 +206,8 @@ class AvisoController extends Controller
     }
 
     // function hecho por marco
-    public function donwloadCValumno($empresa, $slug, $alumno){
+    public function donwloadCValumno($empresa, $slug, $alumno)
+    {
 
         $Alumno = Alumno::where('id', $alumno)->first();
         $Areas = Area::all();
@@ -187,11 +219,10 @@ class AvisoController extends Controller
 
         $ReferenciaLaboral = ReferenciaLaboral::where('alumno_id', $Alumno->id)->orderBy('inicio_curso', 'DESC')->get();
 
-        $pdf = PDF::loadView('app.avisos.cv_postulado',  ['referenciaLaboral' => $ReferenciaLaboral,'provincias' => $Provincias, 'areas' => $Areas, 'alumno' => $Alumno, "experienciaLaboral" => $ExperienciaLaboral, "educaciones" => $Educaciones, 'distritos' => $Distritos]);
+        $pdf = PDF::loadView('app.avisos.cv_postulado',  ['referenciaLaboral' => $ReferenciaLaboral, 'provincias' => $Provincias, 'areas' => $Areas, 'alumno' => $Alumno, "experienciaLaboral" => $ExperienciaLaboral, "educaciones" => $Educaciones, 'distritos' => $Distritos]);
         return $pdf->stream();
+    }
 
-    }    
-    
     public function clasificar_aviso(Request $request)
     {
         AlumnoAviso::where('alumno_id', $request->alumno_id)->where('aviso_id', $request->aviso_id)
@@ -205,8 +236,10 @@ class AvisoController extends Controller
         $Aceptados = count($AlumnosAvisos->where('estado_id', App::$ESTADO_ACEPTADOS)->pluck('aviso_id')->toArray());
         $Descartados = count($AlumnosAvisos->where('estado_id', App::$ESTADO_DESCARTADOS)->pluck('aviso_id')->toArray());
 
-        return response()->json(['Success' => true, 'postulados' => $Postulados, 'evaluados' => $Evaluados,
-            'seleccionados' => $Seleccionados, 'aceptados' => $Aceptados, 'descartados' => $Descartados ]);
+        return response()->json([
+            'Success' => true, 'postulados' => $Postulados, 'evaluados' => $Evaluados,
+            'seleccionados' => $Seleccionados, 'aceptados' => $Aceptados, 'descartados' => $Descartados
+        ]);
     }
 
     public function empresa_informacion($slug)
@@ -214,14 +247,16 @@ class AvisoController extends Controller
         return view('app.empresas.informacion', ['Empresa' => Empresa::where('link', $slug)->first()]);
     }
 
-    public function delete(Request $request){
+    public function delete(Request $request)
+    {
 
-        $status = false; $message = null;
+        $status = false;
+        $message = null;
 
         $entity = Aviso::find($request->id);
 
-        if($entity->empresa_id == Auth::guard('empresasw')->user()->id)
-            if($entity->delete()) $status = true;
+        if ($entity->empresa_id == Auth::guard('empresasw')->user()->id)
+            if ($entity->delete()) $status = true;
             else
                 $message = "No tiene permisos para realizar esta acción";
 
@@ -232,7 +267,7 @@ class AvisoController extends Controller
     public function progresoCV(Request $request)
     {
         $alumnoId = $request->input('alumnoId');
-        
+
         if (!$alumnoId) {
             return response()->json(['error' => 'ID del alumno no proporcionado'], 400);
         }
@@ -247,9 +282,11 @@ class AvisoController extends Controller
         $completados = 0;
 
         // Contar los campos en la tabla 'alumnos'
-        if ($alumno->nombres && $alumno->apellidos && $alumno->dni && $alumno->telefono && 
-            $alumno->email && $alumno->fecha_nacimiento && $alumno->direccion && $alumno->foto) {
-            $completados += 8; 
+        if (
+            $alumno->nombres && $alumno->apellidos && $alumno->dni && $alumno->telefono &&
+            $alumno->email && $alumno->fecha_nacimiento && $alumno->direccion && $alumno->foto
+        ) {
+            $completados += 8;
         } else {
             if ($alumno->nombres) $completados++;
             if ($alumno->apellidos) $completados++;
@@ -291,8 +328,4 @@ class AvisoController extends Controller
 
         return response()->json(['progreso' => (int)$progreso]);
     }
-
-
-
-    
 }
