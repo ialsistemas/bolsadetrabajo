@@ -88,23 +88,17 @@
                                 style="color:red;font-size:10px">(Obligatorio*)</b></label>
                         <select name="responsable" id="responsable" class="form-control form-control-sm" required>
                             <option value="">Seleccione</option>
-                            <option value="Bryan Julcamoro" {{ old('responsable') == 'Bryan Julcamoro' ? 'selected' : '' }}>
-                                Bryan Julcamoro
+                            <option value="Gina Vera"
+                                {{ old('responsable') == 'Gina Vera' ? 'selected' : '' }}>Gina Vera
                             </option>
-                            <option value="Joselyn Condori"
-                                {{ old('responsable') == 'Joselyn Condori' ? 'selected' : '' }}>Joselyn Condori
+                            <option value="Florencia Hurtado" {{ old('responsable') == 'Florencia Hurtado' ? 'selected' : '' }}>
+                                Florencia Hurtado
                             </option>
-                            {{-- <option value="Setafani Carlos"
-                                {{ old('responsable') == 'Setafani Carlos' ? 'selected' : '' }}>Setafani Carlos
-                            </option> --}}
-                            <option value="Stefany Gutierrez"
-                                {{ old('responsable') == 'Stefany Gutierrez' ? 'selected' : '' }}>Stefany Gutierrez
+                            <option value="Evangelyn Caceres"
+                                {{ old('responsable') == 'Evangelyn Caceres' ? 'selected' : '' }}>Evangelyn Caceres
                             </option>
-                            {{-- <option value="Yessica Caceres"
-                                {{ old('responsable') == 'Yessica Caceres' ? 'selected' : '' }}>Yessica Cáceres
-                            </option> --}}
-                            <option value="Yamile Bazan" {{ old('responsable') == 'Yamile Bazan' ? 'selected' : '' }}>
-                                Yamilé Bazán</option>
+                            <option value="Alexa Alvarez" {{ old('responsable') == 'Alexa Alvarez' ? 'selected' : '' }}>
+                                Alexa Alvarez</option>
                         </select>
                     </div>
 
