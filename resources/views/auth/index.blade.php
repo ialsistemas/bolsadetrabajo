@@ -128,60 +128,12 @@
             <nav class="navbar navbar-expand-lg">
                 <div class="collapse navbar-collapse" id="navbarNavDropdown">
                     <ul class="navbar-nav">
-                        @if (Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_DESARROLLADOR ||
-                                Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_ADMINISTRADOR)
-                            <li class="nav-item {{ Route::currentRouteName() == 'auth.inicio' ? 'active' : '' }}">
-                                <a class="nav-link" href="{{ route('auth.inicio') }}"><span
-                                        class="active-item-here"></span>
-                                    <i class="fa fa-home mr-5"></i> <span>Inicio</span>
-                                </a>
-                            </li>
+                        @if (Auth::user()->id == 28 || Auth::user()->id == 29)
                             <li class="nav-item {{ Route::currentRouteName() == 'auth.index' ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ route('auth.index') }}"><span
                                         class="active-item-here"></span>
                                     <i class="fa fa-male mr-5"></i> <span>Empleador</span>
                                 </a>
-                            </li>
-                            <li
-                                class="nav-item dropdown {{ Route::currentRouteName() == 'auth.alumno' || Route::currentRouteName() == 'auth.alumnosancionado' ? 'active' : '' }}">
-                                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                    <span class="active-item-here"></span><i class="fa fa-users mr-5"></i>
-                                    <span>Estudiantes</span></a>
-                                <ul class="dropdown-menu multilevel scale-up-left">
-                                    <li class="nav-item"><a class="nav-link" href="{{ route('auth.alumno') }}"><i
-                                                class="fa fa-users mr-5"></i> Gestión de Estudiantes</a></li>
-                                    <li class="nav-item"><a class="nav-link"
-                                            href="{{ route('auth.alumnosancionado') }}"><i
-                                                class="fa fa-gavel mr-5"></i>Estudiantes Sancionados</a>
-                                    </li>
-                                    <li class="nav-item"><a class="nav-link"
-                                            href="{{ route('auth.certificados') }}"><i class="fa fa-id-card"></i>
-                                            Estudiantes Certificados</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            {{-- <li class="nav-item {{ Route::currentRouteName() == 'auth.alumno' ? 'active' : '' }}">
-                                <a class="nav-link" href="{{ route('auth.alumno') }}"><span
-                                        class="active-item-here"></span>
-                                    <i class="fa fa-users mr-5"></i> <span>Estudiantes</span>
-                                </a>
-                            </li> --}}
-                            <li
-                                class="nav-item dropdown {{ Route::currentRouteName() == 'auth.aviso' || Route::currentRouteName() == 'auth.avisoPostulacion' ? 'active' : '' }}">
-                                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                    <span class="active-item-here"></span><i class="fa fa-archive mr-5"></i>
-                                    <span>Avisos</span></a>
-                                <ul class="dropdown-menu multilevel scale-up-left">
-                                    <li class="nav-item"><a class="nav-link"
-                                            href="{{ route('auth.aviso') }}">Listado
-                                            Avisos</a></li>
-                                    <li class="nav-item"><a class="nav-link"
-                                            href="{{ route('auth.avisoPostulacion') }}">Avisos por Alumno
-                                            Postulado</a>
-                                    </li>
-                                </ul>
                             </li>
                             <li
                                 class="nav-item dropdown {{ Route::currentRouteName() == 'auth.anuncio' || Route::currentRouteName() == 'auth.anuncioempresa' ? 'active' : '' }}">
@@ -197,37 +149,12 @@
                                             href="{{ route('auth.anuncioempresa') }}">Anuncios Empresas</a></li>
                                 </ul>
                             </li>
-
                             <li class="nav-item {{ Route::currentRouteName() == 'auth.programa' ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ route('auth.programa') }}"><span
                                         class="active-item-here"></span>
                                     <i class="fa fa-bolt mr-5"></i> <span>Programas de Inserción rápida</span>
                                 </a>
                             </li>
-                        @endif
-
-                        {{-- Fin --}}
-                        {{-- <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                                <span class="active-item-here"></span> <i class="fa fa-cog mr-5"></i>
-                                <span>Ajustes</span></a>
-                            <ul class="dropdown-menu multilevel scale-up-left">
-                                <li class="nav-item"><a class="nav-link" href="{{ route('auth.area') }}">Áreas</a>
-                                </li>
-                                <li class="nav-item"><a class="nav-link"
-                                        href="{{ route('auth.horario') }}">Horarios</a></li>
-                                <li class="nav-item"><a class="nav-link"
-                                        href="{{ route('auth.modalidad') }}">Modalidades</a></li>
-                                <li class="nav-item"><a class="nav-link"
-                                        href="{{ route('auth.habilidad') }}">Habilidades Personales</a></li>
-                                <li class="nav-item"><a class="nav-link"
-                                        href="{{ route('auth.habilidad_profesional') }}">Habilidades Profesionales</a>
-                                </li>
-                            </ul>
-                        </li> --}}
-                        @if (Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_DESARROLLADOR ||
-                                Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_ADMINISTRADOR)
                             <li
                                 class="nav-item dropdown {{ Route::currentRouteName() == 'auth.eventos' || Route::currentRouteName() == 'auth.eventosasistencia' ? 'active' : '' }}">
                                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
@@ -251,31 +178,157 @@
                                             Registrar Asistencia
                                         </a>
                                     </li>
-
                                 </ul>
                             </li>
-                        @endif
-                        @if (Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_DESARROLLADOR ||
-                                Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_ADMINISTRADOR)
-                            <li
-                                class="nav-item dropdown {{ Route::currentRouteName() == 'auth.usuarios' ? 'active' : '' }}">
+                        @else
+                            @if (Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_DESARROLLADOR ||
+                                    Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_ADMINISTRADOR)
+                                <li class="nav-item {{ Route::currentRouteName() == 'auth.inicio' ? 'active' : '' }}">
+                                    <a class="nav-link" href="{{ route('auth.inicio') }}"><span
+                                            class="active-item-here"></span>
+                                        <i class="fa fa-home mr-5"></i> <span>Inicio</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item {{ Route::currentRouteName() == 'auth.index' ? 'active' : '' }}">
+                                    <a class="nav-link" href="{{ route('auth.index') }}"><span
+                                            class="active-item-here"></span>
+                                        <i class="fa fa-male mr-5"></i> <span>Empleador</span>
+                                    </a>
+                                </li>
+                                <li
+                                    class="nav-item dropdown {{ Route::currentRouteName() == 'auth.alumno' || Route::currentRouteName() == 'auth.alumnosancionado' ? 'active' : '' }}">
+                                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        <span class="active-item-here"></span><i class="fa fa-users mr-5"></i>
+                                        <span>Estudiantes</span></a>
+                                    <ul class="dropdown-menu multilevel scale-up-left">
+                                        <li class="nav-item"><a class="nav-link" href="{{ route('auth.alumno') }}"><i
+                                                    class="fa fa-users mr-5"></i> Gestión de Estudiantes</a></li>
+                                        <li class="nav-item"><a class="nav-link"
+                                                href="{{ route('auth.alumnosancionado') }}"><i
+                                                    class="fa fa-gavel mr-5"></i>Estudiantes Sancionados</a>
+                                        </li>
+                                        <li class="nav-item"><a class="nav-link"
+                                                href="{{ route('auth.certificados') }}"><i class="fa fa-id-card"></i>
+                                                Estudiantes Certificados</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                {{-- <li class="nav-item {{ Route::currentRouteName() == 'auth.alumno' ? 'active' : '' }}">
+                                    <a class="nav-link" href="{{ route('auth.alumno') }}"><span
+                                            class="active-item-here"></span>
+                                        <i class="fa fa-users mr-5"></i> <span>Estudiantes</span>
+                                    </a>
+                                </li> --}}
+                                <li
+                                    class="nav-item dropdown {{ Route::currentRouteName() == 'auth.aviso' || Route::currentRouteName() == 'auth.avisoPostulacion' ? 'active' : '' }}">
+                                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        <span class="active-item-here"></span><i class="fa fa-archive mr-5"></i>
+                                        <span>Avisos</span></a>
+                                    <ul class="dropdown-menu multilevel scale-up-left">
+                                        <li class="nav-item"><a class="nav-link"
+                                                href="{{ route('auth.aviso') }}">Listado
+                                                Avisos</a></li>
+                                        <li class="nav-item"><a class="nav-link"
+                                                href="{{ route('auth.avisoPostulacion') }}">Avisos por Alumno
+                                                Postulado</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li
+                                    class="nav-item dropdown {{ Route::currentRouteName() == 'auth.anuncio' || Route::currentRouteName() == 'auth.anuncioempresa' ? 'active' : '' }}">
+                                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        <span class="active-item-here"></span><i class="fa fa-photo mr-5"></i>
+                                        <span>Anuncios</span></a>
+                                    <ul class="dropdown-menu multilevel scale-up-left">
+                                        <li class="nav-item"><a class="nav-link"
+                                                href="{{ route('auth.anuncio') }}">Anuncios
+                                                Alumnos</a></li>
+                                        <li class="nav-item"><a class="nav-link"
+                                                href="{{ route('auth.anuncioempresa') }}">Anuncios Empresas</a></li>
+                                    </ul>
+                                </li>
+
+                                <li class="nav-item {{ Route::currentRouteName() == 'auth.programa' ? 'active' : '' }}">
+                                    <a class="nav-link" href="{{ route('auth.programa') }}"><span
+                                            class="active-item-here"></span>
+                                        <i class="fa fa-bolt mr-5"></i> <span>Programas de Inserción rápida</span>
+                                    </a>
+                                </li>
+                            @endif
+                            {{-- Fin --}}
+                            {{-- <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
                                     aria-haspopup="true" aria-expanded="false">
-                                    <span class="active-item-here"></span> {{-- <i class="fa fa-cog mr-5"></i> --}}
-                                    <span>Ver más</span></a>
+                                    <span class="active-item-here"></span> <i class="fa fa-cog mr-5"></i>
+                                    <span>Ajustes</span></a>
                                 <ul class="dropdown-menu multilevel scale-up-left">
-                                    <li class="nav-item"><a class="nav-link" href="{{ route('auth.usuarios') }}"><i
-                                                class="fa fa-user mr-5"></i> Gestión de
-                                            Usuarios</a>
+                                    <li class="nav-item"><a class="nav-link" href="{{ route('auth.area') }}">Áreas</a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('auth.configuracion') }}">
-                                            <i class="fa fa-cog mr-5"></i> Configuración
-                                        </a>
+                                    <li class="nav-item"><a class="nav-link"
+                                            href="{{ route('auth.horario') }}">Horarios</a></li>
+                                    <li class="nav-item"><a class="nav-link"
+                                            href="{{ route('auth.modalidad') }}">Modalidades</a></li>
+                                    <li class="nav-item"><a class="nav-link"
+                                            href="{{ route('auth.habilidad') }}">Habilidades Personales</a></li>
+                                    <li class="nav-item"><a class="nav-link"
+                                            href="{{ route('auth.habilidad_profesional') }}">Habilidades Profesionales</a>
                                     </li>
-
                                 </ul>
-                            </li>
+                            </li> --}}
+                            @if (Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_DESARROLLADOR ||
+                                    Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_ADMINISTRADOR)
+                                <li
+                                    class="nav-item dropdown {{ Route::currentRouteName() == 'auth.eventos' || Route::currentRouteName() == 'auth.eventosasistencia' ? 'active' : '' }}">
+                                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        <span class="active-item-here"> <i class="fa fa-calendar-alt mr-5"></i></span>
+                                        <i class="fa fa-calendar mr-5"></i>
+                                        <span>Gestión de Eventos</span>
+                                    </a>
+                                    <ul class="dropdown-menu multilevel scale-up-left">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ route('auth.eventos') }}">
+                                                <i class="fa fa-calendar mr-5"></i>
+                                                <!-- Ícono de calendario para "Listado de Eventos" -->
+                                                Listado de Eventos
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ route('auth.eventosasistencia') }}">
+                                                <i class="fa fa-check-circle mr-5"></i>
+                                                <!-- Ícono de verificación para "Asistencia" -->
+                                                Registrar Asistencia
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                </li>
+                            @endif
+                            @if (Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_DESARROLLADOR ||
+                                    Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_ADMINISTRADOR)
+                                <li
+                                    class="nav-item dropdown {{ Route::currentRouteName() == 'auth.usuarios' ? 'active' : '' }}">
+                                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        <span class="active-item-here"></span> {{-- <i class="fa fa-cog mr-5"></i> --}}
+                                        <span>Ver más</span></a>
+                                    <ul class="dropdown-menu multilevel scale-up-left">
+                                        <li class="nav-item"><a class="nav-link" href="{{ route('auth.usuarios') }}"><i
+                                                    class="fa fa-user mr-5"></i> Gestión de
+                                                Usuarios</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ route('auth.configuracion') }}">
+                                                <i class="fa fa-cog mr-5"></i> Configuración
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                </li>
+                            @endif
                         @endif
                     </ul>
                 </div>
