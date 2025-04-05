@@ -101,7 +101,7 @@
         @foreach($educaciones as $q)
             <div class="education-item">
                 <b>{{ $q->institucion }}</b>
-                <p>{{ $q->areas ? $q->areas->nombre : "-" }} ({{ date("m/Y", strtotime($q->estudio_inicio)) }} - {{ date("m/Y", strtotime($q->estudio_fin)) }})</p>
+                <p>{{ $q->areas ? $q->areas->nombre : "-" }} ({{ date("m/Y", strtotime($q->estudio_inicio)) }} - {{ $q->estudio_fin ? date("m/Y", strtotime($q->estudio_fin)) : 'En curso' }})</p>
                 <p>{{ $q->estado == "Estudiante" ? "Estudiante del ciclo " . $q->ciclo : $q->estado }}</p>
             </div>
         @endforeach
