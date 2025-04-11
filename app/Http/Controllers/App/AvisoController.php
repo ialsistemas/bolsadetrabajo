@@ -296,8 +296,7 @@ class AvisoController extends Controller
             if ($alumno->fecha_nacimiento) $completados++;
             if ($alumno->direccion) $completados++;
             if ($alumno->foto) $completados++;
-            if ($alumno->foto) $perfil_profesional++;
-            if ($alumno->foto) $referentes_carrera++;
+            if ($alumno->foto) $completados++;
         }
 
 
