@@ -299,29 +299,23 @@ class AvisoController extends Controller
             if ($alumno->foto) $completados++;
         }
 
-
-
         // Contar los registros en la tabla 'referencia_laborals'
         $referenciasLaborales = ReferenciaLaboral::where('alumno_id', $alumnoId)->count();
         if ($referenciasLaborales > 0) {
             $completados++;
         }
-
         // Contar los registros en la tabla 'experiencia_laborals'
         $experienciasLaborales = ExperienciaLaboral::where('alumno_id', $alumnoId)->count();
         if ($experienciasLaborales > 0) {
             $completados++;
         }
-
         // Contar los registros en la tabla 'educacions'
         $educacion = Educacion::where('alumno_id', $alumnoId)->count();
         if ($educacion > 0) {
             $completados++;
         }
-
         // Total de campos a verificar
-        $totalCampos = 8 + 1 + 1 + 1 + 1; // 8 campos de alumnos, 1 de perfil, 1 de referencias, 1 de experiencia y 1 de educación
-
+        $totalCampos = 8 /*+ 1*/ + 1 + 1 + 1; // 8 campos de alumnos, 1 de perfil, 1 de referencias, 1 de experiencia y 1 de educación
         // Calcular el progreso en porcentaje
         $progreso = ($completados / $totalCampos) * 100;
 
