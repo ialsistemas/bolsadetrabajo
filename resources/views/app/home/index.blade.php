@@ -6,6 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Bolsa de Trabajo</title>
     <link rel="shortcut icon" href="{{ asset('app/img/logo_ial.png') }}" type="image/x-icon">
+    <style>
+        #password_alumno{
+            width: 87% !important;
+            margin-left: auto;
+        }
+        @media (max-width: 768px) {
+            #password_alumno{
+                width: 85% !important;
+            }
+        }
+    </style>
 </head>
 <body>
     <script src="https://kit.fontawesome.com/6f8129a9b1.js" crossorigin="anonymous"></script>
