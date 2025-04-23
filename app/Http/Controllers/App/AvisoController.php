@@ -359,17 +359,17 @@ class AvisoController extends Controller
         $entity = ParticipantesEmpleabilidad::find($idDesencriptado);
         $programas = [
             "DESPEGA 360" => [
-                "template" => public_path('app/img/template/template-despega-360.jpg'),
+                "template" => "app/img/template/template-despega-360.jpg",
                 "font-size" => "31px",
                 "id" => 1
             ],
             "SKILLS TO WORK" => [
-                "template" => public_path('app/img/template/template-skills-to-work.jpg'),
+                "template" => "app/img/template/template-skills-to-work.jpg",
                 "font-size" => "31px",
                 "id" => 2
             ],
             "CARRERA PRO" => [
-                "template" => public_path('app/img/template/template-carrra-pro.jpg'),
+                "template" => "app/img/template/template-carrra-pro.jpg",
                 "font-size" => "31px",
                 "id" => 3
             ]
