@@ -149,11 +149,18 @@
                                             href="{{ route('auth.anuncioempresa') }}">Anuncios Empresas</a></li>
                                 </ul>
                             </li>
-                            <li class="nav-item {{ Route::currentRouteName() == 'auth.programa' ? 'active' : '' }}">
-                                <a class="nav-link" href="{{ route('auth.programa') }}"><span
-                                        class="active-item-here"></span>
-                                    <i class="fa fa-bolt mr-5"></i> <span>Programas de Inserción rápida</span>
-                                </a>
+                            <li
+                                class="nav-item dropdown {{ Route::currentRouteName() == 'auth.programa' || Route::currentRouteName() == 'auth.programa-empleavilidad' ? 'active' : '' }}">
+                                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    <span class="active-item-here"></span><i class="fa fa-bolt mr-5"></i>
+                                    <span>Programas</span></a>
+                                <ul class="dropdown-menu multilevel scale-up-left">
+                                    <li class="nav-item"><a class="nav-link"
+                                            href="{{ route('auth.programa') }}">Inserción rápida</a></li>
+                                    <li class="nav-item"><a class="nav-link"
+                                            href="{{ route('auth.programa-empleabilidad') }}">Empleabilidad</a></li>
+                                </ul>
                             </li>
                             <li
                                 class="nav-item dropdown {{ Route::currentRouteName() == 'auth.eventos' || Route::currentRouteName() == 'auth.eventosasistencia' ? 'active' : '' }}">
