@@ -25,12 +25,6 @@
         .mover-container{
             padding-top: 9.5cm; 
         }
-        .contenido-date {
-            position: absolute;
-            right: 4cm;
-            bottom: 4cm;
-            font-size: 18px;
-        }
         .description{
             font-size: {{ $templatePdf['font-size'] }}
         }
@@ -44,8 +38,10 @@
     <div class="contenido @if ($templatePdf['id'] == 1) mover-container @endif">
         <p class="description @if ($templatePdf['id'] == 2 || $templatePdf['id'] == 3) mover @endif"><b>{{ $entity->nombres }} {{ $entity->apellidos }}</b></p>
     </div>
-    <div class="contenido-date">
-        <p>Lima, {{ $date }}</p>
+    <div style="width: 100%; padding: 0 4cm 4cm 0; box-sizing: border-box;">
+        <div style="text-align: right; font-size: 18px;">
+            <p>Lima, {{ $date }}</p>
+        </div>
     </div>
 </body>
 </html>
