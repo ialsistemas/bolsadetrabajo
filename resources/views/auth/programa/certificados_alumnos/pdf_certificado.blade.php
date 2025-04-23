@@ -38,10 +38,10 @@
     <div class="contenido @if ($templatePdf['id'] == 1) mover-container @endif">
         <p class="description @if ($templatePdf['id'] == 2 || $templatePdf['id'] == 3) mover @endif"><b>{{ $entity->nombres }} {{ $entity->apellidos }}</b></p>
     </div>
-    <div style="width: 100%; padding: 0 4cm 4cm 0; box-sizing: border-box;margin-top: 20px;">
+    <div style="width: 100%; padding: 0 4cm 4cm 0; box-sizing: border-box; margin-top: 50px;">
         <div style="text-align: right; font-size: 18px;">
             <p>Lima, {{ $date }}</p>
         </div>
-    </div>
+    </div>    
 </body>
 </html>
