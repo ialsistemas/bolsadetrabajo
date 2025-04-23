@@ -354,7 +354,11 @@ class AvisoController extends Controller
     }
     public function certificado($id)
     {
-        $idDesencriptado = Crypt::decryptString($id);
+        try {
+            $idDesencriptado = Crypt::decryptString($id);
+        } catch (\Exception $e) {
+            return redirect()->route('alumno.avisos')->with('error', 'Hubo un problema al generar el certificado.');
+        }
         Carbon::setLocale('es');
         $entity = ParticipantesEmpleabilidad::find($idDesencriptado);
         $programas = [
