@@ -46,7 +46,7 @@
     </style>
 </head>
 <body>
-    <img class="fondo" src="https://bolsadetrabajo.ial.edu.pe/{{ $templatePdf['template'] }}" alt="Fondo del certificado">
+    <img src="https://bolsadetrabajo.ial.edu.pe/{{ $templatePdf['template'] }}" alt="Fondo del certificado">
     <div class="contenido @if ($templatePdf['id'] == 1) mover-container @endif">
         <p class="description @if ($templatePdf['id'] == 2 || $templatePdf['id'] == 3) mover @endif"><b>{{ $entity->nombres }} {{ $entity->apellidos }}</b></p>
     </div>
