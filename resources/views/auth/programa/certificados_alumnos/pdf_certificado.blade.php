@@ -10,17 +10,12 @@
         body {
             margin: 0cm;
             font-family: sans-serif;
-            position: relative;
+            background-image: url('https://bolsadetrabajo.ial.edu.pe/{{ $templatePdf["template"] }}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
         }
 
-        .fondo {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
         .contenido {
             position: relative;
             z-index: 1;
@@ -46,7 +41,6 @@
     </style>
 </head>
 <body>
-    <img src="https://bolsadetrabajo.ial.edu.pe/{{ $templatePdf['template'] }}" alt="Fondo del certificado">
     <div class="contenido @if ($templatePdf['id'] == 1) mover-container @endif">
         <p class="description @if ($templatePdf['id'] == 2 || $templatePdf['id'] == 3) mover @endif"><b>{{ $entity->nombres }} {{ $entity->apellidos }}</b></p>
     </div>
