@@ -334,7 +334,7 @@ class AvisoController extends Controller
             ->whereNull('deleted_at')
             ->get();
         if ($empleabilidadData->isEmpty()) {
-            return redirect()->route('avisos');
+            return redirect()->route('alumno.avisos');
         }
         $idsEmpleabilidad = $empleabilidadData->pluck('id')->toArray();
         $participanteData = ParticipantesEmpleabilidad::whereIn('id_programa', $idsEmpleabilidad)
