@@ -285,7 +285,7 @@
     <script type="text/javascript" src="{{ asset('app/plugins/bootstrap4/js/bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('app/plugins/toastr/js/toastr.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('auth/plugins/sweetalert/sweetalert.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('app/js/_Layout.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('app/js/_Layout.js') }}"></script>
     @yield('scripts')
 </body>
 

@@ -21,7 +21,7 @@ $(function () {
         ],
         info: false,
         ajax: {
-            url: "/auth/programa/list_all",
+            url: urlData,
             data: function (s) {},
         },
         columns: [
@@ -41,28 +41,20 @@ $(function () {
                 },
             },
             { title: "Programa", data: "tipo_programa" },
-            { title: "Empresa", data: "empresa", class: "text-left" },
-            { title: "Puesto 1", data: "puestouno", class: "text-left" },
-            { title: "Puesto 2", data: "puestodos", class: "text-left" },
-            { title: "Puesto 3", data: "puestotres", class: "text-left" },
-            { title: "Puesto 4", data: "puestocuatro", class: "text-left" },
             { title: "Responsable", data: "responsable", class: "text-left" },
-            { title: "Cantidad Postulantes", data: "cantidad_postulantes", class: "text-left" },
-            { title: "Cantidad Evaluando", data: "cantidad_evaluando", class: "text-left" },
-            { title: "Cantidad Contratado", data: "cantidad_contratados", class: "text-left" },
-            { title: "Cantidad Descartado", data: "cantidad_descartados", class: "text-left" },
             {
                 data: null,
                 render: function (data) {
                     return (
                         '<div class="btn-group">' +
-                        '<a href="javascript:void(0)" class="btn-update btn btn-primary" idDato="' +
-                        data.id +
-                        '"><i class="fa fa-edit"></i> Editar</a>' +
-                        '<a href="javascript:void(0)" class="btn-delete btn btn-danger" idDato="' +
-                        data.id +
-                        '"><i class="fa fa-trash"></i> Eliminar</a>' +
-                        "</div>"
+                            '<a href="javascript:void(0)" class="btn-update btn btn-primary" idDato="' +
+                            data.id +
+                            '"><i class="fa fa-edit"></i> Editar</a>' +
+                    
+                            '<a href="javascript:void(0)" class="btn-delete btn btn-danger" idDato="' +
+                            data.id +
+                            '"><i class="fa fa-trash"></i> Eliminar</a>' +
+                        '</div>'
                     );
                 },
             },
@@ -72,9 +64,9 @@ $(function () {
                 render: function (data) {
                     return (
                         '<div class="btn-group">' +
-                        '<a href="javascript:void(0)" class="btn-verpar btn btn-info" idDato="' + // Cambiar color a btn-info
+                        '<a href="javascript:void(0)" class="btn-verpar btn btn-info" idDato="' +
                         data.id +
-                        '"><i class="fa fa-users"></i> Añadir Participantes</a>' + // Cambiar el ícono aquí
+                        '"><i class="fa fa-users"></i> Añadir Participantes</a>' +
                         '</div>'
                     );
                 },
@@ -90,23 +82,20 @@ $(function () {
             }
         },
     });
-    /* Para abrir modal y editar */
+
     $table.on("click", ".btn-update", function () {
         const id = $dataTablePrograma.row($(this).parents("tr")).data().id;
         invocarModalView(id);
     });
 
-    /* Para abrir modal y ver participantes */
     $table.on("click", ".btn-verpar", function () {
         const id = $dataTablePrograma.row($(this).parents("tr")).data().id;
         invocarModalViewParticipantes(id);
     });
-    
-
 
     function invocarModalView(id) {
         invocarModal(
-            `/auth/programa/partialView/${id ? id : 0}`, function ($modal) {
+            `/auth/programa/partialViewEmpleabilidad/${id ? id : 0}`, function ($modal) {
                 if ($modal.attr("data-reload") === "true") $dataTablePrograma.ajax.reload(null, false);
             }
         );
@@ -114,15 +103,11 @@ $(function () {
 
     function invocarModalViewParticipantes(id) {
         invocarModal(
-            `/auth/programa/partialViewParticipantes/${id ? id : 0}`, function ($modal) {
+            `/auth/programa/partialViewParticipantesEmpleabilidad/${id ? id : 0}`, function ($modal) {
                 if ($modal.attr("data-reload") === "true") $dataTablePrograma.ajax.reload(null, false);
             }
         );
     }
-
-
-
-
 
     $table.on("click", ".btn-delete", function () {
         const id = $(this).attr("idDato");
@@ -130,7 +115,7 @@ $(function () {
         formData.append("_token", $("input[name=_token]").val());
         formData.append("id", id);
         confirmAjax(
-            `/auth/programa/delete`,
+            `/auth/programa/deleteEmpleabilidad`,
             formData,
             "POST",
             null,
@@ -144,5 +129,3 @@ $(function () {
 function clickExcelAlumno(){
     $('.dt-buttons .buttons-excel').click()
 }
-
-

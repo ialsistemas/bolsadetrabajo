@@ -4,6 +4,21 @@
     <link rel="stylesheet" href="{{ asset('app/css/avisos/index.css') }}">
     <link rel="stylesheet" href="{{ asset('app/plugins/datepicker/datepicker3.css') }}">
     <link rel="stylesheet" href="{{ asset('app/css/perfil/style.css') }}">
+    <style>
+        .tox-editor-header button{
+            padding: 0 4px !important;
+            margin: 2px 0 3px 0 !important;
+            font-size: 14px !important;
+            font-weight: 400 !important;
+            color: #222f3e !important;
+            transition: none !important;
+            border-radius: 3px !important;
+            background: 0 0 !important;
+        }
+        fieldset{
+            display: none;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -89,6 +104,13 @@
                                     <div class="col-md-12">
                                         <div class="alert alert-warning alert-blink" style="font-size: 18px;">
                                             <strong>¡Atención!</strong> El formato de su CV ha cambiado. Actualice sus experiencias para mantener una presentación adecuada.
+                                        </div>
+                                    </div>
+                                @endif
+                                @if ($modificationNoticePerfil != 0)
+                                    <div class="col-md-12">
+                                        <div class="alert alert-warning alert-blink" style="font-size: 18px;">
+                                            <strong>¡Atención!</strong> El formato de su Perfil Profesional ha cambiado. Actualice su Perfil Profesional para mantener una presentación adecuada.
                                         </div>
                                     </div>
                                 @endif
@@ -181,9 +203,10 @@
                                 <div class="col-md-12 mt-3">
                                     <label for="">Perfil Profesional</label> <a class="btn_ejemplo_perfil"
                                         href="{{ asset('app/img/perfil_word.pdf') }}" target="_blank">Ver Ejemplo</a>
-                                    <input type="text" class="form-input" name="perfil_profesional"
+                                    {{-- <input type="text" class="form-input" name="perfil_profesional"
                                         id="perfil_profesional" placeholder="Redacte su perfil Profesional"
-                                        value="{{ strip_tags($alumno->perfil_profesional) }}" required>
+                                        value="{{ strip_tags($alumno->perfil_profesional) }}" required> --}}
+                                    <textarea style="" name="perfil_profesional" id="perfil_profesional" cols="3" rows="3" class="form-input" placeholder="Redacte su perfil Profesional" required>{{ $alumno->perfil_profesional }}</textarea>
                                 </div>
                             </div>
                             <hr>
@@ -361,6 +384,7 @@
     <script>
         var routeProgreso= "{{ route('alumno.progreso') }}";
         var tokenWeb = "{{ csrf_token() }}";
+        var urlSpanish = "{{ asset('app/js/perfil/lang/es_MX.js') }}";
     </script>
     <script src="{{ asset('app/js/perfil/app.js') }}"></script>
     <script type="text/javascript" src="{{ asset('app/plugins/tinymce/tinymce.min.js') }}"></script>

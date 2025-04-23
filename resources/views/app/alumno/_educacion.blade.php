@@ -1,7 +1,7 @@
 <div id="modalMantenimientoEducacion" class="modal modal-fill fade" data-backdrop="false" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <form enctype="multipart/form-data" action="{{ route('alumno.perfil.educacion_store') }}" id="registroEducacion" method="POST"
-              data-ajax="true" data-close-modal="true" data-ajax-loading="#loading" data-ajax-success="OnSuccessRegistroEducacion" data-ajax-failure="OnFailureRegistroEducacion">
+            data-ajax="true" data-close-modal="true" data-ajax-loading="#loading" data-ajax-success="OnSuccessRegistroEducacion" data-ajax-failure="OnFailureRegistroEducacion">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">{{ $Educacion != null ? "Modificar" : " Registrar" }}  Educación</h5>
@@ -15,17 +15,31 @@
 
                     <div class="form-group row">
                         <div class="col-md-6 mt-2">
-                            <input type="text" name="institucion" id="institucion" class="form-input" value="{{ $Educacion != null ? $Educacion->institucion : "INSTITUTO ARZOBISPO LOAYZA" }}" placeholder="Institución" required>
+                            <input type="text" name="institucion" id="institucion" class="form-input" 
+                                value="{{ $Educacion != null ? $Educacion->institucion : 'INSTITUTO ARZOBISPO LOAYZA' }}" 
+                                placeholder="Institución" 
+                                {{ $Educacion != null ? 'readonly' : '' }} required>
                             <span data-valmsg-for="empresa"></span>
                         </div>
 
                         <div class="col-md-6 mt-2">
-                            <select name="area_id" id="area_id" class="form-input" required>
-                                <option value="">Programa de estudios</option>
-                                @foreach($Areas as $q)
-                                    <option value="{{ $q->id }}" {{ $Educacion != null && $Educacion->area_id == $q->id ? "selected" : ""}}>{{ $q->nombre }}</option>
-                                @endforeach
-                            </select>
+                            @if ($Educacion != null)
+                                <select id="area_id" class="form-input">
+                                    @foreach($Areas as $q)
+                                        @if($Educacion->area_id == $q->id)
+                                            <option value="{{ $q->id }}" selected>{{ $q->nombre }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                                <input type="hidden" name="area_id" value="{{ $Educacion->area_id }}">
+                            @else
+                                <select name="area_id" id="area_id" class="form-input" required>
+                                    <option value="">PROGRAMA DE ESTUDIOS</option>
+                                    @foreach($Areas as $q)
+                                        <option value="{{ $q->id }}">{{ $q->nombre }}</option>
+                                    @endforeach
+                                </select>
+                            @endif
                             <span data-valmsg-for="area_id"></span>
                         </div>
 
@@ -79,3 +93,9 @@
 </div>
 
 <script type="text/javascript" src="{{ asset('app/js/alumno/_educacion.js') }}"></script>
+<script>
+    $('#modalMantenimientoEducacion').on('shown.bs.modal', function () {
+        
+    });
+</script>
+

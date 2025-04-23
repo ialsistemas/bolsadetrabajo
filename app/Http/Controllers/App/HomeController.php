@@ -41,7 +41,7 @@ class HomeController extends Controller
     {
         $users = Alumno::where('id', '>=', 7970)->get();
 
-        foreach ($users as $u){
+        foreach ($users as $u) {
             $alum = Alumno::find($u->id);
             $alum->password = Hash::make($u->password);
             $alum->save();
@@ -72,9 +72,10 @@ class HomeController extends Controller
     {
         $status = false;
 
-        $random = Str::upper(str_random(4)); $logo = null;
+        $random = Str::upper(str_random(4));
+        $logo = null;
 
-        if($request->file('logo') != null){
+        if ($request->file('logo') != null) {
             $logo = uniqid($random . "_") . '.' . $request->file('logo')->getClientOriginalExtension();
         }
 
@@ -89,7 +90,7 @@ class HomeController extends Controller
         $validator = Validator::make($request->all(), [
             // 'nombre_comercial' => 'required',
             'ruc' => 'required|unique:empresas',
-            'link' => 'required|unique:empresas,link,'.($request->id != 0 ? $request->id : "NULL").',id,deleted_at,NULL',
+            'link' => 'required|unique:empresas,link,' . ($request->id != 0 ? $request->id : "NULL") . ',id,deleted_at,NULL',
             // 'razon_social' => 'required',
             // 'direccion' => 'required',
             // 'provincia_id' => 'required',
@@ -106,7 +107,7 @@ class HomeController extends Controller
             // 'email_contacto' => 'required|email'
         ]);
 
-        if (!$validator->fails()){
+        if (!$validator->fails()) {
             Empresa::create($request->all());
 
             if ($request->file('logo') != null)
@@ -136,37 +137,36 @@ class HomeController extends Controller
             'usuario_alumno' => $request->dni,
             'password' => Hash::make($request->dni),
             'aprobado' => $request->egresado != 0 ? 1 : 0,
-            'fecha_nacimiento' => $request->fecha_nacimiento, 
+            'fecha_nacimiento' => $request->fecha_nacimiento,
 
         ]);
-    
+
         $validator = Validator::make($request->all(), [
             'nombres' => 'required',
             'apellidos' => 'required',
             'telefono' => 'required',
             'dni' => 'required|min:8|max:12|unique:alumnos',
-             'email' => 'required|email',
-             'fecha_nacimiento' => 'required|date|min:10',
-             'provincia_id' => 'required',
-             'distrito_id' => 'required',
-           'area_id' => 'required',
+            'email' => 'required|email',
+            'fecha_nacimiento' => 'required|date|min:10',
+            'provincia_id' => 'required',
+            'distrito_id' => 'required',
+            'area_id' => 'required',
             'usuario_alumno' => 'required',
             'password' => 'required'
         ]);
 
-        if (!$validator->fails()){
-            
+        if (!$validator->fails()) {
+
             Alumno::create($request->all());
 
-            $id = Alumno::latest('id')->first();        
+            $id = Alumno::latest('id')->first();
 
-            Alumno::where('id', $id->id )                      
-            ->update(['aprobado' => 1]);
+            Alumno::where('id', $id->id)
+                ->update(['aprobado' => 1]);
 
             $status = true;
         }
 
         return $status ? redirect(route('index'))->with(['status' => '']) : redirect(route('alumno.crear_alumno'))->withErrors($validator)->withInput();
     }
-
 }

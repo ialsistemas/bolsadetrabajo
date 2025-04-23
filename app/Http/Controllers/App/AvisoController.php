@@ -2,28 +2,32 @@
 
 namespace BolsaTrabajo\Http\Controllers\App;
 
-use BolsaTrabajo\Alumno;
-use BolsaTrabajo\Anuncio;
-use BolsaTrabajo\AlumnoAviso;
+use Carbon\Carbon;
 use BolsaTrabajo\App;
 use BolsaTrabajo\Area;
 use BolsaTrabajo\Aviso;
-use BolsaTrabajo\Grado_academico;
-use BolsaTrabajo\ExperienciaLaboral;
-use BolsaTrabajo\Estudiante_aviso;
-use BolsaTrabajo\ReferenciaLaboral;
-use BolsaTrabajo\Empresa;
+use BolsaTrabajo\Alumno;
 use BolsaTrabajo\Estado;
-use BolsaTrabajo\Educacion;
+use BolsaTrabajo\Anuncio;
+use BolsaTrabajo\Empresa;
 use BolsaTrabajo\Horario;
 use BolsaTrabajo\Distrito;
+use BolsaTrabajo\Educacion;
 use BolsaTrabajo\Modalidad;
 use BolsaTrabajo\Provincia;
 use Illuminate\Http\Request;
-use BolsaTrabajo\Http\Controllers\Controller;
+use BolsaTrabajo\AlumnoAviso;
+use BolsaTrabajo\Grado_academico;
+use Barryvdh\DomPDF\Facade as PDF;
+use BolsaTrabajo\ReferenciaLaboral;
+use BolsaTrabajo\ExperienciaLaboral;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
+use BolsaTrabajo\ProgramaEmpleabilidad;
+use BolsaTrabajo\StudentApplicationFiles;
 use Illuminate\Support\Facades\Validator;
-use PDF;
+use BolsaTrabajo\ParticipantesEmpleabilidad;
+use BolsaTrabajo\Http\Controllers\Controller;
 
 class AvisoController extends Controller
 {
@@ -320,5 +324,107 @@ class AvisoController extends Controller
         $progreso = ($completados / $totalCampos) * 100;
 
         return response()->json(['progreso' => (int)$progreso]);
+    }
+
+    public function capacitaciones($id)
+    {
+        $userLogin = Auth::guard('alumnos')->user();
+        $nombrePrograma = strtoupper(str_replace('-', ' ', $id));
+        $empleabilidadData = ProgramaEmpleabilidad::whereRaw('UPPER(tipo_programa) = ?', [$nombrePrograma])
+            ->whereNull('deleted_at')
+            ->get();
+        if ($empleabilidadData->isEmpty()) {
+            return redirect()->route('avisos');
+        }
+        $idsEmpleabilidad = $empleabilidadData->pluck('id')->toArray();
+        $participanteData = ParticipantesEmpleabilidad::whereIn('id_programa', $idsEmpleabilidad)
+            ->where('dni', $userLogin->dni)
+            ->whereNull('deleted_at')
+            ->get()
+            ->map(function ($item) {
+                $item->id_encriptado = Crypt::encryptString($item->id_participante);
+                return $item;
+            });
+        $studentApplicationData = StudentApplicationFiles::where('id_alumno', $userLogin->id)->whereNull('deleted_at')->first();
+        return view('app.avisos.programa.index')
+            ->with('participanteData', $participanteData)
+            ->with('studentApplicationData', $studentApplicationData)
+            ->with('nombrePrograma', $nombrePrograma)
+            ->with('alumno', $userLogin);
+    }
+    public function certificado($id)
+    {
+        $idDesencriptado = Crypt::decryptString($id);
+        Carbon::setLocale('es');
+        $entity = ParticipantesEmpleabilidad::find($idDesencriptado);
+        $programas = [
+            "DESPEGA 360" => [
+                "template" => public_path('app/img/template/template-despega-360.jpg'),
+                "font-size" => "31px",
+                "id" => 1
+            ],
+            "SKILLS TO WORK" => [
+                "template" => public_path('app/img/template/template-skills-to-work.jpg'),
+                "font-size" => "31px",
+                "id" => 2
+            ],
+            "CARRERA PRO" => [
+                "template" => public_path('app/img/template/template-carrra-pro.jpg'),
+                "font-size" => "31px",
+                "id" => 3
+            ]
+        ];
+        $idPrograma = $entity->id_programa;
+        $programasEmpleabilidadesData = ProgramaEmpleabilidad::where('id', $idPrograma)->first();
+        $namePrograma = $programasEmpleabilidadesData->tipo_programa;
+        $templatePdf = $programas[$namePrograma];
+        $date = Carbon::parse($programasEmpleabilidadesData->registro)->translatedFormat('d \d\e F \d\e\l Y');
+        $pdf = PDF::loadView('auth.programa.certificados_alumnos.pdf_certificado', [
+            'templatePdf' => $templatePdf,
+            'entity' => $entity,
+            'date' => $date
+        ])->setPaper('A4', 'landscape');
+        return $pdf->stream('certificado-' . ($entity->nombres . '-' . $entity->apellidos) . '.pdf');
+    }
+    public function uploadProgramRequirement(Request $request)
+    {
+        $alumnoId = $request->idAlumno;
+        $studentApplicationData = StudentApplicationFiles::where('id_alumno', $request->idAlumno)->first();
+        $data = [];
+        if ($request->hasFile('video')) {
+            $video = $request->file('video');
+            $kb = $video->getSize() / 1024;
+            if ($kb > 35840) {
+                return back()->withErrors(['video' => 'El video no debe pesar más de 35 KB.']);
+            }
+            $folderPath = "app/students/{$alumnoId}/";
+            $extension = $video->getClientOriginalExtension();
+            $fileName = "presentacion-{$alumnoId}." . $extension;
+            $video->move(public_path($folderPath), $fileName);
+            $data['video_presentation'] = $fileName;
+        }
+        if ($request->hasFile('pdf')) {
+            $pdf = $request->file('pdf');
+            $kb = $pdf->getSize() / 1024;
+            if ($kb > 35840) {
+                return back()->withErrors(['video' => 'El pdf no debe pesar más de 35 KB.']);
+            }
+            $folderPath = "app/students/{$alumnoId}/";
+            $extension = $pdf->getClientOriginalExtension();
+            $fileName = "presentacion-{$alumnoId}." . $extension;
+            $pdf->move(public_path($folderPath), $fileName);
+            $data['cv_pdf'] = $fileName;
+        }
+        if ($studentApplicationData) {
+            $data['updated_at'] = Carbon::now();
+            $studentApplicationData->update($data);
+        } else {
+            $data['id_alumno'] = $alumnoId;
+            $data['created_at'] = Carbon::now();
+            $studentApplicationNew = new StudentApplicationFiles();
+            $studentApplicationNew->fill($data);
+            $studentApplicationNew->save();
+        }
+        return redirect()->back();
     }
 }

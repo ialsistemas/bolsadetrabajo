@@ -51,9 +51,13 @@ class AlumnoController extends Controller
                 break;
             }
         }
+        $modificationNoticePerfil = 0;
+        if ($Alumno->perfil_profesional == strip_tags($Alumno->perfil_profesional)) {
+            $modificationNoticePerfil = 1;
+        }
         return view('app.alumno.index', [
             'provincias' => $Provincias, 'distritos' => $Distritos, 'areas' => $Areas, 'alumno' => $Alumno, 'educaciones' => $Educaciones,
-            'experienciaLaboral' => $ExperienciaLaboral, 'referenciaLaboral' => $ReferenciaLaboral, 'habilidades' => $Habilidades, 'anios' => $Anios, 'errors' => $errors, 'modificationNotice' => $modificationNotice
+            'experienciaLaboral' => $ExperienciaLaboral, 'referenciaLaboral' => $ReferenciaLaboral, 'habilidades' => $Habilidades, 'anios' => $Anios, 'errors' => $errors, 'modificationNotice' => $modificationNotice, 'modificationNoticePerfil' => $modificationNoticePerfil
         ]);
     }
 

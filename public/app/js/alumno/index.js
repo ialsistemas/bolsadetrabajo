@@ -210,13 +210,10 @@ $(function(){
         actionAjax("/alumno/perfil", formData, "POST", function(data){
             onSuccessForm(data, $form, null, true, function(){
                 if(data.Success){
-
                     let $html = "";
-
                     $(".content-perfil img").attr("src", (data.Alumno.foto != null && data.Alumno.foto != "" ? "/uploads/alumnos/fotos/"+data.Alumno.foto : "/uploads/default.png"));
                     $(".content-perfil a").attr("href", "/uploads/alumnos/archivos/"+data.Alumno.hoja_de_vida);
                     $(".content-perfil .alumno_edad").text(data.Edad + " años");
-
                     if(data.Alumno.hoja_de_vida != null && data.Alumno.hoja_de_vida != ""){
                         $html += '<a href="/uploads/alumnos/archivos/'+data.Alumno.hoja_de_vida+'" target="_blank">Cv' + data.Alumno.nombres + " " + data.Alumno.apellidos +'</a>';
                         $html += '<div class="hoja_de_vida"><p>Editar mi CV <br> <span>(*.pdf, *.doc)</span></p>';
@@ -225,9 +222,7 @@ $(function(){
                         $html += '<div class="hoja_de_vida"><p>Adjuntar mi CV <br> <span>(*.pdf, *.doc)</span></p>';
                         $html += '<input type="file" class="styled form-control" name="hoja_de_vida" id="hoja_de_vida" accept="application/pdf, application/msword, .doc, .docx" required></div>';
                     }
-
                     $hoja_de_vida_content.html($html);
-
                     setTimeout(function(){
                         window.location.href = "/alumno/perfil";
                     }, 1000)

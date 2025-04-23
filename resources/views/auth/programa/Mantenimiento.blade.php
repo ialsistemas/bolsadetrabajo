@@ -68,24 +68,18 @@
                                 <label for="">Responsable</label>
                                 <select name="responsable" id="responsable" class="form-input" required>
                                     <option value="" hidden>-- Seleccione --</option>
-                                    <option value="Bryan Julcamoro"
-                                        {{ old('responsable', isset($Entity) ? $Entity->responsable : '') == 'Bryan Julcamoro' ? 'selected' : '' }}>
-                                        Bryan Julcamoro</option>
-                                    <option value="Joselyn Condori"
-                                        {{ old('responsable', isset($Entity) ? $Entity->responsable : '') == 'Joselyn Condori' ? 'selected' : '' }}>
-                                        Joselyn Condori</option>
-                                    {{-- <option value="Setafani Carlos"
-                                        {{ old('responsable', isset($Entity) ? $Entity->responsable : '') == 'Setafani Carlos' ? 'selected' : '' }}>
-                                        Setafani Carlos</option> --}}
-                                    <option value="Stefany Gutierrez"
-                                        {{ old('responsable', isset($Entity) ? $Entity->responsable : '') == 'Stefany Gutierrez' ? 'selected' : '' }}>
-                                        Stefany Gutierrez</option>
-                                    {{-- <option value="Yessica Caceres"
-                                        {{ old('responsable', isset($Entity) ? $Entity->responsable : '') == 'Yessica Caceres' ? 'selected' : '' }}>
-                                        Yessica Caceres</option> --}}
-                                    <option value="Yamile Bazan"
-                                        {{ old('responsable', isset($Entity) ? $Entity->responsable : '') == 'Yamile Bazan"' ? 'selected' : '' }}>
-                                        Yamile Bazan"</option>
+                                    <option value="Gina Vera"
+                                        {{ old('responsable', isset($Entity) ? $Entity->responsable : '') == 'Gina Vera' ? 'selected' : '' }}>
+                                        Gina Vera</option>
+                                    <option value="Florencia Hurtado"
+                                        {{ old('responsable', isset($Entity) ? $Entity->responsable : '') == 'Florencia Hurtado' ? 'selected' : '' }}>
+                                        Florencia Hurtado</option>
+                                    <option value="Evangelyn Caceres"
+                                        {{ old('responsable', isset($Entity) ? $Entity->responsable : '') == 'Evangelyn Caceres' ? 'selected' : '' }}>
+                                        Evangelyn Caceres</option>
+                                    <option value="Alexa Alvarez"
+                                        {{ old('responsable', isset($Entity) ? $Entity->responsable : '') == 'Alexa Alvarez' ? 'selected' : '' }}>
+                                        Alexa Alvarez</option>
                                 </select>
                             </div>
                             <div class="col-md-4">

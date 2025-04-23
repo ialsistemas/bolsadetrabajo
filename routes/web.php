@@ -19,7 +19,9 @@ Route::group(['middleware' => 'auth:alumnos'], function () {
         Route::get('/{empresa}/aviso/{slug}', 'App\AvisoController@informacion')->name('alumno.informacion');
         Route::post('/aviso/postular', 'App\AvisoController@postular')->name('alumno.postular');
         Route::post('/progreso', 'App\AvisoController@progresoCV')->name('alumno.progreso');
-
+        Route::get('/capacitaciones/{id}', 'App\AvisoController@capacitaciones')->name('alumno.capacitaciones');
+        Route::get('/certificado/{id}', 'App\AvisoController@certificado')->name('alumno.certificado');
+        Route::post('/upload-program-requirement', 'App\AvisoController@uploadProgramRequirement')->name('alumno.uploadProgramRequirement');
         //Route::group(['middleware' => 'alumno'], function () {});
 
         Route::get('/perfil', 'App\AlumnoController@index')->name('alumno.perfil');
@@ -190,18 +192,31 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:web'], function () {
     /* Programa Controladores */
     Route::group(['prefix' => 'programa'], function () {
         Route::get('/', 'Auth\ProgramaController@index')->name('auth.programa');
+        Route::get('/empleabilidad', 'Auth\ProgramaController@indexEmpleabilidad')->name('auth.programa-empleabilidad');
         Route::post('/store', 'Auth\ProgramaController@store')->name('auth.programa.store');
+        Route::post('/store-empleabilidad', 'Auth\ProgramaController@storeEmpleabilidad')->name('auth.programa.store-empleabilidad');
         Route::get('/list_all', 'Auth\ProgramaController@listAll')->name('auth.programas.listAll');
+        Route::get('/list_all_empleabilidad', 'Auth\ProgramaController@listAllEmpleabilidad')->name('auth.programas.empleabilidad-list');
         Route::post('/updateData', 'Auth\ProgramaController@updateData')->name('auth.programa.updateData');
+        Route::post('/updateDataEmpleabilidad', 'Auth\ProgramaController@updateDataEmpleabilidad')->name('auth.programa.updateDataEmpleabilidad');
         Route::get('/partialView/{id}', 'Auth\ProgramaController@partialView')->name('auth.programa.create');
+        Route::get('/partialViewEmpleabilidad/{id}', 'Auth\ProgramaController@partialViewEmpleabilidad')->name('auth.programa.create-empleabilidad');
         Route::post('/delete', 'Auth\ProgramaController@delete')->name('auth.programas.delete');
+        Route::post('/deleteEmpleabilidad', 'Auth\ProgramaController@deleteEmpleabilidad')->name('auth.programas.delete-empleabilidad');
         /* Participantes */
         Route::get('/partialViewParticipantes/{id}', 'Auth\ProgramaController@partialViewParticipantes')->name('auth.programa.partialViewParticipantes');
+        Route::get('/partialViewParticipantesEmpleabilidad/{id}', 'Auth\ProgramaController@partialViewParticipantesEmpleabilidad')->name('auth.programa.partialViewParticipantesEmpleabilidad');
         Route::post('/storeParticipantes', 'Auth\ProgramaController@storeParticipantes')->name('auth.programa.storeParticipantes');
+        Route::post('/storeParticipantesEmpleabilidad', 'Auth\ProgramaController@storeParticipantesEmpleabilidad')->name('auth.programa.storeParticipantesEmpleabilidad');
         Route::get('/mostrarParticipantes', 'Auth\ProgramaController@mostrarParticipantes')->name('auth.programa.mostrarParticipantes');
+        Route::get('/mostrarParticipantesEmpleabilidad', 'Auth\ProgramaController@mostrarParticipantesEmpleabilidad')->name('auth.programa.mostrarParticipantesEmpleabilidad');
         Route::post('/deletepar', 'Auth\ProgramaController@deletepar')->name('auth.programas.deletepar');
+        Route::post('/deleteparEmpleabilidad', 'Auth\ProgramaController@deleteparEmpleabilidad')->name('auth.programas.deleteparEmpleabilidad');
         Route::get('/partialViewpar/{id}', 'Auth\ProgramaController@partialViewpar')->name('auth.programa.create');
+        Route::get('/partialViewparEmpleabilidad/{id}', 'Auth\ProgramaController@partialViewparEmpleabilidad')->name('auth.programa.create-empleabilidad');
         Route::post('/updateParticipanteInscrito', 'Auth\ProgramaController@updateParticipanteInscrito')->name('auth.programa.updateParticipanteInscrito');
+        Route::post('/updateParticipanteInscritoEmpleabilidad', 'Auth\ProgramaController@updateParticipanteInscritoEmpleabilidad')->name('auth.programa.updateParticipanteInscritoEmpleabilidad');
+        Route::get('/generarCertificadoEmpleabilidad/{id}', 'Auth\ProgramaController@generarCertificadoEmpleabilidad')->name('auth.programa.generarCertificadoEmpleabilidad');
     });
 
     Route::post('store_estudiante_aviso', 'Auth\AvisoController@store_estudiante_aviso')->name('auth.aviso.store_estudiante_aviso');

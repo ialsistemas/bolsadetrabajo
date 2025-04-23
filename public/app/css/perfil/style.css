@@ -143,3 +143,12 @@ textarea {
 .card .experiencia{
     background-color:#ffffff !important;
 }
+.card-programas{
+    font-size: 14px !important;
+}
+.card-programas table select, input{
+    display: inline-block !important;
+}
+.dataTables_length select{
+    display: inline-block !important;
+}
