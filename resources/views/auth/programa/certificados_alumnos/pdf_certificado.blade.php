@@ -49,6 +49,7 @@
     <img class="fondo" src="{{ $templatePdf['template'] }}" alt="Fondo del certificado - url: {{ $templatePdf['template'] }}">
     <div class="contenido @if ($templatePdf['id'] == 1) mover-container @endif">
         <p class="description @if ($templatePdf['id'] == 2 || $templatePdf['id'] == 3) mover @endif"><b>{{ $entity->nombres }} {{ $entity->apellidos }}</b></p>
+        url imagen: {{ $templatePdf['template'] }}
     </div>
     <div class="contenido-date">
         <p>Lima, {{ $date }}</p>
