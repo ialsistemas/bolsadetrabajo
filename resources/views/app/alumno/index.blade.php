@@ -203,10 +203,7 @@
                                 <div class="col-md-12 mt-3">
                                     <label for="">Perfil Profesional</label> <a class="btn_ejemplo_perfil"
                                         href="{{ asset('app/img/perfil_word.pdf') }}" target="_blank">Ver Ejemplo</a>
-                                    {{-- <input type="text" class="form-input" name="perfil_profesional"
-                                        id="perfil_profesional" placeholder="Redacte su perfil Profesional"
-                                        value="{{ strip_tags($alumno->perfil_profesional) }}" required> --}}
-                                    <textarea style="" name="perfil_profesional" id="perfil_profesional" cols="3" rows="3" class="form-input" placeholder="Redacte su perfil Profesional" required>{{ $alumno->perfil_profesional }}</textarea>
+                                    <textarea style="" name="perfil_profesional" id="perfil_profesional" cols="3" rows="3" class="form-input" placeholder="Redacte su perfil Profesional">{{ $alumno->perfil_profesional }}</textarea>
                                 </div>
                             </div>
                             <hr>
