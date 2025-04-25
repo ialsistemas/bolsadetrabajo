@@ -83,7 +83,7 @@
             </tr>
         </table>
         <div class="section-title">Perfil Profesional</div>
-        <p class="info">{{ $alumno->perfil_profesional }}</p>
+        <p class="info">{!! $alumno->perfil_profesional !!}</p>
 
         @if(count($experienciaLaboral) > 0)
         <div class="section-title">Experiencia Laboral</div>
