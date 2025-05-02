@@ -4,6 +4,7 @@ namespace BolsaTrabajo\Http\Controllers\Auth;
 
 use Carbon\Carbon;
 use BolsaTrabajo\Cargo;
+use BolsaTrabajo\Alumno;
 use BolsaTrabajo\Programa;
 use BolsaTrabajo\Condicion;
 use Illuminate\Support\Str;
@@ -12,7 +13,9 @@ use BolsaTrabajo\Participantes;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use BolsaTrabajo\ProgramaEmpleabilidad;
+use BolsaTrabajo\StudentApplicationFiles;
 use Illuminate\Support\Facades\Validator;
 use BolsaTrabajo\ParticipantesEmpleabilidad;
 use BolsaTrabajo\Http\Controllers\Controller;
@@ -439,6 +442,12 @@ class ProgramaController extends Controller
                 'sede' => $request->sede,
             ];
             ParticipantesEmpleabilidad::create($data);
+            $dataArchive = [
+                'dni_alumno' => $request->dni,
+                'id_programa' => $request->id_programa,
+                'created_at' => Carbon::now()
+            ];
+            StudentApplicationFiles::create($dataArchive);
             return response()->json(['Success' => true, 'message' => 'Participante creado correctamente'], 200);
         } catch (\Exception $e) {
             return response()->json(['Success' => false, 'error' => 'Error al crear el Participante: ' . $e->getMessage()], 500);
@@ -449,7 +458,28 @@ class ProgramaController extends Controller
         $id_programa = $request->input('id_programa');
         $participantes = DB::table('participantes_empleabilidad as p')
             ->join('programas_empleabilidades as pr', 'p.id_programa', '=', 'pr.id')
-            ->select('p.id_participante', 'p.email', 'p.especialidad', 'pr.registro', 'p.sede', 'pr.tipo_programa', 'p.nombres', 'p.dni', 'p.apellidos', 'p.tel', 'p.tipo')
+            ->leftJoin('student_application_files as saf', function ($join) {
+                $join->on('p.dni', '=', 'saf.dni_alumno')
+                    ->on('p.id_programa', '=', 'saf.id_programa');
+            })
+            ->select(
+                'p.id_participante',
+                'p.email',
+                'p.especialidad',
+                'pr.registro',
+                'p.sede',
+                'pr.tipo_programa',
+                'p.nombres',
+                'p.dni',
+                'p.apellidos',
+                'p.tel',
+                'p.tipo',
+                'p.certified_status',
+                'saf.id as saf_id',
+                'saf.video_presentation',
+                'saf.cv_pdf',
+                'saf.created_at as saf_created_at',
+            )
             ->where('pr.id', $id_programa)
             ->whereNull('p.deleted_at')
             ->orderBy('p.created_at', 'DESC')
@@ -500,5 +530,21 @@ class ProgramaController extends Controller
             'date' => $date
         ])->setPaper('A4', 'landscape');
         return $pdf->stream('certificado-' . ($entity->nombres . '-' . $entity->apellidos) . '.pdf');
+    }
+    public function validarEmpleabilidad(Request $request)
+    {
+        try {
+            $updateData = ParticipantesEmpleabilidad::where('id_participante', $request->id)->update([
+                'certified_status' => 1,
+                'updated_at' => Carbon::now()
+            ]);
+            if ($updateData) {
+                return response()->json(['Success' => true, 'message' => 'Actualización exitosa'], 200);
+            } else {
+                return response()->json(['message' => 'No se encontró el participante o no se pudo actualizar.'], 404);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['Success' => false, 'error' => 'Error al crear el Participante: ' . $e->getMessage()], 500);
+        }
     }
 }

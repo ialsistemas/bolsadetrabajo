@@ -17,7 +17,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12">
-                        <h3>Mi programa: <b>{{ $nombrePrograma }}</b></h3>
+                        <h3>Mi programa: <b></b></h3>
                     </div>
                 </div>
             </div>
@@ -81,67 +81,66 @@
                     <div class="card card-programas">
                         <div class="row">
                             <div class="col-12">
-                                <h2>Certificados activos</h2>
-                                <table id="certificados" class="display responsive nowrap table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Fecha de Registro</th>
-                                            <th>Programa</th>
-                                            <th>Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @php $indice = 1; @endphp
-                                        @foreach ($participanteAprobadoData as $participanteAprobado)
-                                            <tr>
-                                                <td>{{ $indice++ }}</td>
-                                                <td>{{ $participanteAprobado->created_at ? \Carbon\Carbon::parse($participanteAprobado->created_at)->format('d/m/Y') : '' }}</td>
-                                                <td>{{ $nombrePrograma }}</td>
-                                                <td>
-                                                    <a href="{{ route('alumno.certificado', ['id' => urlencode($participanteAprobado->id_encriptado)]) }}"
-                                                        class="btn btn-secondary text-white"
-                                                        target="_blank"
-                                                        style="text-decoration: none;">
-                                                        Ver certificado
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                                <hr>
-                            </div>
-                            <div class="col-12 mt-5">
-                                <h2>Tareas pendientes:</h2>
-                                <table id="pendientes" class="display responsive nowrap table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Fecha de Registro</th>
-                                            <th>Programa</th>
-                                            <th>Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @php $indice1 = 1; @endphp
-                                        @foreach ($participanteDesaprobadoData as $participanteDesaprobado)
-                                            <tr>
-                                                <td>{{ $indice1++ }}</td>
-                                                <td>{{ $participanteDesaprobado->created_at }}</td>
-                                                <td>{{ $nombrePrograma }}</td>
-                                                <td>
-                                                    <a href="{{ route('alumno.pendiente', ['id' => urlencode($participanteDesaprobado->id_encriptado)]) }}"
-                                                        class="btn btn-secondary text-white"
-                                                        target="_blank"
-                                                        style="text-decoration: none;">
-                                                        Subir Archivo
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                <h2>Formularío</h2>
+                                @if ($programasEmpleabilidadesData->tipo_programa == "SKILLS TO WORK")
+                                    <div class="row">
+                                        <div class="col-lg-6 col-12">
+                                            <img src="{{ asset('app/img/falta-video.png') }}" alt="falta-video">
+                                        </div>
+                                        <div class="col-lg-6 col-12" style="display: flex;justify-content: center;align-items: center;">
+                                            <div class="alert alert-success text-center" style="font-size: 16px; font-weight: bold;">
+                                                🎥 Envíanos tu video de presentación al 
+                                                <a href="https://wa.me/51922611913?text=Quiero%20enviar%20mi%20video%20presentación%20para%20obtener%20mi%20certificado%20de%20Skills%20to%20Work" target="_blank" style="text-decoration: underline; color: #155724;">
+                                                    922 611 913 por WhatsApp
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @else
+                                    <div class="row">
+                                        <div class="col-lg-6 col-12">
+                                            @if ($studentApplicationFilesData != null && $studentApplicationFilesData->cv_pdf)
+                                            <div class="text-center">
+                                                <iframe src="{{ asset('app/students/'.$alumno->dni.'/'.$studentApplicationFilesData->cv_pdf) }}" class="cv-frame">
+                                                </iframe>
+                                            </div>
+                                            @else
+                                                <img src="{{ asset('app/img/falta-pdf.png') }}" alt="falta-pdf">
+                                            @endif
+                                        </div>
+                                        <div class="col-lg-6 col-12">
+                                            <form action="{{ route('alumno.uploadProgramRequirement') }}" method="POST" enctype="multipart/form-data">
+                                                @csrf
+                                                <div id="overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                                                    background-color: rgba(0, 0, 0, 0.7); z-index: 9999; 
+                                                    display: flex; justify-content: center; align-items: center; 
+                                                    color: white; font-size: 2rem; display: none;">
+                                                    <div>Cargando...</div>
+                                                </div>
+                                                <input type="hidden" value="{{ $alumno->id }}" name="idAlumno">
+                                                <input type="hidden" value="{{ $studentApplicationFilesData->id }}" name="idUpload">
+                                                <div class="form-group p-5 uploaded">
+                                                    <label for="video">Subir CV:</label>
+                                                    <input type="file" class="form-control" id="file" name="pdf" accept="application/pdf" style="line-height: -1.5;">
+                                                    <small id="pesoArchivo" class="text-secondary">El Pdf debe pesar menos de 35 MB.</small>
+                                                    <div id="mensajeExito" class="text-success mt-2" style="display: none;">PDF subido correctamente!</div>
+                                                    @if ($errors->any())
+                                                        <div class="alert alert-danger mt-2">
+                                                            <ul class="mb-0">
+                                                                @foreach ($errors->all() as $error)
+                                                                    <li>{{ $error }}</li>
+                                                                @endforeach
+                                                            </ul>
+                                                        </div>
+                                                    @endif
+                                                    <div class="p-2 text-center">
+                                                        <button type="submit" id="submitBtn" class="btn btn-primary">Subir</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -176,10 +175,6 @@
     <script type="text/javascript" src="{{ asset('app/js/alumno/index.js') }}"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
-    <script src="{{ asset('app/js/perfil/domTable.js') }}"></script>
-    @if ($nombrePrograma == "SKILLS TO WORK")
-        <script src="{{ asset('app/js/perfil/domVideo.js') }}"></script>
-    @else
-        <script src="{{ asset('app/js/perfil/domPdf.js') }}"></script>
-    @endif
+    <script src="{{ asset('app/js/perfil/domVideo.js') }}"></script>
+    <script src="{{ asset('app/js/perfil/domPdf.js') }}"></script>
 @endsection

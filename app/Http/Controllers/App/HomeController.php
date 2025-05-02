@@ -121,7 +121,7 @@ class HomeController extends Controller
 
     public function crear_alumno()
     {
-        $Areas = Area::all();
+        $Areas = Area::whereIn('id', [1, 2, 3, 4, 5])->get();
         $Provincias = Provincia::all();
         /* $Anios = range(date('Y')-1, date('Y')-21); */
 

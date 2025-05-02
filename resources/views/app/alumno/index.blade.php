@@ -4,21 +4,7 @@
     <link rel="stylesheet" href="{{ asset('app/css/avisos/index.css') }}">
     <link rel="stylesheet" href="{{ asset('app/plugins/datepicker/datepicker3.css') }}">
     <link rel="stylesheet" href="{{ asset('app/css/perfil/style.css') }}">
-    <style>
-        .tox-editor-header button{
-            padding: 0 4px !important;
-            margin: 2px 0 3px 0 !important;
-            font-size: 14px !important;
-            font-weight: 400 !important;
-            color: #222f3e !important;
-            transition: none !important;
-            border-radius: 3px !important;
-            background: 0 0 !important;
-        }
-        fieldset{
-            display: none;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('app/css/perfil/style-v2.css') }}">
 @endsection
 
 @section('content')
@@ -42,13 +28,17 @@
                     <div class="col-md-3 filter-cont">
                         <div class="filter">
                             <div class="content-perfil">
-                                <div class="imagen-perfil">
-                                    <img src="{{ $alumno != null && $alumno->foto != null
-                                        ? '/uploads/alumnos/fotos/' . $alumno->foto
-                                        : '/uploads/default.png' }}"
-                                        class="img-responsive" alt="Editar Foto">
-                                    <input type="file" class="styled form-control" name="foto" id="foto"
-                                        accept="image/jpeg, image/png" {{ $alumno != null ? '' : 'required' }}>
+                                <div class="imagen-perfil text-center">
+                                    <label for="upload-trigger" style="cursor: pointer;">
+                                        <img id="preview-img" 
+                                            src="{{ $alumno != null && $alumno->foto != null 
+                                                        ? '/uploads/alumnos/fotos/' . $alumno->foto 
+                                                        : '/uploads/default.png' }}" 
+                                            class="img-responsive" 
+                                            alt="Editar Foto">
+                                    </label>
+                                    <input type="file" id="upload-trigger" accept="image/jpeg, image/png" style="display: none;">
+                                    <input type="hidden" name="imagen_recortada_base64" id="imagen-recortada-base64">
                                 </div>
                                 <h5>{{ $alumno->nombres . ' ' . $alumno->apellidos }}</h5>
                                 <p class="name-alumno">{{ $alumno->areas->nombre }}</p>
@@ -376,6 +366,19 @@
             </form>
         </div>
     </div>
+    <div id="cropperModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <img id="cropper-image" src="" style="max-width: 100%;">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="cropImageBtn" class="btn btn-success">Usar imagen</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('scripts')
     <script>
@@ -392,4 +395,9 @@
     <script type="text/javascript" src="{{ asset('app/plugins/datepicker/bootstrap-datepicker.config.js') }}"></script>
     {{-- CAMBIO MOMENTANEO --}}
     <script type="text/javascript" src="{{ asset('app/js/alumno/index.js') }}"></script>
+    {{-- CROOPPERJS --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+    <script src="{{ asset('app/js/perfil/validation.js') }}"></script>
+    <script src="{{ asset('app/js/perfil/imageRecort.js') }}"></script>
 @endsection

@@ -92,6 +92,7 @@
     </div>
 </div>
 
+<script src="{{ asset('app/js/perfil/validation.js') }}"></script>
 <script type="text/javascript" src="{{ asset('app/js/alumno/_educacion.js') }}"></script>
 <script>
     $('#modalMantenimientoEducacion').on('shown.bs.modal', function () {

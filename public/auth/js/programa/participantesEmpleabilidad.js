@@ -53,6 +53,43 @@ $(function () {
             { title: "Telefono", data: "tel", class: "text-left" },
             { title: "Tipo", data: "tipo", class: "text-left" },
             {
+                title: "Estado",
+                data: "certified_status",
+                class: "text-left",
+                render: function (data) {
+                    if (data == 1) {
+                        return "Aprobado";
+                    } else {
+                        return "No Aprobado";
+                    }
+                }
+            },
+            {
+                title: "Enlace de Capacitación",
+                data: null,
+                class: "text-left",
+                render: function (data) {
+                    if (data.tipo_programa == "SKILLS TO WORK") {
+                        if (data.video_presentation) {
+                            return (
+                                '<a href="' + data.video_presentation + '" target="_blank" class="btn btn-primary">Ver Video</a>'
+                            );
+                        } else {
+                            return '<span style="color: red;">Falta archivo</span>';
+                        }
+                    } else {
+                        if (data.cv_pdf) {
+                            var enlaceFinal = enlaceBasePdf + data.dni + "/" + data.cv_pdf;
+                            return (
+                                '<a href="'+ enlaceFinal + '" target="_blank" class="btn btn-primary">Ver PDF</a>'
+                            );
+                        } else {
+                            return '<span style="color: red;">Falta archivo</span>';
+                        }
+                    }
+                }
+            },
+            {
                 data: null,
                 render: function (data) {
                     if (userProfileId === PERFIL_DESARROLLADOR) {
@@ -81,6 +118,19 @@ $(function () {
                     );
                 },
             },
+
+            {   
+                data: null,
+                render: function (data) {
+                    return (
+                        '<div class="btn-group" style="margin-left: 5px;">' +
+                            '<a href="javascript:void(0)" class="btn-authorize btn btn-secondary" idDato="' +
+                            data.id_participante +
+                            '">Autorizar</a>' +
+                        '</div>'
+                    );
+                },
+            },            
 
             {   
                 data: null,
@@ -132,6 +182,25 @@ $(function () {
         const id = $(this).attr("idDato");
         const url = `/auth/programa/generarCertificadoEmpleabilidad/${id}`;
         window.open(url, "_blank");
+    });
+
+    $table.on("click", ".btn-authorize", function () {
+        const id = $(this).attr("idDato");
+        const formData = new FormData();
+        formData.append("_token", $("input[name=_token]").val());
+        formData.append("id", id);
+        console.log("ID a autorizar:", id);
+    
+        confirmAjax(
+            `/auth/programa/validarEmpleabilidad`,
+            formData,
+            "POST",
+            null,
+            null,
+            function () {
+                $dataTableParticipante.ajax.reload(null, false);
+            }
+        );
     });
 });
 $("#buscardni").click(function () {

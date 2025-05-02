@@ -337,18 +337,27 @@ class AvisoController extends Controller
             return redirect()->route('alumno.avisos');
         }
         $idsEmpleabilidad = $empleabilidadData->pluck('id')->toArray();
-        $participanteData = ParticipantesEmpleabilidad::whereIn('id_programa', $idsEmpleabilidad)
+        $participanteAprobadoData = ParticipantesEmpleabilidad::whereIn('id_programa', $idsEmpleabilidad)
             ->where('dni', $userLogin->dni)
+            ->where('certified_status', 1)
             ->whereNull('deleted_at')
             ->get()
             ->map(function ($item) {
                 $item->id_encriptado = Crypt::encryptString($item->id_participante);
                 return $item;
             });
-        $studentApplicationData = StudentApplicationFiles::where('id_alumno', $userLogin->id)->whereNull('deleted_at')->first();
+        $participanteDesaprobadoData = ParticipantesEmpleabilidad::whereIn('id_programa', $idsEmpleabilidad)
+            ->where('dni', $userLogin->dni)
+            ->where('certified_status', 0)
+            ->whereNull('deleted_at')
+            ->get()
+            ->map(function ($item) {
+                $item->id_encriptado = Crypt::encryptString($item->id_participante);
+                return $item;
+            });
         return view('app.avisos.programa.index')
-            ->with('participanteData', $participanteData)
-            ->with('studentApplicationData', $studentApplicationData)
+            ->with('participanteAprobadoData', $participanteAprobadoData)
+            ->with('participanteDesaprobadoData', $participanteDesaprobadoData)
             ->with('nombrePrograma', $nombrePrograma)
             ->with('alumno', $userLogin);
     }
@@ -390,45 +399,40 @@ class AvisoController extends Controller
         ])->setPaper('A4', 'landscape');
         return $pdf->stream('certificado-' . ($entity->nombres . '-' . $entity->apellidos) . '.pdf');
     }
+    public function pendiente($id)
+    {
+        try {
+            $idDesencriptado = Crypt::decryptString($id);
+        } catch (\Exception $e) {
+            return redirect()->route('alumno.avisos')->with('error', 'Hubo un problema al generar el formulario.');
+        }
+        $userLogin = Auth::guard('alumnos')->user();
+        $entity = ParticipantesEmpleabilidad::find($idDesencriptado);
+        $programasEmpleabilidadesData = ProgramaEmpleabilidad::where('id', $entity->id_programa)->first();
+        $studentApplicationFilesData = StudentApplicationFiles::where('dni_alumno', $entity->dni)->where('id_programa', $entity->id_programa)->first();
+        return view('app.avisos.programa.upload_file')->with('programasEmpleabilidadesData', $programasEmpleabilidadesData)->with('studentApplicationFilesData', $studentApplicationFilesData)->with('alumno', $userLogin);
+    }
     public function uploadProgramRequirement(Request $request)
     {
         $alumnoId = $request->idAlumno;
-        $studentApplicationData = StudentApplicationFiles::where('id_alumno', $request->idAlumno)->first();
+        $uploadId = $request->idUpload;
+        $userData = Alumno::where('id', $alumnoId)->first();
+        $studentApplicationData = StudentApplicationFiles::where('id', $uploadId)->first();
         $data = [];
-        if ($request->hasFile('video')) {
-            $video = $request->file('video');
-            $kb = $video->getSize() / 1024;
-            if ($kb > 35840) {
-                return back()->withErrors(['video' => 'El video no debe pesar más de 35 KB.']);
-            }
-            $folderPath = "app/students/{$alumnoId}/";
-            $extension = $video->getClientOriginalExtension();
-            $fileName = "presentacion-{$alumnoId}." . $extension;
-            $video->move(public_path($folderPath), $fileName);
-            $data['video_presentation'] = $fileName;
-        }
         if ($request->hasFile('pdf')) {
             $pdf = $request->file('pdf');
             $kb = $pdf->getSize() / 1024;
             if ($kb > 35840) {
                 return back()->withErrors(['video' => 'El pdf no debe pesar más de 35 KB.']);
             }
-            $folderPath = "app/students/{$alumnoId}/";
+            $folderPath = "app/students/{$userData->dni}/";
             $extension = $pdf->getClientOriginalExtension();
-            $fileName = "presentacion-{$alumnoId}." . $extension;
+            $fileName = "presentacion-{$uploadId}." . $extension;
             $pdf->move(public_path($folderPath), $fileName);
             $data['cv_pdf'] = $fileName;
         }
-        if ($studentApplicationData) {
-            $data['updated_at'] = Carbon::now();
-            $studentApplicationData->update($data);
-        } else {
-            $data['id_alumno'] = $alumnoId;
-            $data['created_at'] = Carbon::now();
-            $studentApplicationNew = new StudentApplicationFiles();
-            $studentApplicationNew->fill($data);
-            $studentApplicationNew->save();
-        }
+        $data['updated_at'] = Carbon::now();
+        $studentApplicationData->update($data);
         return redirect()->back();
     }
 }

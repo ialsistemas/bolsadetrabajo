@@ -140,8 +140,29 @@ class AlumnoController extends Controller
             $foto = null;
             $hoja_de_vida = null;
 
-            if ($request->file('foto') != null) {
-                $foto = uniqid($random . "_") . '.' . $request->file('foto')->getClientOriginalExtension();
+            if ($request->filled('imagen_recortada_base64')) {
+                $imagenBase64 = $request->input('imagen_recortada_base64');
+                if (preg_match('/^data:image\/(\w+);base64,/', $imagenBase64, $type)) {
+                    $imagenBase64 = substr($imagenBase64, strpos($imagenBase64, ',') + 1);
+                    $extension = strtolower($type[1]);
+                    if (!in_array($extension, ['jpg', 'jpeg', 'png'])) {
+                        return back()->with('error', 'Formato de imagen no soportado.');
+                    }
+                    $imagenBase64 = base64_decode($imagenBase64);
+                    if ($imagenBase64 === false) {
+                        return back()->with('error', 'Error al decodificar la imagen.');
+                    }
+                    if (strlen($imagenBase64) > 10 * 1024 * 1024) {
+                        return back()->with('error', 'La imagen no debe superar los 10MB.');
+                    }
+                    $nombreArchivo = uniqid('img_') . '.' . $extension;
+                    $ruta = public_path('uploads/alumnos/fotos/' . $nombreArchivo);
+                    file_put_contents($ruta, $imagenBase64);
+                    $Alumno->foto = $nombreArchivo;
+                    $Alumno->save();
+                } else {
+                    return back()->with('error', 'Formato de imagen incorrecto.');
+                }
             }
 
             if ($request->file('hoja_de_vida') != null) {

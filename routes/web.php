@@ -21,6 +21,7 @@ Route::group(['middleware' => 'auth:alumnos'], function () {
         Route::post('/progreso', 'App\AvisoController@progresoCV')->name('alumno.progreso');
         Route::get('/capacitaciones/{id}', 'App\AvisoController@capacitaciones')->name('alumno.capacitaciones');
         Route::get('/certificado/{id}', 'App\AvisoController@certificado')->name('alumno.certificado');
+        Route::get('/pendiente/{id}', 'App\AvisoController@pendiente')->name('alumno.pendiente');
         Route::post('/upload-program-requirement', 'App\AvisoController@uploadProgramRequirement')->name('alumno.uploadProgramRequirement');
         //Route::group(['middleware' => 'alumno'], function () {});
 
@@ -217,6 +218,7 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:web'], function () {
         Route::post('/updateParticipanteInscrito', 'Auth\ProgramaController@updateParticipanteInscrito')->name('auth.programa.updateParticipanteInscrito');
         Route::post('/updateParticipanteInscritoEmpleabilidad', 'Auth\ProgramaController@updateParticipanteInscritoEmpleabilidad')->name('auth.programa.updateParticipanteInscritoEmpleabilidad');
         Route::get('/generarCertificadoEmpleabilidad/{id}', 'Auth\ProgramaController@generarCertificadoEmpleabilidad')->name('auth.programa.generarCertificadoEmpleabilidad');
+        Route::post('/validarEmpleabilidad', 'Auth\ProgramaController@validarEmpleabilidad')->name('auth.programa.validarEmpleabilidad');
     });
 
     Route::post('store_estudiante_aviso', 'Auth\AvisoController@store_estudiante_aviso')->name('auth.aviso.store_estudiante_aviso');

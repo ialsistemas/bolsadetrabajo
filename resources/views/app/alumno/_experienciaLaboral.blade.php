@@ -87,8 +87,5 @@
 </div>
 
 <script type="text/javascript" src="{{ asset('auth/plugins/ckeditor/ckeditor.js') }}"></script>
-<script>
-    /* CKEDITOR.replace( 'descripcion' ); */
-</script>
-
+<script src="{{ asset('app/js/perfil/validation.js') }}"></script>
 <script type="text/javascript" src="{{ asset('app/js/alumno/_experienciaLaboral.js') }}"></script>

@@ -209,5 +209,6 @@
 <script>
     var userProfileId = @json(Auth::guard('web')->user()->profile_id);
     var PERFIL_DESARROLLADOR = @json(\BolsaTrabajo\App::$PERFIL_DESARROLLADOR);
+    var enlaceBasePdf = "{{ asset('app/students/') }}/";
 </script>
 <script type="text/javascript" src="{{ asset('auth/js/programa/participantesEmpleabilidad.js') }}"></script>

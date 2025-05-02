@@ -14,7 +14,8 @@ class StudentApplicationFiles extends Model
     public $timestamps = false;
     use SoftDeletes;
     protected $fillable = [
-        'id_alumno',
+        'dni_alumno',
+        'id_programa',
         'video_presentation',
         'cv_pdf',
         'created_at',

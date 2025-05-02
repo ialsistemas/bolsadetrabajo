@@ -151,5 +151,6 @@
     <script type="text/javascript" src="{{ asset('app/plugins/datepicker/locales/bootstrap-datepicker.es.js') }}"></script>
     <script type="text/javascript" src="{{ asset('app/plugins/datepicker/bootstrap-datepicker.config.js') }}"></script>
     {{-- CAMBIO MOMENTANEO --}}
+    <script src="{{ asset('app/js/perfil/validation.js') }}"></script>
     <script type="text/javascript" src="{{ asset('app/js/alumno/index.js') }}"></script>
 @endsection
