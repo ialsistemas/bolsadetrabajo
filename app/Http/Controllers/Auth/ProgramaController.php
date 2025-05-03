@@ -490,10 +490,11 @@ class ProgramaController extends Controller
     public function deleteparEmpleabilidad(Request $request)
     {
         $status = false;
-
         $entity = ParticipantesEmpleabilidad::find($request->id);
-
         if ($entity && $entity->delete()) {
+            StudentApplicationFiles::where('dni_alumno', $entity->dni)
+                ->where('id_programa', $entity->id_programa)
+                ->delete();
             $status = true;
         }
 
