@@ -460,7 +460,8 @@ class ProgramaController extends Controller
             ->join('programas_empleabilidades as pr', 'p.id_programa', '=', 'pr.id')
             ->leftJoin('student_application_files as saf', function ($join) {
                 $join->on('p.dni', '=', 'saf.dni_alumno')
-                    ->on('p.id_programa', '=', 'saf.id_programa');
+                    ->on('p.id_programa', '=', 'saf.id_programa')
+                    ->whereNull('saf.deleted_at');
             })
             ->select(
                 'p.id_participante',
