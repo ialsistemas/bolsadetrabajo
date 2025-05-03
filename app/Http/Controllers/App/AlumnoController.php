@@ -90,6 +90,7 @@ class AlumnoController extends Controller
         $Areas = Area::all();
         $Provincias = Provincia::all();
         $Distritos = Distrito::where('provincia_id', $Alumno->provincia_id)->get();
+        $DistritoAlumno = Distrito::where('id', $Alumno->distrito_id)->first();
 
         $Educaciones = Educacion::where('alumno_id', $Alumno->id)->orderBy('estudio_inicio', 'DESC')->get(); // se añadio 
         $ExperienciaLaboral = ExperienciaLaboral::where('alumno_id', $Alumno->id)->orderBy('inicio_laburo', 'DESC')->whereNull('deleted_at')->get();
@@ -107,7 +108,7 @@ class AlumnoController extends Controller
 
         $pdf = PDF::loadView('app.alumno.cv',  [
             'provincias' => $Provincias, 'distritos' => $Distritos, 'areas' => $Areas, 'alumno' => $Alumno, 'educaciones' => $Educaciones,
-            'experienciaLaboral' => $ExperienciaLaboral, 'referenciaLaboral' => $ReferenciaLaboral, 'habilidades' => $Habilidades, 'anios' => $Anios, 'errors' => $errors
+            'experienciaLaboral' => $ExperienciaLaboral, 'referenciaLaboral' => $ReferenciaLaboral, 'habilidades' => $Habilidades, 'anios' => $Anios, 'errors' => $errors, 'DistritoAlumno' => $DistritoAlumno
         ]);
         // $pdf = PDF::loadHTML('<h1>Test</h1>');
         return $pdf->stream();

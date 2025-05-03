@@ -41,29 +41,29 @@ class AlumnoController extends Controller
     } */
 
     public function list(Request $request)
-{
-    $query = Alumno::with(['provincias', 'distritos', 'areas', 'educaciones'])
-                    ->orderBy('created_at', 'DESC');
-                    
-    if ($request->mostrar == 'mostrar') {
-        return response()->json(['data' => $query->get()]);
-    } elseif (isset($request->dni_apellido)) {
-        $query->where(function($q) use ($request) {
-            $q->where('dni', 'like', '%'.$request->dni_apellido.'%')
-              ->orWhere('apellidos', 'like', '%'.$request->dni_apellido.'%');
-        });
-        return response()->json(['data' => $query->limit(80)->get()]);
-    } elseif (isset($request->fechasemestre) && !empty($request->fechasemestre)) {
-        // Extrae el año del select fechasemestre
-        $year = $request->fechasemestre;
+    {
+        $query = Alumno::with(['provincias', 'distritos', 'areas', 'educaciones'])
+            ->orderBy('created_at', 'DESC');
 
-        // Filtrar por año usando el campo `created_at`
-        $query->whereYear('created_at', $year);
-        return response()->json(['data' => $query->get()]);
-    } else {
-        return response()->json(['data' => []]);
+        if ($request->mostrar == 'mostrar') {
+            return response()->json(['data' => $query->get()]);
+        } elseif (isset($request->dni_apellido)) {
+            $query->where(function ($q) use ($request) {
+                $q->where('dni', 'like', '%' . $request->dni_apellido . '%')
+                    ->orWhere('apellidos', 'like', '%' . $request->dni_apellido . '%');
+            });
+            return response()->json(['data' => $query->limit(80)->get()]);
+        } elseif (isset($request->fechasemestre) && !empty($request->fechasemestre)) {
+            // Extrae el año del select fechasemestre
+            $year = $request->fechasemestre;
+
+            // Filtrar por año usando el campo `created_at`
+            $query->whereYear('created_at', $year);
+            return response()->json(['data' => $query->get()]);
+        } else {
+            return response()->json(['data' => []]);
+        }
     }
-}
 
     // codigo hecho por marco
     public function print_cv_pdf($id)
@@ -72,14 +72,18 @@ class AlumnoController extends Controller
         $Areas = Area::all();
         $Provincias = Provincia::all();
 
-        if($alumno != null){
+        if ($alumno != null) {
 
             $Distritos = Distrito::where('provincia_id', $alumno->provincia_id)->get();
             $Educaciones = Educacion::where('alumno_id', $alumno->id)->orderBy('estudio_inicio', 'DESC')->get();
             $ExperienciaLaboral = ExperienciaLaboral::where('alumno_id', $alumno->id)->orderBy('inicio_laburo', 'DESC')->get();
+            $DistritoAlumno = Distrito::where('id', $alumno->distrito_id)->first();
+
 
             $Habilidades = AlumnoHabilidad::where('alumno_id', $alumno->id)
-                ->whereHas('habilidades', function ($query) { $query->whereNull('deleted_at'); })
+                ->whereHas('habilidades', function ($query) {
+                    $query->whereNull('deleted_at');
+                })
                 ->get();
 
             $ReferenciaLaboral = ReferenciaLaboral::where('alumno_id', $alumno->id)->orderBy('inicio_curso', 'DESC')->get();
@@ -87,6 +91,7 @@ class AlumnoController extends Controller
             $data = array(
                 'areas' => $Areas,
                 'alumno' => Alumno::find($id),
+                'distritoAlumno' => $DistritoAlumno->nombre,
                 'habilidades' => $Habilidades,
                 'distritos' => $Distritos,
                 'educaciones' => $Educaciones,
@@ -96,7 +101,7 @@ class AlumnoController extends Controller
             $pdf = PDF::loadView('auth.alumno.exports.cv_pdf', $data);
             /* $pdf = PDF::loadView('auth.alumno.exports.print_cv_pdf', $data); */
             /* return $pdf->download('CV-'.($alumno->nombres.' '.$alumno->apellidos).'.pdf'); */
-            return $pdf->stream('CV-'.($alumno->nombres.' '.$alumno->apellidos).'.pdf');
+            return $pdf->stream('CV-' . ($alumno->nombres . ' ' . $alumno->apellidos) . '.pdf');
         }
 
         return redirect()->to('/auth/alumno');
@@ -108,7 +113,7 @@ class AlumnoController extends Controller
         $entity = Alumno::find($request->id);
         $entity->aprobado = $request->update_id;
 
-        if($entity->save()) $status = true;
+        if ($entity->save()) $status = true;
 
         return response()->json(['Success' => $status]);
     }
@@ -117,7 +122,7 @@ class AlumnoController extends Controller
     {
         $status = false;
         $entity = Alumno::find($request->id);
-        if($entity->delete()) $status = true;
+        if ($entity->delete()) $status = true;
 
         return response()->json(['Success' => $status]);
     }

@@ -77,6 +77,7 @@
                 <td>
                     <h2 style="margin: 0;">{{ $alumno->apellidos }} {{ $alumno->nombres }}</h2>
                     <p style="margin: 5px 0;"><b>DNI:</b> {{ $alumno->dni }}</p>
+                    <p style="margin: 5px 0;"><b>Distrito:</b> {{ $DistritoAlumno->nombre }}</p>
                     <p style="margin: 5px 0;"><b>Celular:</b> {{ $alumno->telefono }}</p>
                     <p style="margin: 5px 0;"><b>Email:</b> {{ $alumno->email }}</p>
                 </td>
