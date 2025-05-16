@@ -26,8 +26,8 @@ class InicioController extends Controller
         // Obtener la fecha actual y sumar un día
         /* Actualizado para que lo reportes sumen 1 dias mas */
         $fechaHasta = $request->input('fecha_hasta', Carbon::now()->addDay()->format('Y-m-d'));
-        
-        
+
+
 
         // Obtener datos filtrados por fechas
         $empresas = $this->getEmpresasPorTipoPersona($fechaDesde, $fechaHasta);
@@ -41,16 +41,26 @@ class InicioController extends Controller
 
 
         // Pasar los datos a la vista 'auth.inicio.index'
-        if (Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_DESARROLLADOR ||
-        Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_ADMINISTRADOR){
-            return view('auth.inicio.index', compact('TotalUsuariosporCarrera', 
-            'totalContratadosporCarrera', 'totalAvisosporEmpleador', 'totalAvisos', 
-            'totalUsuarios', 'totalEmpresasAprobadas', 'empresas', 'programasContratados', 
-            'fechaDesde', 'fechaHasta'));
+        if (
+            Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_DESARROLLADOR ||
+            Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_ADMINISTRADOR
+        ) {
+            return view('auth.inicio.index', compact(
+                'TotalUsuariosporCarrera',
+                'totalContratadosporCarrera',
+                'totalAvisosporEmpleador',
+                'totalAvisos',
+                'totalUsuarios',
+                'totalEmpresasAprobadas',
+                'empresas',
+                'programasContratados',
+                'fechaDesde',
+                'fechaHasta'
+            ));
         }
         return redirect('/auth/principal'); // Redirige a una página predeterminada si la condición no se cumple
     }
-    
+
     // Métodos privados con filtro por fecha
     /* Primer Grafico */
     private function getEmpresasPorTipoPersona($fecha_desde, $fecha_hasta)
@@ -209,6 +219,7 @@ class InicioController extends Controller
         $resultados = DB::table('alumnos')
             ->select('alumnos.area_id', 'areas.nombre AS nombre_area', DB::raw('COUNT(alumnos.id) AS cantidad_alumnos'))
             ->join('areas', 'alumnos.area_id', '=', 'areas.id')
+            ->whereIn('alumnos.area_id', [1, 2, 3, 4, 5])
             ->whereBetween('alumnos.created_at', [$fecha_desde, $fecha_hasta])
             ->whereNull('alumnos.deleted_at') // no contar con los eliminados
             ->groupBy('alumnos.area_id', 'areas.nombre')
