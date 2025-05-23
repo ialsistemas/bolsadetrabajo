@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Una Mirada a Tu Futuro – Arzobispo Loayza</title>
+    <title>TEST  de competencias y habilidades – Arzobispo Loayza</title>
     <link rel="stylesheet" href="{{ asset('app/css/home/encuesta.css') }}">
     <meta name="description" content="Completa este formulario para conocer más sobre tus fortalezas y afinidades personales. Una iniciativa del Instituto Arzobispo Loayza para apoyarte en tu futuro profesional.">
     <meta name="keywords" content="Instituto Arzobispo Loayza, orientación vocacional, perfil personal, fortalezas, potencial, autoconocimiento, desarrollo profesional">
@@ -15,11 +15,16 @@
     <div class="ancho">
     <div class="contenedor-todo">
         <header class="encabezado">
-            <h1 id="title">Una Mirada a Tu Futuro – Arzobispo Loayza<br></h1>
-            <p id="description">Esta breve actividad nos ayudará a orientarte mejor en tu desarrollo profesional dentro del Instituto Arzobispo Loayza.</p>
+            <h1 id="title">TEST  de competencias y habilidades<br></h1>
+            <p id="description">Identifica tus fortalezas en el ámbito laboral y reconoce aquello que te hace único. Comparte tus resultados y capta la atención de empresas que buscan talentos como el tuyo.</p>
         </header>
-        <form action="{{ route('store-encuesta-psicologa-beta') }}" method="POST" class="contenedor-formulario" id="survey-form">
+        <form action="{{ route('alumno.store-test-inteligencias-multiples') }}" method="POST" class="contenedor-formulario" id="survey-form">
             @csrf
+            @if ($errors->has('error_general'))
+                <div class="alert-error">
+                    {{ $errors->first('error_general') }}
+                </div>
+            @endif
             <!-- Pregunta 1-->
             <div class="componentesFormulario">
                 <p>1. Prefiero hacer un mapa que explicarle a alguien como tiene que llegar.</p>

@@ -121,7 +121,6 @@
                                 onclick="consultarEmpleador()"
                                 style="border-color: #2ecc71; background: #2ecc71; border-radius: 5px;">Aplicar
                             Filtro</button>
-                           
 
                         </form>
 
@@ -141,8 +140,8 @@
                         class="table table-bordered table-striped display nowrap margin-top-10 dataTable no-footer"></table>
                 </div>
                 <div class="col-md-2 text-center">
-                    <a href="https://wa.me/923001874?text=Hola,vengo%20de%20la%20bolsa%20de%20trabajo%20y%20deseo%20conocer%20más%20de%20los%20servicios%20gratuitos%20para%20las%20empresas%20aliadas." target="_blank">
-                        <img src="{{ asset('app/img/nuevaimagen.png') }}" alt="Logo de WhatsApp">
+                    <a href="https://wa.me/948536701?text=Hola,vengo%20de%20la%20bolsa%20de%20trabajo%20y%20deseo%20conocer%20más%20de%20los%20servicios%20gratuitos%20para%20las%20empresas%20aliadas." target="_blank">
+                        <img src="{{ asset('app/img/nuevaimagen2.png') }}" alt="Logo de WhatsApp">
                     </a>
                     
                 </div>

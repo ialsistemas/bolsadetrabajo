@@ -11,8 +11,6 @@ Route::get('/offline_alumno/{id}', 'App\LoginAlumnoController@offline');
 Route::get('/buscar_reniec/{data}', 'App\LoginEmpresaController@consultar_reniec')->name('buscar_reniec');
 Route::get('/buscar_sunat/{data}', 'App\LoginEmpresaController@consultar_sunat')->name('buscar_sunat');
 
-Route::get('/encuesta-psicologa-beta', 'App\HomeController@encuestaPsicologaBeta')->name('encuesta-psicologa-beta');
-Route::post('/store-encuesta-psicologa-beta', 'App\HomeController@storeEncuestaPsicologaBeta')->name('store-encuesta-psicologa-beta');
 Route::get('/resultado-psicologa-beta', 'App\HomeController@resultadoPsicologaBeta')->name('resultado-psicologa-beta');
 
 Route::group(['middleware' => 'auth:alumnos'], function () {
@@ -28,6 +26,17 @@ Route::group(['middleware' => 'auth:alumnos'], function () {
         Route::get('/pendiente/{id}', 'App\AvisoController@pendiente')->name('alumno.pendiente');
         Route::post('/upload-program-requirement', 'App\AvisoController@uploadProgramRequirement')->name('alumno.uploadProgramRequirement');
         //Route::group(['middleware' => 'alumno'], function () {});
+
+        //test
+        Route::get('/test-inteligencias-multiples', 'App\AvisoController@testInteligenciasMultiples')->name('alumno.test-inteligencias-multiples');
+        Route::post('/store-test-inteligencias-multiples', 'App\AvisoController@storeTestInteligenciasMultiples')->name('alumno.store-test-inteligencias-multiples');
+        Route::get('/resultado-inteligencias-multiples', 'App\AvisoController@resultadoInteligenciasMultiples')->name('alumno.resultado-inteligencias-multiples');
+        Route::post('/store-active-inteligencias-multiples', 'App\AvisoController@storeActiveInteligenciasMultiples')->name('alumno.store-active-inteligencias-multiples');
+        Route::get('/test-fortalezas-personales', 'App\AvisoController@testFortalezasPersonales')->name('alumno.test-fortalezas-personales');
+        Route::post('/store-test-fortalezas-personales', 'App\AvisoController@storeTestFortalezasPersonales')->name('alumno.store-test-fortalezas-personales');
+        Route::get('/resultado-fortalezas-personales', 'App\AvisoController@resultadoFortalezasPersonales')->name('alumno.resultado-fortalezas-personales');
+        Route::post('/store-active-fortalezas-personales', 'App\AvisoController@storeActiveFortalezasPersonales')->name('alumno.store-active-fortaleza');
+        //
 
         Route::get('/perfil', 'App\AlumnoController@index')->name('alumno.perfil');
         Route::post('/perfil', 'App\AlumnoController@store')->name('alumno.store');

@@ -144,6 +144,42 @@
                             {{-- <p>{{ $alumno->referentes_carrera }}</p> --}}
                         </div>
 
+                        @if ($inteligenciasHistorialData != null && $inteligenciasHistorialData->visualizacion == 1)
+                        @php
+                            $topInteligencias = collect(json_decode($inteligenciasHistorialData->estados_inteligencia, true))
+                                ->sortByDesc('puntaje')
+                                ->take(3)
+                                ->values();
+                        @endphp
+                            <div class="mt-3">
+                                @if (count($topInteligencias) != 0)
+                                    <h3>Perfil Cognitivo - Conductual</h3>
+                                    <canvas id="graficoInteligencias" width="400" height="200"></canvas>
+                                    <p>(Fuente: Test de Inteligencias Múltiples basado en la teoría de Howard Gardner.)</p>
+                                @else
+                                    <h3>No se ha identificado inteligencias destacadas aún.</h3>
+                                @endif
+                            </div>
+                        @endif
+
+                        @if ($fortalezasHistorialData != null && $fortalezasHistorialData->visualizacion == 1)
+                            @php
+                                $topFortalizas = collect(json_decode($fortalezasHistorialData->estados_fortaleza, true))
+                                ->sortByDesc('puntaje')
+                                ->take(3)
+                                ->values();
+                            @endphp
+                            <div class="mt-3">
+                                @if (count($topFortalizas) != 0)
+                                    <h3>Perfil Cognitivo - Conductual</h3>
+                                    <canvas id="graficoFortaleza" width="400" height="200"></canvas>
+                                    <p>(Fuente: Cuestionario de Inteligencia Emocional - Cerrón Bruno, Natalí Patricia (2013).)</p>
+                                @else
+                                    <h3>No se ha identificado inteligencias destacadas aún.</h3>
+                                @endif
+                            </div>
+                        @endif
+
                         {{-- @if ($alumno->hoja_de_vida != null && $alumno->hoja_de_vida != '')
                         <div class="mt-3">
                             <a href="/uploads/alumnos/archivos/{{ $alumno->hoja_de_vida }}" target="_blank">Cv{{ str_replace(' ', '', $alumno->nombres." ".$alumno->apellidos ) }}</a>
@@ -240,12 +276,40 @@
             </div>
         </div>
     </div>
+
+    @php
+        if($inteligenciasHistorialData != null && $inteligenciasHistorialData->visualizacion == 1){
+            $labels = $topInteligencias->pluck('name')->toArray();
+            $porcentajes = [];
+            foreach ($topInteligencias->pluck('puntaje') as $p) {
+                $porcentajes[] = ($p / 5) * 100;
+            }
+        }
+        if($fortalezasHistorialData != null && $fortalezasHistorialData->visualizacion == 1){
+            $labelsFortaleza = $topFortalizas->pluck('name')->toArray();
+            $porcentajesFortaleza = [];
+            foreach ($topFortalizas->pluck('porcentaje') as $p) {
+                $porcentajesFortaleza[] = $p;
+            }
+        }
+    @endphp
+
 @endsection
 
 @section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="text/javascript">
-        const POSTULANTE = {{ $postulante->alumno_id }}
-        const AVISO = {{ $postulante->aviso_id }}
+        const POSTULANTE = {{ $postulante->alumno_id }};
+        const AVISO = {{ $postulante->aviso_id }};
+        @if ($inteligenciasHistorialData != null && $inteligenciasHistorialData->visualizacion == 1)
+            const labels = @json($labels);
+            const data = @json($porcentajes);
+        @endif
+        @if ($fortalezasHistorialData != null && $fortalezasHistorialData->visualizacion == 1)
+            const labelsFortaleza = @json($labelsFortaleza);
+            const dataFortaleza = @json($porcentajesFortaleza);
+        @endif
     </script>
+    <script src="{{ asset('app/js/avisos/grafico.js') }}"></script>
     <script type="text/javascript" src="{{ asset('app/js/avisos/postulante_informacion.js') }}"></script>
 @endsection

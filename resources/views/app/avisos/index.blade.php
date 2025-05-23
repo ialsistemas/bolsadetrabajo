@@ -147,6 +147,13 @@
                                 <option value="{{ route('alumno.capacitaciones', 'skills-to-work') }}">SKILLS TO WORK</option>
                             </select>
                         </div>
+                        <div class="form-group">
+                            <select id="selecTest" class="form-input selct-template">
+                                <option value="">EVALÚA TU POTENCIAL</option>
+                                <option value="{{ route('alumno.test-inteligencias-multiples') }}">INTELIGENCIAS MÚLTIPLES</option>
+                                <option value="{{ route('alumno.test-fortalezas-personales') }}">FORTALEZAS PERSONALES</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 {{-- Añadi esto para proponer --}}
@@ -230,6 +237,12 @@
     <script>
         $(document).ready(function () {
             $('#selectPrograma').on('change', function () {
+                var url = $(this).val();
+                if (url) {
+                    window.location.href = url;
+                }
+            });
+            $('#selecTest').on('change', function () {
                 var url = $(this).val();
                 if (url) {
                     window.location.href = url;

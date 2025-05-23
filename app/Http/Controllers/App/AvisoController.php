@@ -17,11 +17,16 @@ use BolsaTrabajo\Modalidad;
 use BolsaTrabajo\Provincia;
 use Illuminate\Http\Request;
 use BolsaTrabajo\AlumnoAviso;
+use BolsaTrabajo\Inteligencias;
 use BolsaTrabajo\Grado_academico;
+use BolsaTrabajo\StrengthHistory;
 use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Facades\DB;
 use BolsaTrabajo\ReferenciaLaboral;
 use BolsaTrabajo\ExperienciaLaboral;
+use BolsaTrabajo\Fortalezas;
 use Illuminate\Support\Facades\Auth;
+use BolsaTrabajo\IntelligenceHistory;
 use Illuminate\Support\Facades\Crypt;
 use BolsaTrabajo\ProgramaEmpleabilidad;
 use BolsaTrabajo\StudentApplicationFiles;
@@ -199,11 +204,12 @@ class AvisoController extends Controller
         $Postulante = $AlumnosAvisos->where('alumno_id', $Alumno->id)->first();
         $Educaciones = Educacion::where('alumno_id', $Alumno->id)->get();
         $Area = Area::all();
-
+        $inteligenciasHistorialData = IntelligenceHistory::where('id_alumno', $Alumno->id)->whereNull('deleted_at')->first();
+        $fortalezasHistorialData = StrengthHistory::where('id_alumno', $Alumno->id)->whereNull('deleted_at')->first();
         if (!Auth::guard('alumnos')->user() && $Postulante) {
             if ($Aviso != null && $Aviso->empresa_id == Auth::guard('empresasw')->user()->id) {
                 $AlumnosAvisos = $AlumnosAvisos->get();
-                return view('app.avisos.postulante_informacion', ['area' => $Area, 'educaciones' => $Educaciones, 'aviso' => $Aviso, 'alumnosAvisos' => $AlumnosAvisos, 'alumno' => $Alumno, 'postulante' => $Postulante, 'estados' => $Estados]);
+                return view('app.avisos.postulante_informacion', ['area' => $Area, 'educaciones' => $Educaciones, 'aviso' => $Aviso, 'alumnosAvisos' => $AlumnosAvisos, 'alumno' => $Alumno, 'postulante' => $Postulante, 'estados' => $Estados, 'inteligenciasHistorialData' => $inteligenciasHistorialData, 'fortalezasHistorialData' => $fortalezasHistorialData]);
             }
         }
         return redirect(route('index'));
@@ -433,6 +439,274 @@ class AvisoController extends Controller
         }
         $data['updated_at'] = Carbon::now();
         $studentApplicationData->update($data);
+        return redirect()->back();
+    }
+    //test
+    public function testInteligenciasMultiples()
+    {
+        $userLogin = Auth::guard('alumnos')->user();
+        $intelligenceHistoryData = IntelligenceHistory::where('id_alumno', $userLogin->id)->orderByDesc('updated_at')->first();
+        if ($intelligenceHistoryData) {
+            $fechaUltimaActualizacion = Carbon::parse($intelligenceHistoryData->updated_at);
+            if (now()->diffInMonths($fechaUltimaActualizacion) < 6) {
+                return redirect()->route('alumno.resultado-inteligencias-multiples');
+            }
+        }
+        return view('app.home.quiz.encuesta-inteligencias');
+    }
+    public function storeTestInteligenciasMultiples(Request $request)
+    {
+        $userLogin = Auth::guard('alumnos')->user();
+        $preguntas = $request->only([
+            'preguntaUna', 'preguntaDos', 'preguntaTres', 'preguntaCuatro', 'preguntaCinco',
+            'preguntaSeis', 'preguntaSiete', 'preguntaOcho', 'preguntaNueve', 'preguntaDiez',
+            'preguntaOnce', 'preguntaDoce', 'preguntaTrece', 'preguntaCatorce', 'preguntaQuince',
+            'preguntaDieciseis', 'preguntaDiecisiete', 'preguntaDieciocho', 'preguntaDiecinueve', 'preguntaVeinte',
+            'preguntaVeintiuno', 'preguntaVeintidos', 'preguntaVeintitres', 'preguntaVeinticuatro', 'preguntaVeinticinco',
+            'preguntaVeintiseis', 'preguntaVeintisiete', 'preguntaVeintiocho', 'preguntaVeintinueve', 'preguntaTreinta',
+            'preguntaTreintaiuno', 'preguntaTreintaidos', 'preguntaTreintaitres', 'preguntaTreintaicuatro', 'preguntaTreintaicinco'
+        ]);
+        if (count($preguntas) < 35) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['error_general' => 'Debe responder todas las preguntas antes de enviar la encuesta.']);
+        }
+        $historialExistente = IntelligenceHistory::where('id_alumno', $userLogin->id)
+            ->orderByDesc('updated_at')
+            ->first();
+        if ($historialExistente) {
+            $fechaUltimaActualizacion = Carbon::parse($historialExistente->updated_at);
+            if (now()->diffInMonths($fechaUltimaActualizacion) < 6) {
+                return redirect()->back()
+                    ->withInput()
+                    ->withErrors(['error_general' => 'Usted ya resolvió esta prueba. Debe esperar 6 meses para actualizarla.']);
+            }
+        }
+        $mapa = [
+            1 => ['preguntaNueve', 'preguntaDiez', 'preguntaDiecisiete', 'preguntaVeintidos', 'preguntaTreinta'],
+            2 => ['preguntaCinco', 'preguntaSiete', 'preguntaQuince', 'preguntaVeinte', 'preguntaVeinticinco'],
+            3 => ['preguntaUna', 'preguntaOnce', 'preguntaCatorce', 'preguntaVeintitres', 'preguntaVeintisiete'],
+            4 => ['preguntaOcho', 'preguntaDieciseis', 'preguntaDiecinueve', 'preguntaVeintiuno', 'preguntaVeintinueve'],
+            5 => ['preguntaTres', 'preguntaCuatro', 'preguntaTrece', 'preguntaVeinticuatro', 'preguntaVeintiocho'],
+            6 => ['preguntaDos', 'preguntaSeis', 'preguntaVeintiseis', 'preguntaTreintaiuno', 'preguntaTreintaitres'],
+            7 => ['preguntaDoce', 'preguntaDieciocho', 'preguntaTreintaidos', 'preguntaTreintaicuatro', 'preguntaTreintaicinco'],
+        ];
+        $inteligenciasData = Inteligencias::whereNull('deleted_at')->get()->keyBy('id');
+        $destacadas = [];
+        foreach ($mapa as $id => $keys) {
+            $puntaje = array_sum(array_map(function ($k) use ($preguntas) {
+                return (int) ($preguntas[$k] ?? 0);
+            }, $keys));
+            if ($puntaje >= 4 && $puntaje <= 5 && $inteligenciasData->has($id)) {
+                $inteligencia = $inteligenciasData[$id];
+                $destacadas[] = [
+                    'name' => $inteligencia->name,
+                    'description' => $inteligencia->descripcion_simple,
+                    'puntaje' => $puntaje
+                ];
+            }
+        }
+        try {
+            DB::beginTransaction();
+            if ($historialExistente) {
+                $historialExistente->historial_preguntas = json_encode($preguntas);
+                $historialExistente->estados_inteligencia = json_encode($destacadas);
+                $historialExistente->updated_at = now();
+                $historialExistente->save();
+            } else {
+                $nuevo = new IntelligenceHistory();
+                $nuevo->id_alumno = $userLogin->id;
+                $nuevo->historial_preguntas = json_encode($preguntas);
+                $nuevo->estados_inteligencia = json_encode($destacadas);
+                $nuevo->created_at = now();
+                $nuevo->updated_at = now();
+                $nuevo->save();
+            }
+            DB::commit();
+            return redirect()->route('alumno.resultado-inteligencias-multiples');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()
+                ->withInput()
+                ->withErrors([
+                    'error_general' => 'Ocurrió un error al guardar los datos: ' . $e->getMessage()
+                ]);
+        }
+    }
+    public function resultadoInteligenciasMultiples()
+    {
+        $userLogin = Auth::guard('alumnos')->user();
+        $intelligenceHistoryData = IntelligenceHistory::where('id_alumno', $userLogin->id)->first();
+        if (!$intelligenceHistoryData) {
+            return redirect()->route('alumno.test-inteligencias-multiples');
+        }
+        $destacadas = [];
+        if ($intelligenceHistoryData && $intelligenceHistoryData->estados_inteligencia) {
+            $decoded = json_decode($intelligenceHistoryData->estados_inteligencia, true);
+            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                $destacadas = $decoded;
+            }
+        }
+        $fechaReferencia = Carbon::parse($intelligenceHistoryData->updated_at);
+        $puedeMostrarBoton = Carbon::now()->greaterThanOrEqualTo($fechaReferencia->addMonths(6));
+        return view('app.home.quiz.respuesta-encuesta-inteligencias')->with('destacadas', $destacadas)->with('fechaReferencia', $fechaReferencia)->with('puedeMostrarBoton', $puedeMostrarBoton)->with('intelligenceHistoryData', $intelligenceHistoryData);
+    }
+    public function storeActiveInteligenciasMultiples(Request $request)
+    {
+        $userLogin = Auth::guard('alumnos')->user();
+        $activo = $request->has('active') ? 1 : 0;
+
+        $actualizado = IntelligenceHistory::where('id_alumno', $userLogin->id)->update([
+            'visualizacion' => $activo,
+            'updated_at' => now()
+        ]);
+
+        return redirect()->back();
+    }
+    public function testFortalezasPersonales()
+    {
+        $userLogin = Auth::guard('alumnos')->user();
+        $strengthHistoryData = StrengthHistory::where('id_alumno', $userLogin->id)->orderByDesc('updated_at')->first();
+        if ($strengthHistoryData) {
+            $fechaUltimaActualizacion = Carbon::parse($strengthHistoryData->updated_at);
+            if (now()->diffInMonths($fechaUltimaActualizacion) < 6) {
+                return redirect()->route('alumno.resultado-fortalezas-personales');
+            }
+        }
+        return view('app.home.quiz.encuesta-fortaleza');
+    }
+    public function storeTestFortalezasPersonales(Request $request)
+    {
+        $userLogin = Auth::guard('alumnos')->user();
+        $preguntas = $request->only([
+            'preguntaUno', 'preguntaDos', 'preguntaTres', 'preguntaCuatro', 'preguntaCinco',
+            'preguntaSeis', 'preguntaSiete', 'preguntaOcho', 'preguntaNueve', 'preguntaDiez',
+            'preguntaOnce', 'preguntaDoce', 'preguntaTrece', 'preguntaCatorce', 'preguntaQuince',
+            'preguntaDieciseis', 'preguntaDiecisiete', 'preguntaDieciocho', 'preguntaDiecinueve', 'preguntaVeinte',
+            'preguntaVeintiuno', 'preguntaVeintidos', 'preguntaVeintitres', 'preguntaVeinticuatro', 'preguntaVeinticinco',
+            'preguntaVeintiseis', 'preguntaVeintisiete', 'preguntaVeintiocho', 'preguntaVeintinueve', 'preguntaTreinta',
+            'preguntaTreintiuno', 'preguntaTreintidos', 'preguntaTreintitres', 'preguntaTreinticuatro', 'preguntaTreinticinco'
+        ]);
+        if (count($preguntas) < 35) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['error_general' => 'Debe responder todas las preguntas antes de enviar la encuesta.']);
+        }
+        $historialExistente = strengthHistory::where('id_alumno', $userLogin->id)
+            ->orderByDesc('updated_at')
+            ->first();
+        if ($historialExistente) {
+            $fechaUltimaActualizacion = Carbon::parse($historialExistente->updated_at);
+            if (now()->diffInMonths($fechaUltimaActualizacion) < 6) {
+                return redirect()->back()
+                    ->withInput()
+                    ->withErrors(['error_general' => 'Usted ya resolvió esta prueba. Debe esperar 6 meses para actualizarla.']);
+            }
+        }
+        $mapa = [
+            1 => ['preguntaDos', 'preguntaCinco', 'preguntaVeintitres', 'preguntaVeintinueve', 'preguntaTreintitres', 'preguntaTreinticinco'],
+            2 => ['preguntaSiete', 'preguntaDiez', 'preguntaDoce', 'preguntaDiecinueve', 'preguntaVeintidos', 'preguntaVeinticinco', 'preguntaTreintidos'],
+            3 => ['preguntaTres', 'preguntaOcho', 'preguntaTrece', 'preguntaDieciocho', 'preguntaVeintisiete', 'preguntaTreinta'],
+            4 => ['preguntaUno', 'preguntaSeis', 'preguntaNueve', 'preguntaOnce', 'preguntaCatorce', 'preguntaDieciseis', 'preguntaVeinte', 'preguntaVeinticuatro', 'preguntaVeintiseis', 'preguntaVeintiocho', 'preguntaTreintiuno'],
+            5 => ['preguntaCuatro', 'preguntaQuince', 'preguntaDiecisiete', 'preguntaVeintiuno', 'preguntaTreinticuatro'],
+        ];
+        $fortalizasData = Fortalezas::whereNull('deleted_at')->get()->keyBy('id');
+        $estados = DB::table('estado_fortaleza')->get()->groupBy('id_fortaleza');
+        $puntajesData = [];
+        foreach ($mapa as $id => $keys) {
+            $puntaje = array_sum(array_map(function ($k) use ($preguntas) {
+                return (int) ($preguntas[$k] ?? 0);
+            }, $keys));
+            if ($fortalizasData->has($id)) {
+                $inteligencia = $fortalizasData[$id];
+                $total = $inteligencia->total > 0 ? $inteligencia->total : 1;
+                $porcentaje = round(($puntaje / $total) * 100, 2);
+                $estadoNombre = '';
+                $estadoDescripcion = '';
+                if ($estados->has($id)) {
+                    $rangos = $estados[$id];
+                    foreach ($rangos as $estado) {
+                        if ($porcentaje <= 33.33 && strtolower($estado->name) == 'bajo') {
+                            $estadoNombre = $estado->name;
+                            $estadoDescripcion = $estado->description;
+                            break;
+                        } elseif ($porcentaje > 33.33 && $porcentaje <= 66.66 && strtolower($estado->name) == 'medio') {
+                            $estadoNombre = $estado->name;
+                            $estadoDescripcion = $estado->description;
+                            break;
+                        } elseif ($porcentaje > 66.66 && strtolower($estado->name) == 'alto') {
+                            $estadoNombre = $estado->name;
+                            $estadoDescripcion = $estado->description;
+                            break;
+                        }
+                    }
+                }
+                $puntajesData[] = [
+                    'name' => $inteligencia->name,
+                    'description' => $inteligencia->descripcion_simple,
+                    'puntaje' => $puntaje,
+                    'total' => $total,
+                    'porcentaje' => $porcentaje,
+                    'estado' => $estadoNombre,
+                    'estado_description' => $estadoDescripcion
+                ];
+            }
+        }
+        try {
+            DB::beginTransaction();
+            if ($historialExistente) {
+                $historialExistente->historial_preguntas = json_encode($preguntas);
+                $historialExistente->estados_fortaleza = json_encode($puntajesData);
+                $historialExistente->updated_at = now();
+                $historialExistente->save();
+            } else {
+                $nuevo = new strengthHistory();
+                $nuevo->id_alumno = $userLogin->id;
+                $nuevo->historial_preguntas = json_encode($preguntas);
+                $nuevo->estados_fortaleza = json_encode($puntajesData);
+                $nuevo->created_at = now();
+                $nuevo->updated_at = now();
+                $nuevo->save();
+            }
+            DB::commit();
+            return redirect()->route('alumno.resultado-fortalezas-personales');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()
+                ->withInput()
+                ->withErrors([
+                    'error_general' => 'Ocurrió un error al guardar los datos: ' . $e->getMessage()
+                ]);
+        }
+    }
+    public function resultadoFortalezasPersonales()
+    {
+        $userLogin = Auth::guard('alumnos')->user();
+        $strengthHistoryData = StrengthHistory::where('id_alumno', $userLogin->id)->first();
+        if (!$strengthHistoryData) {
+            return redirect()->route('alumno.test-fortalezas-personales');
+        }
+        $porcentajeData = [];
+        if ($strengthHistoryData && $strengthHistoryData->estados_fortaleza) {
+            $decoded = json_decode($strengthHistoryData->estados_fortaleza, true);
+            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                $porcentajeData = $decoded;
+            }
+        }
+        $fechaReferencia = Carbon::parse($strengthHistoryData->updated_at);
+        $puedeMostrarBoton = Carbon::now()->greaterThanOrEqualTo($fechaReferencia->addMonths(6));
+        return view('app.home.quiz.respuesta-encuesta-fortaleza')->with('destacadas', $porcentajeData)->with('fechaReferencia', $fechaReferencia)->with('puedeMostrarBoton', $puedeMostrarBoton)->with('strengthHistoryData', $strengthHistoryData);
+    }
+    public function storeActiveFortalezasPersonales(Request $request)
+    {
+        $userLogin = Auth::guard('alumnos')->user();
+        $activo = $request->has('active') ? 1 : 0;
+
+        $actualizado = StrengthHistory::where('id_alumno', $userLogin->id)->update([
+            'visualizacion' => $activo,
+            'updated_at' => now()
+        ]);
+
         return redirect()->back();
     }
 }

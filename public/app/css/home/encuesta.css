@@ -9,10 +9,10 @@ body::before{
     background: #1b1b32;
     background-image: linear-gradient(
             115deg, 
-            rgba(58, 58, 158, 0.8),
-            rgba(136, 136, 206, 0.7)
+            rgba(0, 201, 250, 0.85),
+            rgba(0, 150, 200, 0.75)
         ), 
-        url(https://cdn.freecodecamp.org/testable-projects-fcc/images/survey-form-background.jpeg);
+        url(../../img/encuesta.png);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -172,6 +172,24 @@ button{
 .input-radio {
     transform: scale(1.2);
     cursor: pointer;
+}
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    padding: 15px;
+    border-radius: 4px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.btn-regresar{
+    background-color: #17a2b8; 
+    width: 150px;
+    margin-top: 20px;
+}
+.enlace-corregido{
+    text-decoration: none;
+    color: white;
 }
 @media (max-width: 768px){
     .ancho{

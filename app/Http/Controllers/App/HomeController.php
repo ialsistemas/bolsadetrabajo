@@ -170,45 +170,4 @@ class HomeController extends Controller
 
         return $status ? redirect(route('index'))->with(['status' => '']) : redirect(route('alumno.crear_alumno'))->withErrors($validator)->withInput();
     }
-    public function encuestaPsicologaBeta()
-    {
-        return view('app.home.quiz.encuesta-beta');
-    }
-    public function storeEncuestaPsicologaBeta(Request $request)
-    {
-        $preguntas = $request->only([
-            'preguntaUna', 'preguntaDos', 'preguntaTres', 'preguntaCuatro', 'preguntaCinco',
-            'preguntaSeis', 'preguntaSiete', 'preguntaOcho', 'preguntaNueve', 'preguntaDiez',
-            'preguntaOnce', 'preguntaDoce', 'preguntaTrece', 'preguntaCatorce', 'preguntaQuince',
-            'preguntaDieciseis', 'preguntaDiecisiete', 'preguntaDieciocho', 'preguntaDiecinueve', 'preguntaVeinte',
-            'preguntaVeintiuno', 'preguntaVeintidos', 'preguntaVeintitres', 'preguntaVeinticuatro', 'preguntaVeinticinco',
-            'preguntaVeintiseis', 'preguntaVeintisiete', 'preguntaVeintiocho', 'preguntaVeintinueve', 'preguntaTreinta',
-            'preguntaTreintaiuno', 'preguntaTreintaidos', 'preguntaTreintaitres', 'preguntaTreintaicuatro', 'preguntaTreintaicinco'
-        ]);
-        $mapa = [
-            1 => ['preguntaNueve', 'preguntaDiez', 'preguntaDiecisiete', 'preguntaVeintidos', 'preguntaTreinta'],
-            2 => ['preguntaCinco', 'preguntaSiete', 'preguntaQuince', 'preguntaVeinte', 'preguntaVeinticinco'],
-            3 => ['preguntaUna', 'preguntaOnce', 'preguntaCatorce', 'preguntaVeintitres', 'preguntaVeintisiete'],
-            4 => ['preguntaOcho', 'preguntaDieciseis', 'preguntaDiecinueve', 'preguntaVeintiuno', 'preguntaVeintinueve'],
-            5 => ['preguntaTres', 'preguntaCuatro', 'preguntaTrece', 'preguntaVeinticuatro', 'preguntaVeintiocho'],
-            6 => ['preguntaDos', 'preguntaSeis', 'preguntaVeintiseis', 'preguntaTreintaiuno', 'preguntaTreintaitres'],
-            7 => ['preguntaDoce', 'preguntaDieciocho', 'preguntaTreintaidos', 'preguntaTreintaicuatro', 'preguntaTreintaicinco'],
-        ];
-        $inteligenciasData = Inteligencias::whereNull('deleted_at')->get()->keyBy('id');
-        $destacadas = [];
-        foreach ($mapa as $id => $keys) {
-            $puntaje = array_sum(array_map(function ($k) use ($preguntas) {
-                return (int) ($preguntas[$k] ?? 0);
-            }, $keys));
-            if ($puntaje >= 4 && $puntaje <= 5 && $inteligenciasData->has($id)) {
-                $inteligencia = $inteligenciasData[$id];
-                $destacadas[] = [
-                    'name' => $inteligencia->name,
-                    'description' => $inteligencia->descripcion_simple,
-                    'puntaje' => $puntaje
-                ];
-            }
-        }
-        return view('app.home.quiz.respuesta-encuesta-beta')->with('destacadas', $destacadas);
-    }
 }
