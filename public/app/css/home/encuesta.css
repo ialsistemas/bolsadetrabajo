@@ -1,3 +1,7 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:200i,400&display=swap');
+body {
+    font-family: 'Poppins', sans-serif;
+}
 body::before{
     content: '';
     position: fixed;
@@ -72,11 +76,6 @@ form{
     -moz-border-radius: 0.25rem;
     -ms-border-radius: 0.25rem;
     -o-border-radius: 0.25rem;
-}
-@media (min-width: 400px){
-    form {
-        padding: 2.5rem;
-    }
 }
 input, button, select, textarea {
     margin: 0;
@@ -201,5 +200,10 @@ button{
     }
     .parteFormulario{
         padding: 5px;
+    }
+}
+@media (min-width: 400px){
+    form {
+        padding: 2.5rem;
     }
 }
