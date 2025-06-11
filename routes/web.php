@@ -25,6 +25,17 @@ Route::group(['middleware' => 'auth:alumnos'], function () {
         Route::get('/certificado/{id}', 'App\AvisoController@certificado')->name('alumno.certificado');
         Route::get('/pendiente/{id}', 'App\AvisoController@pendiente')->name('alumno.pendiente');
         Route::post('/upload-program-requirement', 'App\AvisoController@uploadProgramRequirement')->name('alumno.uploadProgramRequirement');
+
+        //Feria
+        Route::get('/feria-alumno/{id}', 'App\AvisoController@feriaEmpresaAlumno')->name('alumno.feria-alumno');
+        Route::get('/asesorias-express/{id}', 'App\AvisoController@asesoriasExpressAlumno')->name('alumno.asesorias-express');
+        Route::get('/detalle-asesora-express/{id}', 'App\AvisoController@detalleAsesoraExpress')->name('alumno.detalle-asesora-express');
+        Route::get('/ecenario-feria-aviso-alumno-empresa/{id}', 'App\AvisoController@ecenarioAvisoAlumnoEmpresa')->name('alumno.ecenario-feria-aviso-alumno-empresa');
+        Route::get('/feria-aviso-alumno-empresa/{id}', 'App\AvisoController@feriaAvisoAlumnoEmpresa')->name('alumno.feria-aviso-alumno-empresa');
+        Route::post('/detalle-feria-aviso', 'App\AvisoController@detalleFeriaAviso')->name('alumno.detalle-feria-aviso');
+        Route::post('/postularme-feria-aviso', 'App\AvisoController@postularme')->name('alumno.postularme-feria-aviso');
+        Route::post('/alumno-sacar-cita', 'App\AvisoController@alumnoSacarCita')->name('alumno.alumno-sacar-cita');
+        Route::post('/sotre-alumno-sacar-cita', 'App\AvisoController@storeAlumnoSacarCita')->name('alumno.store-alumno-sacar-cita');
         //Route::group(['middleware' => 'alumno'], function () {});
 
         //test
@@ -107,6 +118,14 @@ Route::group(['middleware' => 'auth:empresasw'], function () {
         Route::post('/avisos/alumno/clasificar', 'App\AvisoController@clasificar_aviso')->name('empresa.clasificar_aviso');
         Route::post('/avisos/delete', 'Auth\AvisoController@delete')->name('empresa.aviso.delete');
         Route::get('/app/listar_aviso_json', 'App\EmpresaController@listar_aviso_json')->name('app.listar_aviso_json');
+
+        //Feria
+        Route::get('/feria-empresa/{id}', 'App\EmpresaController@feriaEmpresa')->name('empresa.feria-empresa');
+        Route::get('/agregar-feria-empresa/{id}', 'App\EmpresaController@agregarFeriaEmpresa')->name('empresa.agregar-feria-empresa');
+        Route::post('/store-agregar-feria-empresa', 'App\EmpresaController@storeAgregarFeriaEmpresa')->name('empresa.store-agregar-feria-empresa');
+        Route::get('/eliminar-feria-empresa/{id}', 'App\EmpresaController@eliminarFeriaEmpresa')->name('empresa.eliminar-feria-empresa');
+        Route::get('/postulante-feria-empresa/{id}', 'App\EmpresaController@postulanteFeriaEmpresa')->name('empresa.postulante-feria-empresa');
+        Route::get('/postulante-feria-cv/{id}', 'App\EmpresaController@postulanteFeriaCv')->name('empresa.postulante-feria-cv');
     });
 });
 
@@ -180,6 +199,22 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:web'], function () {
 
         Route::get('/list_all_postulantes', 'Auth\AvisoController@list_postulantes')->name('auth.aviso.list_postulantes');
         Route::post('/delete', 'Auth\AvisoController@delete')->name('auth.aviso.delete');
+    });
+
+    Route::group(['prefix' => 'feria'], function () {
+        Route::get('/', 'Auth\FeriaController@index')->name('auth.feria');
+        Route::get('/agregar-feria', 'Auth\FeriaController@agregarFeria')->name('auth.agregar-feria');
+        Route::post('/store-agregar-feria', 'Auth\FeriaController@storeAgregarFeria')->name('auth.store-agregar-feria');
+        Route::get('/ferias/filtrar', "Auth\FeriaController@filtrar")->name('auth.ferias.filtrar');
+        Route::get('/ferias/edit/{id}', "Auth\FeriaController@edit")->name('auth.ferias.edit');
+        Route::get('/ferias/delete/{id}', "Auth\FeriaController@deleteFeria")->name('auth.ferias.delete');
+        Route::post('/store-editar-feria', 'Auth\FeriaController@storeEditarFeria')->name('auth.store-editar-feria');
+        Route::get('/listada-empresa/{id}', "Auth\FeriaController@listadaEmpresa")->name('auth.feria.listada-empresa');
+        Route::get('/listada-empresa-postulantes/{id}', "Auth\FeriaController@listadaEmpresaPostulantes")->name('auth.feria.listada-empresa-postulantes');
+        Route::get('/ver-cv-empresa-postulante/{id}', "Auth\FeriaController@verCvEmpresaPostulante")->name('auth.feria.ver-cv-empresa-postulante');
+        Route::get('/lista-citas-asesora', "Auth\FeriaController@listaCitasAsesora")->name('auth.lista-citas-asesora');
+        Route::get('/filtrar-citas-asesoras', "Auth\FeriaController@filtrarCitasAsesoras")->name('auth.ferias.filtrar-citas-asesoras');
+        Route::get('/citas-asesora/finalizar/{id}', "Auth\FeriaController@finalizarCitasAsesora")->name('auth.ferias.finalizar-citas-asesora');
     });
 
     Route::group(['prefix' => 'avisoPostulacion'], function () {

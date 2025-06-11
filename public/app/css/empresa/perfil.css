@@ -1,0 +1,36 @@
+#main .formulario input,
+#main .formulario select,
+#main .formulario textarea {
+    background: #ffffff;
+    border-color: #dadada;
+    font-family: Arial, Helvetica, sans-serif;
+    box-shadow: -6px 5px 20px 0rem rgba(230, 230, 230, 0.397);
+    border-radius: 10px;
+}
+.form-input:focus {
+    border-color: #80bdff;
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+}
+#main .formulario input:focus,
+#main .formulario select:focus,
+#main .formulario textarea:focus {
+    border-color: #80bdff;
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+}
+#main .formulario input:focus:hover,
+#main .formulario select:focus:hover,
+#main .formulario textarea:focus:hover {
+    border-color: #66aaff;
+    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.35);
+}
+#avisoPerfilEmpresa{
+    background-color:#f5f9fb !important;
+}
+#containerButton{
+    background-color:#f5f9fb !important;
+}
+#editEmpresa{
+    color:white !important;
+}

@@ -4,6 +4,8 @@
     <link rel="stylesheet" href="{{ asset('app/css/avisos/index.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('auth/plugins/daterangepicker/daterangepicker.css') }}" />
     <link rel="stylesheet" href="{{ asset('app/css/avisos/indexV2.css') }}">
+    <link rel="stylesheet" href="{{ asset('app/css/avisos/feria.css') }}">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -158,6 +160,46 @@
                 </div>
                 {{-- Añadi esto para proponer --}}
                 <div id="avisos" class="col-md-7 not-padding">
+                    <div class="row">
+                        {{-- @foreach ($listaFeriaData as $listaFeria)
+                            <div class="col-lg-6 col-12 mx-auto">
+                                <div class="card-feria">
+                                    <div class="fecha-superior">{{ date('Y') }}</div>
+                                    <a href="{{ route('alumno.feria-alumno', $listaFeria->route) }}">
+                                        <img src="{{ asset('app/img/feria/fondo-feria.png') }}" alt="{{ $listaFeria->name }}" class="img-fondo">
+                                        <img src="{{ asset('app/img/feria/cuadronegro.png') }}" alt="cuadronegro" class="img-superpuesta">
+                                    </a>
+                                    @php
+                                        $inicio = \Carbon\Carbon::parse($listaFeria->fecha_inicio);
+                                        $final = \Carbon\Carbon::parse($listaFeria->fecha_final);
+                                    @endphp
+                                    <div class="fecha-inferior">
+                                        del {{ $inicio->day }} al {{ $final->day }} de {{ ucfirst($final->translatedFormat('F')) }}
+                                    </div>
+                                    <div class="row p-2 mt-less-120">
+                                        <div class="col-6">
+                                            <a href="{{ route('alumno.asesorias-express', $listaFeria->route) }}">
+                                                <div class="btn-container">
+                                                    <img src="{{ asset('app/img/feria/btn-image.png') }}" alt="btn-image">
+                                                    <span class="title-button">ASESORIAS EXPRESS</span>
+                                                </div>
+                                            </a>
+                                            <div class="btn-container">
+                                                <img src="{{ asset('app/img/feria/btn-image.png') }}" alt="btn-image">
+                                                <span class="title-button two-title">CONVALIDA TU CARRERA</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 center-container">
+                                            <a href="{{ route('alumno.feria-alumno', $listaFeria->route) }}">
+                                                <img src="{{ asset('app/img/feria/btn-image.png') }}" alt="btn-image">
+                                                <span class="title-button three-title">¡POSTULATE YA!</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach --}}
+                    </div>
                     <!-- Mensaje de bloqueo en una posición fija -->
                     <hr>
                     <div id="block-message">
@@ -250,4 +292,53 @@
             });
         });
     </script>
+    <script>
+        $(document).ready(function () {
+            // Esperar a que termine la animación de caída
+            setTimeout(function () {
+                animarTodo();
+            }, 1000); // 1s, mismo tiempo que la animación de caída
+        
+            function animarTodo() {
+                // Etapa 1: Separar texto y aplicar sombra
+                $('.feria').css({
+                    transform: 'translate(-60px, 0)',
+                    opacity: '1',
+                    textShadow: '4px 4px 0px #00AEEF'
+                });
+                $('.laboral').css({
+                    transform: 'translateX(60px)',
+                    opacity: '1',
+                    textShadow: '4px 4px 0px #00AEEF'
+                });
+                $('.subtitulo-anio').css('opacity', '0'); // ocultar año
+        
+                // ONLINE gira
+                $('.online-label')
+                    .css('animation', 'flipCircle 2s ease-in-out')
+                    .one('animationend webkitAnimationEnd oAnimationEnd MSAnimationEnd', function () {
+                        $(this).css('animation', ''); // reinicia animación al terminar
+                    });
+        
+                // Etapa 2: Ocultar letras luego de 1s
+                setTimeout(function () {
+                    $('.feria, .laboral').css('opacity', '0');
+                }, 1000);
+        
+                // Etapa 3: Restaurar texto y año luego de 2s
+                setTimeout(function () {
+                    $('.feria, .laboral').css({
+                        transform: 'translate(0, 0)',
+                        opacity: '1',
+                        textShadow: '2px 2px 0px #00AEEF'
+                    });
+                    $('.subtitulo-anio').css('opacity', '1');
+                }, 2000);
+        
+                // Repetir animación cada 4 segundos
+                setTimeout(animarTodo, 4000);
+            }
+        });
+        </script>
+        
 @endsection

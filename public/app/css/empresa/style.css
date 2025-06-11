@@ -1,0 +1,120 @@
+#tableAviso_wrapper {
+    padding: 25px 20px;
+    background: #fff;
+}
+
+table th {
+    font-size: 14px;
+}
+
+table td {
+    font-weight: 100;
+    font-size: 14px;
+    padding: 0px 10px !important;
+}
+
+table button {
+    padding: 0px 5px !important;
+}
+
+.content_pNatural p {
+    color: #6b7280;
+    text-align: justify;
+}
+.button {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 10px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    border: 2px solid #4CAF50;
+    transition: transform 0.2s ease;
+    
+}
+.btn-empresa{
+    border-radius: 15px;
+    background-color: #2ecc71 !important;
+    border-color: #28a745 !important;
+}
+.date-empresa{
+    padding: 10px 5px 5px 10px; 
+    background:#edfaff;
+}
+.btn-filtro{
+    border-color: #2ecc71; 
+    background: #2ecc71; 
+    border-radius: 5px;
+}
+.bg-modal{
+    background: rgba(7, 7, 7, 0.89) !important;
+}
+.bg-content-modal{
+    background-color: #ffffff00 !important;
+}
+.modal-header-modal{
+    border-bottom: 1px solid #dee2e600 !important;
+}
+.btn-close{
+    z-index:999; 
+    color:rgb(255, 255, 255) !important; 
+    border:none; 
+    font-size:40px; 
+    font-weight:900;
+}
+.carusel-previous{
+    color:#fff; 
+    font-size:40px !important;
+}
+.carusel-next{
+    color:#fff; 
+    font-size:40px !important;
+}
+/*Empresa*/
+.container-filter{
+    padding: 20px;
+    padding-top: 0;
+}
+.welcome-container {
+    position: relative;
+    overflow: hidden;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+.welcome-gif {
+    animation: bounceZoom 1.5s infinite;
+    max-height: 100%;
+    object-fit: contain;
+}
+.welcome-video {
+    animation: bounceZoom 1.5s infinite;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 10px;
+}
+.bg-loayza{
+    background-color: rgb(7, 70, 179);
+    text-align: center;
+}
+.bg-loayza th{
+    color: white;
+}
+.filter-add{
+    padding-top: 10px;
+    height: 95% !important;
+}
+/*Formulario*/
+.custom-label {
+    position: static !important;
+}
+@keyframes bounceZoom {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}

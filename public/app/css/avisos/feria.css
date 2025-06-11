@@ -1,0 +1,170 @@
+.card-feria {
+    background-color: rgb(7, 70, 179);
+    color: white;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    max-width: 400px;
+    margin: auto;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+.img-fondo {
+    width: 100%;
+    display: block;
+    border-radius: 10px;
+}
+.img-superpuesta {
+    position: absolute;
+    top: 43%;
+    left: 66%;
+    width: 150px;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
+.fecha-superior {
+    position: absolute;
+    top: 40%;
+    left: 66%;
+    transform: translateX(-50%);
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    z-index: 3;
+}
+.fecha-inferior {
+    position: absolute;
+    top: 49%;
+    left: 69%;
+    transform: translateX(-50%);
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    z-index: 3;
+    white-space: nowrap;
+}
+.card-feria {
+    transform: translateY(-100px);
+    animation: caerDesdeArriba 1s ease-out forwards;
+}
+.mt-less-120{
+    margin-top: -120px;
+}
+.center-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.title-button{
+    color: rgb(7, 70, 179);
+}
+.btn-container {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.btn-container img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+.title-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    text-align: center;
+    pointer-events: none;
+    line-height: 1.1; 
+    font-size: 13px;
+}
+.title-asesoria{
+    font-size: 16px !important;
+    color: #00c9fa !important;
+}
+.asesoria{
+    max-width: 100%;
+}
+.description-asesoria{
+    font-size: 14px;
+}
+.bg-secondary-asesora{
+    background-color: #f4f6f6;
+    border-radius: 20px;
+}
+.img-asesora{
+    width: 100%;
+    border-bottom: 2px solid #00c9fa;
+    border-radius: 20px;
+}
+.btn-asesora {
+    background-color: #0049af;
+    color: #00c9fa;
+    border-radius: 15px;
+    padding: 10px;
+    border: none;
+    display: inline-block;
+}
+.btn-asesora span {
+    border-bottom: 2px solid #00c9fa;
+}
+.btn-asesora:hover {
+    background-color: #003080;
+    color: #00a3c7;
+}
+.btn-asesora:hover span {
+    border-bottom-color: #00a3c7;
+    color: #00a3c7;
+}
+.text-black{
+    color: black !important;
+}
+.text-font-asesora{
+    font-family: "Roboto Flex", sans-serif;
+}
+/*Calendario*/
+.calendario-box, .hora-box {
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    margin-bottom: 20px;
+}
+.calendario td {
+    text-align: center;
+    cursor: pointer;
+}
+.calendario td:hover {
+    background-color: #00c9fa;
+    color: white;
+}
+.calendario td.selected {
+    background-color: #0049af;
+    color: white;
+}
+.hora-btn {
+    margin: 5px;
+}
+td.disabled {
+    background-color: #eee;
+    color: #999;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+.hora-btn.active {
+    background-color: #004080 !important;
+    color: white;
+    border: 2px solid #00c9fa;
+}
+@keyframes caerDesdeArriba {
+    0% {
+        transform: translateY(-100px);
+    }
+    80% {
+        transform: translateY(10px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}

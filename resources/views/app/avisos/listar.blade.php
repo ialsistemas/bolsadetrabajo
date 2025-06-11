@@ -3,41 +3,14 @@
 @section('styles')
     <link rel="stylesheet" href="{{ asset('app/css/avisos/index.min.css') }}">
     <link rel="stylesheet" href="{{ asset('auth/plugins/datatable/datatables.min.css') }}">
-    <style>
-        #tableAviso_wrapper {
-            padding: 25px 20px;
-            background: #fff;
-        }
-
-        table th {
-            font-size: 14px;
-        }
-
-        table td {
-            font-weight: 100;
-            font-size: 14px;
-            padding: 0px 10px !important;
-        }
-
-        table button {
-            padding: 0px 5px !important;
-        }
-
-        .content_pNatural p {
-            color: #6b7280;
-            text-align: justify;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('app/css/empresa/style.css') }}">
 @endsection
 
 @section('content')
-
     <div id="main">
-
         <div id="loading-avisos">
             <p>Cargando...</p>
         </div>
-
         <div class="head-section">
             <div class="container">
                 <div class="row">
@@ -47,27 +20,11 @@
                 </div>
             </div>
         </div>
-
         <div class="container-fluid mt-3">
             <div class="row">
                 <div class="col-md-3 filter-cont" style="height: 50% !important">
                     <div class="filter">
                         <form action="" method="GET">
-                            {{-- Codigo Sebastian, para que se ve mas llamativo --}}
-                            <style>
-                                .button {
-                                    display: inline-block;
-                                    padding: 12px 24px;
-                                    border-radius: 10px;
-                                    background-color: #4CAF50;
-                                    color: white;
-                                    text-decoration: none;
-                                    font-size: 18px;
-                                    border: 2px solid #4CAF50;
-                                    transition: transform 0.2s ease;
-                                    
-                                }
-                            </style>
                             {{-- Fin Style --}}
                             @if (Auth::guard('empresasw')->check())
                                 @if (Auth::guard('empresasw')->user()->tipo_persona == 2)
@@ -77,21 +34,15 @@
                                             Por favor, contáctanos para obtener asistencia personalizada en la publicación
                                             de tu aviso.
                                         </p>
-                                        <a href="https://wa.link/0q0eyc" target="_blank" class="btn btn-success w-100 p-3 button"
-                                            style="border-radius: 15px;background-color: #2ecc71 !important;
-                                            border-color: #28a745 !important;"><i class="fa fa-whatsapp"></i> Contactar a un Asesor</a>
+                                        <a href="https://wa.link/0q0eyc" target="_blank" class="btn btn-success w-100 p-3 button btn-empresa">
+                                            <i class="fa fa-whatsapp"></i> Contactar a un Asesor</a>
                                     </div>
                                 @else
-                                
-
-                                
                                 <a href="{{ route('empresa.registrar_aviso') }}" class="button">
                                     <span class="icon"><i class="fa fa-plus-circle"></i></span> Nueva oportunidad
                                 </a>
-                                
                                 @endif
                             @endif
-
                             <div class="form-group">
                                 <label for="fecha_desde">Desde:</label>
                                 <br>
@@ -99,36 +50,61 @@
                                 {{-- Se cambio la fecha --}}
                                 <input type="date" id="fecha_desde"
                                     value="{{ request()->input('fecha_desde', date('2024-01-01')) }}" name="fecha_desde"
-                                    class="form-control" style="padding: 10px 5px 5px 10px; background:#edfaff;">
+                                    class="form-control date-empresa">
                                 @error('fecha_desde')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-
                             <div class="form-group">
                                 <label for="fecha_hasta">Hasta:</label>
                                 <br>
                                 <hr>
                                 <input type="date" id="fecha_hasta"
                                     value="{{ request()->input('fecha_hasta', date('Y-m-d')) }}" name="fecha_hasta"
-                                    class="form-control" style="padding: 10px 5px 5px 10px; background:#edfaff;">
+                                    class="form-control date-empresa">
                                 @error('fecha_hasta')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                             <br>
-                            <button type="submit" id="filtro-submit" class="btn btn-primary btn-sm"
-                                onclick="consultarEmpleador()"
-                                style="border-color: #2ecc71; background: #2ecc71; border-radius: 5px;">Aplicar
+                            <button type="submit" id="filtro-submit" class="btn btn-primary btn-sm btn-filtro"
+                                onclick="consultarEmpleador()">Aplicar
                             Filtro</button>
-
                         </form>
-
                     </div>
                 </div>
-
                 <div class="col-md-7">
                     <div class="row justify-content-center mt-4">
+                        {{-- @if(Auth::guard('empresasw')->check() && Auth::guard('empresasw')->user()->logo == null)
+                            <div class="col-lg-12 mb-3">
+                                <div class="alert alert-danger d-flex align-items-center justify-content-between" role="alert">
+                                    <div>
+                                        <i class="fa fa-exclamation-triangle mr-2"></i>
+                                        <strong>¡Atención!</strong> Para publicar avisos de trabajo en la Bolsa de Trabajo, es obligatorio que subas el logo de tu empresa.
+                                    </div>
+                                    <a href="{{ route('empresa.perfil') }}" class="btn btn-sm btn-light ml-3">
+                                        <i class="fa fa-upload mr-1"></i> Subir logo
+                                    </a>
+                                </div>
+                            </div>
+                        @else
+                            @foreach ($listaFeriaData as $listaFeria)
+                                <div class="col-lg-12">
+                                    <div class="alert alert-info d-flex align-items-center justify-content-between" role="alert">
+                                        <div>
+                                            <i class="fa fa-bullhorn mr-2"></i>
+                                            <strong>¡Atención!</strong> Se viene un gran evento: <strong>{{ $listaFeria->name }}</strong> inicia el 
+                                            <strong>{{ $listaFeria->fecha_inicio }}</strong> y finaliza el 
+                                            <strong>{{ $listaFeria->fecha_final }}</strong>. 
+                                            Si estás interesado en participar:
+                                        </div>
+                                        <a href="{{ route('empresa.feria-empresa', $listaFeria->route) }}" class="btn btn-sm btn-primary ml-3">
+                                            <i class="fa fa-sign-in-alt mr-1"></i> ¡Ingresa aquí!
+                                        </a>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif --}}
                         <div class="col-lg-12">
                             <div class="alert alert-success" role="alert">
                                 <span class="fa fa-check-circle"></span>
@@ -147,24 +123,19 @@
                 </div>
             </div>
         </div>
-
-
-        {{-- Codigo Nuevo Sebastian para las empresas anuncios --}}
         <button hidden type="button" class="btn btn-primary btn-lg btn_evento_bolsa" data-toggle="modal"
             data-target="#tuto"></button>
 
         <button hidden type="button" class="btn btn-primary btn-lg btn_evento_bolsa" data-toggle="modal"
             data-target="#tuto">
         </button>
-        <div class="modal fade" style="background: rgba(7, 7, 7, 0.89) !important;"
+        <div class="modal fade bg-modal"
             id="{{ $anuncios->isEmpty() ? '' : 'tuto' }}" tabindex="-1" role="dialog" aria-labelledby="tuto"
             data-backdrop="static">
             <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content" style="background-color: #ffffff00 !important;">
-                    <div class="modal-header" style="border-bottom: 1px solid #dee2e600 !important;">
-                        <button type="button"
-                            style="z-index:999; color:rgb(255, 255, 255) !important; border:none; font-size:40px; font-weight:900;"
-                            class="close" data-dismiss="modal" aria-label="Close"><span
+                <div class="modal-content bg-content-modal" style="">
+                    <div class="modal-header modal-header-modal">
+                        <button type="button" class="close btn-close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true"><b>&times;</b></span></button>
                     </div>
                     <div class="modal-body">
@@ -185,24 +156,19 @@
                 </div>
             </div>
             <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                <span style="color:#fff; font-size:40px !important;" class="" aria-hidden="true"> ◀ </span>
+                <span class="carusel-previous" aria-hidden="true"> ◀ </span>
                 <span class="sr-only">Previous</span>
             </a>
             <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                <span style="color:#fff; font-size:40px !important;" class="" aria-hidden="true"> ▶ </span>
+                <span class="carusel-next" aria-hidden="true"> ▶ </span>
                 <span class="sr-only">Next</span>
             </a>
         </div>
-        {{-- Fin Codigo --}}
-
-
     </div>
-
 @endsection
 
 @section('scripts')
     <script type="text/javascript" src="{{ asset('auth/plugins/datatable/datatables.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('auth/plugins/datatable/dataTables.config.min.js') }}"></script>
-    {{-- <script type="text/javascript" src="{{ asset('app/js/avisos/index.js') }}"></script> --}}
     <script type="text/javascript" src="{{ asset('app/js/avisos/listar.js') }}"></script>
 @endsection

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use BolsaTrabajo\App;
 use BolsaTrabajo\Area;
 use BolsaTrabajo\Aviso;
+use BolsaTrabajo\Feria;
 use BolsaTrabajo\Alumno;
 use BolsaTrabajo\Estado;
 use BolsaTrabajo\Anuncio;
@@ -15,16 +16,19 @@ use BolsaTrabajo\Distrito;
 use BolsaTrabajo\Educacion;
 use BolsaTrabajo\Modalidad;
 use BolsaTrabajo\Provincia;
+use BolsaTrabajo\Fortalezas;
 use Illuminate\Http\Request;
 use BolsaTrabajo\AlumnoAviso;
 use BolsaTrabajo\Inteligencias;
+use BolsaTrabajo\HistorialCitas;
+use BolsaTrabajo\AsesorasExpress;
 use BolsaTrabajo\Grado_academico;
 use BolsaTrabajo\StrengthHistory;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\DB;
+use BolsaTrabajo\AvisoEmpresaFeria;
 use BolsaTrabajo\ReferenciaLaboral;
 use BolsaTrabajo\ExperienciaLaboral;
-use BolsaTrabajo\Fortalezas;
 use Illuminate\Support\Facades\Auth;
 use BolsaTrabajo\IntelligenceHistory;
 use Illuminate\Support\Facades\Crypt;
@@ -33,6 +37,7 @@ use BolsaTrabajo\StudentApplicationFiles;
 use Illuminate\Support\Facades\Validator;
 use BolsaTrabajo\ParticipantesEmpleabilidad;
 use BolsaTrabajo\Http\Controllers\Controller;
+use BolsaTrabajo\PostulacionAlumnoAvisoFeria;
 
 class AvisoController extends Controller
 {
@@ -102,6 +107,8 @@ class AvisoController extends Controller
         // Obtener todos los alumnos y seleccionar la columna 'aprobado'
         $Alumno = Auth::guard('alumnos')->user();
 
+        //Feria
+        $listaFeriaData = Feria::where('state', 1)->whereNull('deleted_at')->limit(1)->get();
 
         return view('app.avisos.index', [
             'areas' => $Areas,
@@ -110,7 +117,8 @@ class AvisoController extends Controller
             'modalidades' => $Modalidades,
             'anuncio' => $Anuncio,
             'grado_academico' => $Grado_academico,
-            'alumno' => $Alumno  // Pasar los alumnos a la vista
+            'alumno' => $Alumno,
+            'listaFeriaData' => $listaFeriaData
         ]);
     }
 
@@ -708,5 +716,219 @@ class AvisoController extends Controller
         ]);
 
         return redirect()->back();
+    }
+    //Feria
+    public function feriaEmpresaAlumno($id)
+    {
+        $Alumno = Auth::guard('alumnos')->user();
+        //Feria
+        $feraExist = Feria::where('route', $id)->whereNull('deleted_at')->first();
+        if ($feraExist) {
+            $avisoEmpresaData = DB::table('aviso_empresa_feria')
+                ->join('empresas', 'aviso_empresa_feria.ruc_empresa', '=', 'empresas.ruc')
+                ->where('aviso_empresa_feria.id_feria', $feraExist->id)
+                ->whereNull('aviso_empresa_feria.deleted_at')
+                ->select(
+                    'aviso_empresa_feria.ruc_empresa',
+                    DB::raw('MAX(empresas.link) as linkEmpresa'),
+                    DB::raw('MAX(empresas.name_comercio) as nameEmpresa'),
+                    DB::raw('MAX(empresas.logo) as logoEmpresa'),
+                )
+                ->groupBy('aviso_empresa_feria.ruc_empresa')
+                ->get();
+            return view('app.avisos.feria.alumno.lista-feria-empresa-alumno')->with('feraExist', $feraExist)->with('avisoEmpresaData', $avisoEmpresaData)->with('alumno', $Alumno);
+        } else {
+            return redirect()->route('empresa.avisos');
+        }
+    }
+    public function asesoriasExpressAlumno($id)
+    {
+        $Alumno = Auth::guard('alumnos')->user();
+        $feraExist = Feria::where('route', $id)->whereNull('deleted_at')->first();
+        if ($feraExist) {
+            $asesoraData = AsesorasExpress::whereNull('deleted_at')->get();
+            if ($asesoraData) {
+                return view('app.avisos.feria.alumno.asesorias-express.index')->with('alumno', $Alumno)->with('feraExist', $feraExist)->with('asesoraData', $asesoraData);
+            } else {
+                return redirect()->route('empresa.avisos');
+            }
+        } else {
+            return redirect()->route('empresa.avisos');
+        }
+    }
+    public function detalleAsesoraExpress($id)
+    {
+        $Alumno = Auth::guard('alumnos')->user();
+        $asesoraData = AsesorasExpress::where('route', $id)->first();
+        if ($asesoraData) {
+            return view('app.avisos.feria.alumno.asesorias-express.detalle')->with('asesoraData', $asesoraData)->with('alumno', $Alumno);
+        } else {
+            return redirect()->route('empresa.avisos');
+        }
+    }
+    public function alumnoSacarCita(Request $request)
+    {
+        $dia = $request->input('fecha');
+        $horasOcupadas = HistorialCitas::where('dia', $dia)->where('state', 1)->whereNull('deleted_at')->pluck('hora')->map(function ($hora) {
+            return Carbon::parse($hora)->format('H:i');
+        });
+        return response()->json([
+            'horas_ocupadas' => $horasOcupadas
+        ]);
+    }
+    public function storeAlumnoSacarCita(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            $alumnoData = Auth::guard('alumnos')->user();
+            $now = Carbon::now();
+            $citaRegistrada = HistorialCitas::where('dni', $alumnoData->dni)->where('state', 1)->whereNull('deleted_at')->whereDate('created_at', $now->toDateString())->first();
+            if ($citaRegistrada) {
+                return response()->json([
+                    'message' => 'Usted ya se registró. Solo puede agendar una cita por día.'
+                ], 400);
+            }
+            $citaNew = new HistorialCitas();
+            $citaNew->id_asesora = $request->idAsesora;
+            $citaNew->dni = $request->cod_alumno;
+            $citaNew->motivo = $request->motivo;
+            $citaNew->dia = $request->fecha;
+            $citaNew->hora = $request->hora;
+            $citaNew->state = 1;
+            $citaNew->phone = $request->phone;
+            $citaNew->dni = $alumnoData->dni;
+            $citaNew->created_at = Carbon::now();
+            $citaNew->save();
+            DB::commit();
+            return response()->json([
+                'message' => 'Cita registrada exitosamente.'
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'message' => 'Ocurrió un error al registrar la cita.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+    public function ecenarioAvisoAlumnoEmpresa($id)
+    {
+        $Alumno = Auth::guard('alumnos')->user();
+        $empresaExist = Empresa::where('link', $id)->whereNull('deleted_at')->first();
+        if ($empresaExist) {
+            $avisoAlumnoFeriaData = DB::table('aviso_empresa_feria')
+                ->join('empresas', 'aviso_empresa_feria.ruc_empresa', '=', 'empresas.ruc')
+                ->where('aviso_empresa_feria.ruc_empresa', $empresaExist->ruc)
+                ->whereNull('aviso_empresa_feria.deleted_at')
+                ->select(
+                    'aviso_empresa_feria.id as idAvisoEmpresaFeria',
+                    'aviso_empresa_feria.name as nameAvisoEmpresaFeria',
+                    'aviso_empresa_feria.description as descriptionAvisoEmpresaFeria',
+                    'aviso_empresa_feria.requisitos as requisitosAvisoEmpresaFeria',
+                    'aviso_empresa_feria.url_zoom as urlZoomAvisoEmpresaFeria',
+                    'aviso_empresa_feria.created_at as createdAtAvisoEmpresaFeria',
+                    'empresas.razon_social as razonSocialEmpresa',
+                    'empresas.direccion as direccionEmpresa',
+                    DB::raw('TIMESTAMPDIFF(HOUR, aviso_empresa_feria.created_at, NOW()) as horasTranscurridas'),
+                )
+                ->get();
+            return view('app.avisos.feria.alumno.ecenario-feria-alumno')->with('empresaExist', $empresaExist)->with('avisoAlumnoFeriaData', $avisoAlumnoFeriaData)->with('alumno', $Alumno);
+        } else {
+            return redirect()->route('empresa.avisos');
+        }
+    }
+    public function feriaAvisoAlumnoEmpresa($id)
+    {
+        $Alumno = Auth::guard('alumnos')->user();
+        //Feria
+        $empresaExist = Empresa::where('link', $id)->whereNull('deleted_at')->first();
+        if ($empresaExist) {
+            $avisoAlumnoFeriaData = DB::table('aviso_empresa_feria')
+                ->join('empresas', 'aviso_empresa_feria.ruc_empresa', '=', 'empresas.ruc')
+                ->where('aviso_empresa_feria.ruc_empresa', $empresaExist->ruc)
+                ->whereNull('aviso_empresa_feria.deleted_at')
+                ->select(
+                    'aviso_empresa_feria.id as idAvisoEmpresaFeria',
+                    'aviso_empresa_feria.name as nameAvisoEmpresaFeria',
+                    'aviso_empresa_feria.description as descriptionAvisoEmpresaFeria',
+                    'aviso_empresa_feria.requisitos as requisitosAvisoEmpresaFeria',
+                    'empresas.logo as imgLogoAvisoEmpresaFeria',
+                    'aviso_empresa_feria.created_at as createdAtAvisoEmpresaFeria',
+                    'empresas.razon_social as razonSocialEmpresa',
+                    'empresas.direccion as direccionEmpresa',
+                    DB::raw('TIMESTAMPDIFF(HOUR, aviso_empresa_feria.created_at, NOW()) as horasTranscurridas'),
+                )
+                ->get();
+            return view('app.avisos.feria.alumno.lista-feria-alumno')->with('empresaExist', $empresaExist)->with('avisoAlumnoFeriaData', $avisoAlumnoFeriaData)->with('alumno', $Alumno);
+        } else {
+            return redirect()->route('empresa.avisos');
+        }
+    }
+    public function detalleFeriaAviso(Request $request)
+    {
+        $dniAlumno = Auth::guard('alumnos')->user()->dni;
+        $aviso = DB::table('aviso_empresa_feria')
+            ->join('empresas', 'aviso_empresa_feria.ruc_empresa', '=', 'empresas.ruc')
+            ->leftJoin('postulacion_alumno_aviso_feria', function ($join) use ($dniAlumno) {
+                $join->on('aviso_empresa_feria.id', '=', 'postulacion_alumno_aviso_feria.id_aviso_feria')
+                    ->where('postulacion_alumno_aviso_feria.dni_alumno', '=', $dniAlumno)
+                    ->whereNull('postulacion_alumno_aviso_feria.deleted_at');
+            })
+            ->where('aviso_empresa_feria.id', $request->id)
+            ->whereNull('aviso_empresa_feria.deleted_at')
+            ->select(
+                'aviso_empresa_feria.id as idAvisoEmpresaFeria',
+                'aviso_empresa_feria.name as nameAvisoEmpresaFeria',
+                'aviso_empresa_feria.description as descriptionAvisoEmpresaFeria',
+                'aviso_empresa_feria.requisitos as requisitosAvisoEmpresaFeria',
+                'empresas.logo as imgLogoAvisoEmpresaFeria',
+                'aviso_empresa_feria.created_at as createdAtAvisoEmpresaFeria',
+                'empresas.razon_social as razonSocialEmpresa',
+                'empresas.direccion as direccionEmpresa',
+                DB::raw('TIMESTAMPDIFF(HOUR, aviso_empresa_feria.created_at, NOW()) as horasTranscurridas'),
+                DB::raw('COALESCE(postulacion_alumno_aviso_feria.state, 0) as estado')
+            )
+            ->first();
+        return response()->json($aviso);
+    }
+    public function postularme(Request $request)
+    {
+        $dniAlumno = Auth::guard('alumnos')->user()->dni;
+        $idAviso = $request->id;
+        $avisoData = AvisoEmpresaFeria::where('id', $idAviso)
+            ->whereNull('deleted_at')
+            ->first();
+        if (!$avisoData) {
+            return response()->json(['status' => "error", "message" => "El aviso no existe."], 404);
+        }
+        $postulacionExistente = PostulacionAlumnoAvisoFeria::where('id_feria', $avisoData->id_feria)
+            ->where('id_aviso_feria', $avisoData->id)
+            ->where('dni_alumno', $dniAlumno)
+            ->whereNull('deleted_at')
+            ->first();
+        if ($postulacionExistente) {
+            $nuevoEstado = $postulacionExistente->state == 1 ? 0 : 1;
+            $postulacionExistente->update([
+                'state' => $nuevoEstado,
+                'updated_at' => Carbon::now()
+            ]);
+            return response()->json([
+                'status' => "success",
+                'message' => $nuevoEstado == 1 ? "Te has postulado." : "Has desistido de la postulación.",
+                'nuevo_estado' => $nuevoEstado
+            ]);
+        }
+        $postulacionNueva = new PostulacionAlumnoAvisoFeria();
+        $postulacionNueva->id_feria = $avisoData->id_feria;
+        $postulacionNueva->id_aviso_feria = $avisoData->id;
+        $postulacionNueva->dni_alumno = $dniAlumno;
+        $postulacionNueva->state = 1;
+        $postulacionNueva->created_at = Carbon::now();
+        $postulacionNueva->save();
+        return response()->json([
+            'status' => "success",
+            'message' => "Te has postulado correctamente.",
+            'nuevo_estado' => 1
+        ]);
     }
 }

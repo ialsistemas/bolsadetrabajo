@@ -1,0 +1,27 @@
+.card-feria {
+    padding: 10px !important;
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    background-color: #fff;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    margin-bottom: 1rem;
+    overflow: hidden;
+}
+.card-body-feria {
+    padding: 1rem 1.25rem;
+    color: black !important;
+}
+.title-aviso-feria{
+    font-size: 20px;
+    color: black !important;
+}
+.razon-social i{
+    color: #FFD700;
+}
+.description p{
+    font-size: 12px;
+    color: #333;
+}
+.detalle-descripcion-aviso i{
+    color: #1877F2;
+}

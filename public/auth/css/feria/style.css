@@ -1,0 +1,31 @@
+.txt_claro {
+    background: #79f57f63;
+}
+.label-as-badge {
+    border-radius: 1em;
+    font-size: 12px;
+    cursor: pointer;
+}
+table {
+    padding-top: 40px !important;
+}
+table.dataTable th,
+table.dataTable td {
+    white-space: nowrap;
+}
+.sorting_1 {
+    padding-left: 30px !important;
+}
+.bg-search{
+    background-color:#00b98b12 !important;
+}
+.dark-green{
+    color:#004130 !important;
+}
+.btn-serach{
+    padding: 7.5px; 
+    background: #00b98b;
+}
+.mb-10{
+    margin-bottom: 10px;
+}

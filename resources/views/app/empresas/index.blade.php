@@ -2,6 +2,7 @@
 
 @section('styles')
     <link rel="stylesheet" href="{{ asset('app/css/avisos/index.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('app/css/empresa/perfil.css') }}">
 @endsection
 
 @section('content')
@@ -22,43 +23,6 @@
                 </div>
             </div>
         </div>
-        <style>
-            #main .formulario input,
-            #main .formulario select,
-            #main .formulario textarea {
-                background: #ffffff;
-                border-color: #dadada;
-                font-family: Arial, Helvetica, sans-serif;
-                /*  font-weight: 400; */
-                box-shadow: -6px 5px 20px 0rem rgba(230, 230, 230, 0.397);
-                border-radius: 10px;
-            }
-
-            .form-input:focus {
-                border-color: #80bdff;
-                outline: none;
-                box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
-            }
-
-            /* Estilo cuando el elemento está enfocado (es decir, cuando está seleccionado) */
-            #main .formulario input:focus,
-            #main .formulario select:focus,
-            #main .formulario textarea:focus {
-                border-color: #80bdff;
-                outline: none;
-                box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
-            }
-
-            /* Añadido para mejorar la experiencia al estar enfocado y también para el hover */
-            #main .formulario input:focus:hover,
-            #main .formulario select:focus:hover,
-            #main .formulario textarea:focus:hover {
-                border-color: #66aaff;
-                /* Color del borde al pasar el cursor cuando está enfocado */
-                box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.35);
-                /* Cambia la sombra cuando está enfocado y se pasa el cursor */
-            }
-        </style>
         <div class="container-fluid mt-3">
             <div class="row">
                 <div class="col-md-3 filter-cont">
@@ -68,7 +32,7 @@
                     <form enctype="multipart/form-data" id="actualizoPerfil" class="formulario"
                         data-ajax-failure="OnFailureActualizoPerfil">
                         @csrf
-                        <div class="card aviso" style="background-color:#f5f9fb !important;">
+                        <div id="avisoPerfilEmpresa" class="card aviso">
                             <div class="mb-2">
                                 <label><b class="title_data_nombre">Datos de la Empresa</b> </label>
                             </div>
@@ -106,11 +70,9 @@
                                     </select>
                                 </div>
                             </div>
-
                             <div class="mb-2 mt-2">
                                 <label><b>Datos de la Ubicación</b></label>
                             </div>
-
                             <div class="form-group row">
                                 <div class="col-md-6">
                                     <select name="distrito_id" id="distrito_id" class="form-input" required>
@@ -174,11 +136,9 @@
                                     <span data-valmsg-for="descripcion"></span>
                                 </div>
                             </div>
-
                             <div class="mb-2 mt-2">
                                 <label><b>Datos del Contacto</b></label>
                             </div>
-
                             <div class="form-group row">
                                 <div class="col-md-12">
                                     <input type="text" name="nombre_contacto" id="nombre_contacto" class="form-input"
@@ -215,58 +175,38 @@
                                     <span data-valmsg-for="cargo_contacto"></span>
                                 </div>
                             </div>
-
-                            <div id="section_data_paciente" hidden>
-                                <div class="mb-2 mt-2">
-                                    <label><b>Datos del Paciente</b></label>
+                            <div class="mb-2 mt-2">
+                                <label><b>Logo de la Empresa</b></label>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                    <input type="file" name="img_logo" id="img_logo" class="form-input" placeholder="Subir Imagen" accept="image/*"  @if ($Empresa->logo == null) required @endif>
+                                    <span data-valmsg-for="logo"></span>
                                 </div>
-                                <div class="form-group row">
-                                    <div class="col-md-6">
-                                        <input type="text" name="name_paciente" id="name_paciente"
-                                            value="{{ $Empresa->nombre_paciente }}" class="form-input"
-                                            placeholder="Nombre del Paciente" required>
-                                        <span data-valmsg-for="name_paciente"></span>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <input type="text" name="enfermedad_paciente" id="enfermedad_paciente"
-                                            class="form-input" value="{{ $Empresa->enfermedad_paciente }}"
-                                            placeholder="Indique la Enfermedad o Discapacidad" required>
-                                        <span data-valmsg-for="enfermedad_paciente"></span>
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <div class="col-md-12 mt-1">
-                                        <label class=""><b>Cargar Evidencias :</b> Ingrese al siguiente <b><a
-                                                    href="https://forms.gle/DNDe5ZXxK7HJK1L76" target="_blank"
-                                                    style="display: inline;">Enlace</a></b> para que pueda archivar las
-                                            evidencias del paciente.</label>
-                                        <input type="text" class="form-input" name="carga_evidencias"
-                                            id="carga_evidencias" value="{{ $Empresa->evidencias_paciente }}" hidden>
-                                    </div>
+                                <div class="col-md-6 d-flex justify-content-center align-items-center" style="height: 200px; padding: 20px; overflow: hidden;">
+                                    @if ($Empresa->logo != null)
+                                    <img src="{{ asset('app/img/logo_empresas/'.$Empresa->logo) }}" id="imgLogo" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+                                    @else
+                                        <img src="{{ asset('app/img/feria/notImagen.png') }}" id="imgLogo" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+                                    @endif
                                 </div>
                             </div>
-
                         </div>
-
-                        <div class="card aviso mt-2" style="background-color:#f5f9fb !important;">
+                        <div id="containerButton" class="card aviso mt-2">
                             <button type="submit" class="btn btn-primary">
-                                <i class="fa fa-pencil" style="color:white !important;"></i> Actualizar Empresa
+                                <i id="editEmpresa" class="fa fa-pencil"></i> Actualizar Empresa
                             </button>
                             <a href="{{ route('index') }}" class="text-uppercase">
                                 <i class="fa fa-arrow-left"></i> Regresar
                             </a>
-
                         </div>
                     </form>
                 </div>
-
                 <div class="col-md-2 text-center">
                     <a href="https://wa.me/923001874?text=Hola,vengo%20de%20la%20bolsa%20de%20trabajo%20y%20deseo%20conocer%20más%20de%20los%20servicios%20gratuitos%20para%20las%20empresas%20aliadas."
                         target="_blank">
                         <img src="{{ asset('app/img/nuevaimagen.png') }}" alt="Logo de WhatsApp">
                     </a>
-
                 </div>
             </div>
         </div>
@@ -283,6 +223,18 @@
             $("form").on('submit', function(e) {
                 for (var instanceName in CKEDITOR.instances) {
                     CKEDITOR.instances[instanceName].updateElement();
+                }
+            });
+            $('#img_logo').on('change', function (event) {
+                const file = event.target.files[0];
+                if (file && file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#imgLogo').attr('src', e.target.result).fadeIn();
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    $('#imgLogo').fadeOut().attr('src', '');
                 }
             });
         });

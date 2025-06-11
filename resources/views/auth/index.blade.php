@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{{ asset('auth/css/layout/app.min.css') }}">
     <link rel="stylesheet" href="{{ asset('auth/css/index.css') }}">
     <link rel="stylesheet" href="{{ asset('auth/css/indexauth/style.css') }}">
+    <link rel="shortcut icon" href="{{ asset('app/img/logo_ial.png') }}" type="image/x-icon">
     @yield('styles')
 </head>
 
@@ -221,12 +222,6 @@
                                         </li>
                                     </ul>
                                 </li>
-                                {{-- <li class="nav-item {{ Route::currentRouteName() == 'auth.alumno' ? 'active' : '' }}">
-                                    <a class="nav-link" href="{{ route('auth.alumno') }}"><span
-                                            class="active-item-here"></span>
-                                        <i class="fa fa-users mr-5"></i> <span>Estudiantes</span>
-                                    </a>
-                                </li> --}}
                                 <li
                                     class="nav-item dropdown {{ Route::currentRouteName() == 'auth.aviso' || Route::currentRouteName() == 'auth.avisoPostulacion' ? 'active' : '' }}">
                                     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
@@ -257,7 +252,6 @@
                                                 href="{{ route('auth.anuncioempresa') }}">Anuncios Empresas</a></li>
                                     </ul>
                                 </li>
-
                                 <li
                                     class="nav-item dropdown {{ Route::currentRouteName() == 'auth.programa' || Route::currentRouteName() == 'auth.programa-empleavilidad' ? 'active' : '' }}">
                                     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
@@ -321,6 +315,16 @@
                                     </ul>
                                 </li>
                             @endif
+                            <li class="nav-item {{ Route::currentRouteName() == 'auth.feria' ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('auth.feria') }}"><span class="active-item-here"></span>
+                                    <i class="fa fa-briefcase mr-2"></i> <span>Feria</span>
+                                </a>
+                            </li>
+                            <li class="nav-item {{ Route::currentRouteName() == 'auth.lista-citas-asesora' ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('auth.lista-citas-asesora') }}"><span class="active-item-here"></span>
+                                    <i class="fa fa-calendar-check-o mr-2"></i> <span>Lista de Citas</span>
+                                </a>
+                            </li>
                             @if (Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_DESARROLLADOR ||
                                     Auth::guard('web')->user()->profile_id == \BolsaTrabajo\App::$PERFIL_ADMINISTRADOR)
                                 <li
