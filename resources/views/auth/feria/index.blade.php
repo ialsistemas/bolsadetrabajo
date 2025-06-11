@@ -40,7 +40,7 @@
             <div class="row">
                 @php
                     $oneMonthAgo = date('Y-m-d', strtotime('-1 month'));
-                    $oneMonthEnd = date('Y-m-d', strtotime('+1 month'));
+                    $oneMonthEnd = date('Y-m-d', strtotime('+2 month'));
                 @endphp
                 <div class="col-lg-4 col-12">
                     <div class="form-group">
