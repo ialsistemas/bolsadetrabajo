@@ -314,6 +314,11 @@
 
                                     </ul>
                                 </li>
+                                <li class="nav-item {{ Route::currentRouteName() == 'auth.lista-citas-asesora' ? 'active' : '' }}">
+                                    <a class="nav-link" href="{{ route('auth.lista-citas-asesora') }}"><span class="active-item-here"></span>
+                                        <i class="fa fa-calendar-check-o mr-2"></i> <span>Lista de Citas</span>
+                                    </a>
+                                </li>
                             @endif
                             <li class="nav-item {{ Route::currentRouteName() == 'auth.feria' ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ route('auth.feria') }}"><span class="active-item-here"></span>
