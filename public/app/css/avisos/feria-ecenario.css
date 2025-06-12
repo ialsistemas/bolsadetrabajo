@@ -105,8 +105,8 @@
     .fondo-aviso-mobile{
         width: 100%;
         height: 450px;
-        background-image: url('../../img/feria/fondo-lista-aviso.png');
-        background-size: cover;
+        background-image: url('../../img/feria/feria-laboral-online-cuadrado.jpg');
+        background-size: contain;
         background-position: center;
         background-repeat: no-repeat;
         padding: 20px;

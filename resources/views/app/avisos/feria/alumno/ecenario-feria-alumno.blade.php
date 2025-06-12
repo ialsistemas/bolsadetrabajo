@@ -91,13 +91,9 @@
                                         </div>
                                     @endforeach
                                 </div>
-                                <img src="{{ asset('app/img/feria/fondo-lista-aviso.png') }}" alt="fondo-lista-aviso" class="logo-aviso">
-                                <div class="card-container-aviso">
-                                    <div class="conference-card-aviso">
-                                        Lista de Avisos
-                                        <a href="{{ route('alumno.feria-aviso-alumno-empresa', $empresaExist->link) }}" class="btn btn-info btn-sm mt-2" target="_blank">Ingresar Aqui</a>
-                                    </div>
-                                </div>
+                                <a href="{{ route('alumno.feria-aviso-alumno-empresa', $empresaExist->link) }}">
+                                    <img src="{{ asset('app/img/feria/feria-laboral-online-largo.jpg') }}" alt="fondo-lista-aviso" class="logo-aviso">
+                                </a>
                             </div>
                             <div class="col-lg-12 col-12 mt-2 container-escenario">
                                 <div class="fondo-zoom-mobile">
@@ -118,12 +114,9 @@
                                 </div>
                             </div>
                             <div class="col-lg-12 col-12 mt-2 container-escenario">
-                                <div class="fondo-aviso-mobile">
-                                    <div class="conference-card-aviso">
-                                        Lista de Avisos
-                                        <a href="{{ route('alumno.feria-aviso-alumno-empresa', $empresaExist->link) }}" class="btn btn-info btn-sm mt-2" target="_blank">Ingresar Aqui</a>
-                                    </div>
-                                </div>
+                                <a href="{{ route('alumno.feria-aviso-alumno-empresa', $empresaExist->link) }}">
+                                    <div class="fondo-aviso-mobile"></div>
+                                </a>
                             </div>
                         </div>
                     </div>
