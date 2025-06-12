@@ -78,7 +78,7 @@
                         @php
                             $rucsPermitidos = ['20101267467', '20605900012', '20101281966', '20384891943', '20100579228', '20523915399', '20501781291', '20605267395'];
                         @endphp
-                        @if ( Auth::guard('empresasw')->check() && Auth::guard('empresasw')->user()->logo === null && in_array(Auth::guard('empresasw')->user()->ruc, $rucsPermitidos))
+                        @if ( Auth::guard('empresasw')->check() && in_array(Auth::guard('empresasw')->user()->ruc, $rucsPermitidos))
                             @if(Auth::guard('empresasw')->check() && Auth::guard('empresasw')->user()->logo == null)
                                 <div class="col-lg-12 mb-3">
                                     <div class="alert alert-danger d-flex align-items-center justify-content-between" role="alert">
