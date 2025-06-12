@@ -76,7 +76,7 @@
                 <div class="col-md-7">
                     <div class="row justify-content-center mt-4">
                         @php
-                            $rucsPermitidos = ['20101267467', '20605900012', '20101281966', '20384891943', '20100579228', '20523915399', '20501781291', '20605267395'];
+                            $rucsPermitidos = ['20101267467', '20605900012', '20101281966', '20384891943', '20100579228', '20523915399', '20501781291', '20605267395', '20608458281', '20607030635', '20600937511', '20109015611'];
                         @endphp
                         @if ( Auth::guard('empresasw')->check() && in_array(Auth::guard('empresasw')->user()->ruc, $rucsPermitidos))
                             @if(Auth::guard('empresasw')->check() && Auth::guard('empresasw')->user()->logo == null)
