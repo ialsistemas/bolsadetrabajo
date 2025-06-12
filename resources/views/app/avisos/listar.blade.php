@@ -75,36 +75,41 @@
                 </div>
                 <div class="col-md-7">
                     <div class="row justify-content-center mt-4">
-                        {{-- @if(Auth::guard('empresasw')->check() && Auth::guard('empresasw')->user()->logo == null)
-                            <div class="col-lg-12 mb-3">
-                                <div class="alert alert-danger d-flex align-items-center justify-content-between" role="alert">
-                                    <div>
-                                        <i class="fa fa-exclamation-triangle mr-2"></i>
-                                        <strong>¡Atención!</strong> Para publicar avisos de trabajo en la Bolsa de Trabajo, es obligatorio que subas el logo de tu empresa.
-                                    </div>
-                                    <a href="{{ route('empresa.perfil') }}" class="btn btn-sm btn-light ml-3">
-                                        <i class="fa fa-upload mr-1"></i> Subir logo
-                                    </a>
-                                </div>
-                            </div>
-                        @else
-                            @foreach ($listaFeriaData as $listaFeria)
-                                <div class="col-lg-12">
-                                    <div class="alert alert-info d-flex align-items-center justify-content-between" role="alert">
+                        @php
+                            $rucsPermitidos = ['20101267467', '20605900012', '20101281966', '20384891943', '20100579228', '20523915399', '20501781291', '20605267395'];
+                        @endphp
+                        @if ( Auth::guard('empresasw')->check() && Auth::guard('empresasw')->user()->logo === null && in_array(Auth::guard('empresasw')->user()->ruc, $rucsPermitidos))
+                            @if(Auth::guard('empresasw')->check() && Auth::guard('empresasw')->user()->logo == null)
+                                <div class="col-lg-12 mb-3">
+                                    <div class="alert alert-danger d-flex align-items-center justify-content-between" role="alert">
                                         <div>
-                                            <i class="fa fa-bullhorn mr-2"></i>
-                                            <strong>¡Atención!</strong> Se viene un gran evento: <strong>{{ $listaFeria->name }}</strong> inicia el 
-                                            <strong>{{ $listaFeria->fecha_inicio }}</strong> y finaliza el 
-                                            <strong>{{ $listaFeria->fecha_final }}</strong>. 
-                                            Si estás interesado en participar:
+                                            <i class="fa fa-exclamation-triangle mr-2"></i>
+                                            <strong>¡Atención!</strong> Para publicar avisos de trabajo en la Bolsa de Trabajo, es obligatorio que subas el logo de tu empresa.
                                         </div>
-                                        <a href="{{ route('empresa.feria-empresa', $listaFeria->route) }}" class="btn btn-sm btn-primary ml-3">
-                                            <i class="fa fa-sign-in-alt mr-1"></i> ¡Ingresa aquí!
+                                        <a href="{{ route('empresa.perfil') }}" class="btn btn-sm btn-light ml-3">
+                                            <i class="fa fa-upload mr-1"></i> Subir logo
                                         </a>
                                     </div>
                                 </div>
-                            @endforeach
-                        @endif --}}
+                            @else
+                                @foreach ($listaFeriaData as $listaFeria)
+                                    <div class="col-lg-12">
+                                        <div class="alert alert-info d-flex align-items-center justify-content-between" role="alert">
+                                            <div>
+                                                <i class="fa fa-bullhorn mr-2"></i>
+                                                <strong>¡Atención!</strong> Se viene un gran evento: <strong>{{ $listaFeria->name }}</strong> inicia el 
+                                                <strong>{{ $listaFeria->fecha_inicio }}</strong> y finaliza el 
+                                                <strong>{{ $listaFeria->fecha_final }}</strong>. 
+                                                Si estás interesado en participar:
+                                            </div>
+                                            <a href="{{ route('empresa.feria-empresa', $listaFeria->route) }}" class="btn btn-sm btn-primary ml-3">
+                                                <i class="fa fa-sign-in-alt mr-1"></i> ¡Ingresa aquí!
+                                            </a>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @endif
+                        @endif
                         <div class="col-lg-12">
                             <div class="alert alert-success" role="alert">
                                 <span class="fa fa-check-circle"></span>
